@@ -1,0 +1,202 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: AppController_getHello
+      parameters: []
+      responses:
+        "200":
+          description: ""
+  /article/all:
+    get:
+      operationId: ArticlesController_getAllArticles
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ArticleDto"
+  /article/find/{id}:
+    get:
+      operationId: ArticlesController_getOneArticle
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArticleDto"
+  /article/create:
+    post:
+      operationId: ArticlesController_createArticle
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticleDto"
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArticleDto"
+  /article/update/{id}:
+    patch:
+      operationId: ArticlesController_updateArticle
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateArticleDto"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArticleDto"
+  /article/delete/{id}:
+    delete:
+      operationId: ArticlesController_deleteArticle
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+  /article/search:
+    get:
+      operationId: ArticlesController_searchArticles
+      parameters:
+        - name: query
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ArticleDto"
+  /users/profile:
+    get:
+      operationId: UsersController_getProfile
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProfileResponseDto"
+  /auth/sign-up:
+    post:
+      operationId: AuthController_signUp
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignUpDto"
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignUpResponseDto"
+  /auth/sign-in:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignInResponseDto"
+info:
+  title: Blog API
+  description: ""
+  version: 1.0.0
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas:
+    ArticleDto:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Title
+        content:
+          type: string
+          example: Content
+        image:
+          type: string
+          example: https://unsplash.com/photos/a-man-wearing-a-white-hat-mjdBHLjOEMY
+      required:
+        - title
+        - content
+        - image
+    UpdateArticleDto:
+      type: object
+      properties: {}
+    ProfileResponseDto:
+      type: object
+      properties: {}
+    SignUpDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: John
+          description: User name
+        email:
+          type: string
+          example: test@gmail.com
+          description: User email
+        password:
+          type: string
+          example: "123456"
+          description: User password
+      required:
+        - name
+        - email
+        - password
+    SignUpResponseDto:
+      type: object
+      properties: {}
+    SignInResponseDto:
+      type: object
+      properties: {}
