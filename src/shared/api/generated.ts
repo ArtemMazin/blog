@@ -5,6 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 import axios from "axios";
+
+const instance = axios.create({
+  baseURL: "http://localhost:5000",
+});
+
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
 export type ArticlesControllerSearchArticlesParams = {
   query: string;
@@ -44,7 +49,7 @@ export interface ArticleDto {
 export const appControllerGetHello = <TData = AxiosResponse<void>>(
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.get(`/`, options);
+  return instance.get(`/`, options);
 };
 
 export const articlesControllerGetAllArticles = <
@@ -52,7 +57,7 @@ export const articlesControllerGetAllArticles = <
 >(
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.get(`/article/all`, options);
+  return instance.get(`/article/all`, options);
 };
 
 export const articlesControllerGetOneArticle = <
@@ -61,7 +66,7 @@ export const articlesControllerGetOneArticle = <
   id: string,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.get(`/article/find/${id}`, options);
+  return instance.get(`/article/find/${id}`, options);
 };
 
 export const articlesControllerCreateArticle = <
@@ -70,7 +75,7 @@ export const articlesControllerCreateArticle = <
   articleDto: ArticleDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.post(`/article/create`, articleDto, options);
+  return instance.post(`/article/create`, articleDto, options);
 };
 
 export const articlesControllerUpdateArticle = <
@@ -80,14 +85,14 @@ export const articlesControllerUpdateArticle = <
   updateArticleDto: UpdateArticleDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.patch(`/article/update/${id}`, updateArticleDto, options);
+  return instance.patch(`/article/update/${id}`, updateArticleDto, options);
 };
 
 export const articlesControllerDeleteArticle = <TData = AxiosResponse<void>>(
   id: string,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.delete(`/article/delete/${id}`, options);
+  return instance.delete(`/article/delete/${id}`, options);
 };
 
 export const articlesControllerSearchArticles = <
@@ -96,7 +101,7 @@ export const articlesControllerSearchArticles = <
   params: ArticlesControllerSearchArticlesParams,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.get(`/article/search`, {
+  return instance.get(`/article/search`, {
     ...options,
     params: { ...params, ...options?.params },
   });
@@ -107,20 +112,20 @@ export const usersControllerGetProfile = <
 >(
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.get(`/users/profile`, options);
+  return instance.get(`/users/profile`, options);
 };
 
 export const authControllerSignUp = <TData = AxiosResponse<SignUpResponseDto>>(
   signUpDto: SignUpDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.post(`/auth/sign-up`, signUpDto, options);
+  return instance.post(`/auth/sign-up`, signUpDto, options);
 };
 
 export const authControllerLogin = <TData = AxiosResponse<SignInResponseDto>>(
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return axios.post(`/auth/sign-in`, undefined, options);
+  return instance.post(`/auth/sign-in`, undefined, options);
 };
 
 export type AppControllerGetHelloResult = AxiosResponse<void>;
