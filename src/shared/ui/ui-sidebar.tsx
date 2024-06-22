@@ -1,4 +1,4 @@
-import { Logo } from "@/shared/ui/ui-logo";
+import { UILogo } from "@/shared/ui/ui-logo";
 import * as React from "react";
 
 export interface ISidebarProps
@@ -9,11 +9,11 @@ export interface ISidebarProps
   children?: React.ReactNode;
 }
 
-export function Sidebar({ children }: ISidebarProps) {
+export function UISidebar({ children }: ISidebarProps) {
   return (
-    <div>
-      <Logo />
+    <aside className="p-12">
+      <UILogo />
       {children}
-    </div>
+    </aside>
   );
 }

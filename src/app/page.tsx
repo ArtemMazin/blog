@@ -1,17 +1,17 @@
 import { ArticleList } from "@/features/articles/ui/article-list";
-import { Header } from "@/shared/ui/ui-header";
-import { Main } from "@/shared/ui/ui-main";
-import { Sidebar } from "@/shared/ui/ui-sidebar";
+import { UIHeader } from "@/shared/ui/ui-header";
+import { UIMain } from "@/shared/ui/ui-main";
+import { UISidebar } from "@/shared/ui/ui-sidebar";
 
 export default function Home() {
   return (
-    <div className="p-4 flex gap-12">
-      <Sidebar />
-      <div className="w-full">
-        <Header />
-        <Main>
+    <div className="flex">
+      <UISidebar />
+      <div className="w-full p-12">
+        <UIHeader />
+        <UIMain>
           <ArticleList />
-        </Main>
+        </UIMain>
       </div>
     </div>
   );

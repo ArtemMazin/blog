@@ -3,7 +3,7 @@
 import { useColorMode } from "@chakra-ui/react";
 import * as React from "react";
 
-export function Logo({ className }: { className?: string }) {
+export function UILogo({ className }: { className?: string }) {
   const { colorMode } = useColorMode();
 
   return (

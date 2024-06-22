@@ -8,6 +8,6 @@ export interface IMainProps
   children: React.ReactNode;
 }
 
-export function Main({ children }: IMainProps) {
+export function UIMain({ children }: IMainProps) {
   return <main>{children}</main>;
 }
