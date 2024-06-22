@@ -1,3 +1,4 @@
+import { SignUpForm } from "@/features/auth/ui/sign-up-form";
 import { UILogo } from "@/shared/ui/ui-logo";
 import * as React from "react";
 
@@ -13,6 +14,7 @@ export function UISidebar({ children }: ISidebarProps) {
   return (
     <aside className="p-12">
       <UILogo />
+      <SignUpForm />
       {children}
     </aside>
   );

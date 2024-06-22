@@ -9,6 +9,10 @@ export interface IButtonProps
   children: React.ReactNode;
 }
 
-export function UIButton({ children }: IButtonProps) {
-  return <Button className="flex-none gap-1 items-center">{children}</Button>;
+export function UIButton({ children, ...props }: IButtonProps) {
+  return (
+    <Button className="flex-none gap-1 items-center" {...props}>
+      {children}
+    </Button>
+  );
 }
