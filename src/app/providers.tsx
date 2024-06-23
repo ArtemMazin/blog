@@ -2,7 +2,7 @@
 
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { theme } from "../shared/ui/theme";
+import { theme } from "../shared/ui/theme/theme";
 import * as React from "react";
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
