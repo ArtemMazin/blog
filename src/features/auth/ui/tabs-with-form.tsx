@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { SignUpForm } from "./sign-up-form";
+import { SignInForm } from "./sign-in-form";
 
 export interface ITabsProps
   extends React.DetailedHTMLProps<
@@ -13,13 +14,15 @@ export interface ITabsProps
 export function TabsWithForm(props: ITabsProps) {
   return (
     <Tabs variant="unstyled">
-      <TabList>
+      <TabList className="mb-8">
         <Tab>Вход</Tab>
         <Tab>Регистрация</Tab>
       </TabList>
       <TabPanels>
-        <TabPanel>вход</TabPanel>
-        <TabPanel>
+        <TabPanel p="0">
+          <SignInForm />
+        </TabPanel>
+        <TabPanel p="0">
           <SignUpForm />
         </TabPanel>
       </TabPanels>

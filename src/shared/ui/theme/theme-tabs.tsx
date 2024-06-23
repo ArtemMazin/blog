@@ -5,8 +5,8 @@ export const Tabs = {
 
   baseStyle: {
     tab: {
-      fontSize: "16px",
-      fontWeight: "500",
+      fontSize: "24px",
+      fontWeight: "700",
       borderRadius: "4px",
       _selected: {
         color: "var(--primarycontent)",

@@ -1,4 +1,4 @@
-import { extendTheme, StyleFunctionProps } from "@chakra-ui/react";
+import { extendTheme, StyleFunctionProps, TabPanel } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 import { Button } from "./theme-button";
 import { Input } from "./theme-input";

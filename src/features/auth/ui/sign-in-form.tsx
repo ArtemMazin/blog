@@ -11,7 +11,7 @@ export interface ISignInFormProps
   children?: React.ReactNode;
 }
 
-export function SignUpForm(props: ISignInFormProps) {
+export function SignInForm(props: ISignInFormProps) {
   return (
     <form className="flex flex-col gap-8">
       <FormControl>
@@ -20,16 +20,11 @@ export function SignUpForm(props: ISignInFormProps) {
       </FormControl>
 
       <FormControl>
-        <FormLabel>Имя пользователя</FormLabel>
-        <Input type="text" placeholder="Иван Иванович" />
-      </FormControl>
-
-      <FormControl>
         <FormLabel>Пароль</FormLabel>
         <InputWithPassword />
       </FormControl>
 
-      <UIButton className="mt-5">Зарегистрироваться</UIButton>
+      <UIButton className="mt-5">Войти</UIButton>
     </form>
   );
 }

@@ -5,7 +5,7 @@ import { UISidebar } from "@/shared/ui/ui-sidebar";
 
 export default function Home() {
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <UISidebar />
       <div className="w-full p-12">
         <UIHeader />

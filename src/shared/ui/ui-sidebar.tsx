@@ -12,8 +12,8 @@ export interface ISidebarProps
 
 export function UISidebar({ children }: ISidebarProps) {
   return (
-    <aside className="p-12">
-      <UILogo />
+    <aside className="p-12 flex flex-col">
+      <UILogo className="mb-20" />
       <TabsWithForm />
 
       {children}
