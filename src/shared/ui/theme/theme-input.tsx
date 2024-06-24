@@ -1,7 +1,7 @@
-import { StyleFunctionProps } from "@chakra-ui/react";
+import { StyleFunctionProps, defineStyleConfig } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 
-export const Input = {
+export const Input = defineStyleConfig({
   baseStyle: {
     fontWeight: "500",
     fontSize: "16px",
@@ -18,4 +18,4 @@ export const Input = {
       },
     }),
   },
-};
+});

@@ -1,4 +1,6 @@
-export const Tabs = {
+import { defineStyleConfig } from "@chakra-ui/react";
+
+export const Tabs = defineStyleConfig({
   defaultProps: {
     size: "md",
   },
@@ -14,4 +16,4 @@ export const Tabs = {
       },
     },
   },
-};
+});

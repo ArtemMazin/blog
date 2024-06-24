@@ -13,7 +13,7 @@ export interface ITabsProps
 
 export function TabsWithForm(props: ITabsProps) {
   return (
-    <Tabs variant="unstyled">
+    <Tabs variant="unstyled" className="w-full">
       <TabList className="mb-8">
         <Tab>Вход</Tab>
         <Tab>Регистрация</Tab>

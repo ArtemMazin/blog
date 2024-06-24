@@ -37,10 +37,9 @@ export function SignUpForm(props: ISignInFormProps) {
     control,
     reset,
     formState: { errors },
-
     handleSubmit,
   } = useForm({
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues: {
       email: "",
       name: "",
@@ -64,7 +63,7 @@ export function SignUpForm(props: ISignInFormProps) {
   };
 
   return (
-    <form className="flex flex-col gap-8" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
       <FormControl isInvalid={!!errors.email}>
         <FormLabel>Почта</FormLabel>
         <Controller
@@ -81,7 +80,11 @@ export function SignUpForm(props: ISignInFormProps) {
             <Input type="email" placeholder="ivan@mail.ru" {...field} />
           )}
         />
-        <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+        <div className="min-h-6">
+          <FormErrorMessage fontSize={"small"} margin={0}>
+            {errors.email?.message}
+          </FormErrorMessage>
+        </div>
       </FormControl>
 
       <FormControl isInvalid={!!errors.name}>
@@ -100,7 +103,11 @@ export function SignUpForm(props: ISignInFormProps) {
             <Input type="text" placeholder="Иван Иванович" {...field} />
           )}
         />
-        <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+        <div className="min-h-6">
+          <FormErrorMessage fontSize={"small"} margin={0}>
+            {errors.name?.message}
+          </FormErrorMessage>
+        </div>
       </FormControl>
 
       <FormControl isInvalid={!!errors.password}>
@@ -114,19 +121,17 @@ export function SignUpForm(props: ISignInFormProps) {
               value: REG_EXP_PASSWORD,
               message: messages.ERROR_INPUT_PASSWORD,
             },
-            minLength: {
-              value: 6,
-              message: messages.ERROR_INPUT_PASSWORD_MIN_LENGTH,
-            },
           }}
           render={({ field }) => <InputWithPassword {...field} />}
         />
-        <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+        <div className="min-h-16">
+          <FormErrorMessage fontSize={"small"} margin={0}>
+            {errors.password?.message}
+          </FormErrorMessage>
+        </div>
       </FormControl>
 
-      <UIButton className="mt-5" type="submit">
-        Зарегистрироваться
-      </UIButton>
+      <UIButton type="submit">Зарегистрироваться</UIButton>
     </form>
   );
 }

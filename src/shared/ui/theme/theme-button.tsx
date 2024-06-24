@@ -1,4 +1,6 @@
-export const Button = {
+import { defineStyleConfig } from "@chakra-ui/react";
+
+export const Button = defineStyleConfig({
   baseStyle: {
     fontWeight: "500",
     fontSize: "16px",
@@ -16,4 +18,4 @@ export const Button = {
       color: "var(--primarycontent)",
     },
   },
-};
+});

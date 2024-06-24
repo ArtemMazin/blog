@@ -12,7 +12,7 @@ export interface ISidebarProps
 
 export function UISidebar({ children }: ISidebarProps) {
   return (
-    <aside className="p-12 flex flex-col">
+    <aside className="p-12 w-480 flex flex-col items-center ">
       <UILogo className="mb-20" />
       <TabsWithForm />
 
