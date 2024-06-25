@@ -13,4 +13,7 @@ export const messages = {
     "Пароль должен содержать минимум одну букву и одну цифру и быть не менее 6 символов",
   ERROR_FORM_REQUIRED: "Заполните это поле",
   ERROR_FORM_FIELDS: "Заполните все поля формы",
+  ERROR_FORM_USER_ALREADY_EXISTS: "Пользователь с такой почтой уже существует",
+  ERROR_FORM_USER_NOT_FOUND: "Пользователь с такой почтой не найден",
+  ERROR_FORM_WRONG_PASSWORD: "Неверный пароль",
 };

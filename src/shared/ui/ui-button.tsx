@@ -8,12 +8,23 @@ export interface IButtonProps
     HTMLButtonElement
   > {
   children: React.ReactNode;
+  className?: string;
+  isDisabled?: boolean;
+  isLoading?: boolean;
 }
 
-export function UIButton({ children, className, ...props }: IButtonProps) {
+export function UIButton({
+  children,
+  className,
+  isDisabled,
+  isLoading,
+  ...props
+}: IButtonProps) {
   return (
     <Button
       className={clsx("flex-none gap-1 items-center", className)}
+      isDisabled={isDisabled}
+      isLoading={isLoading}
       {...props}
     >
       {children}

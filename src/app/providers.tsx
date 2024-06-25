@@ -9,7 +9,14 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
   const [queryClient] = React.useState(() => new QueryClient());
   return (
     <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme}>{children}</ChakraProvider>
+      <ChakraProvider
+        theme={theme}
+        toastOptions={{
+          defaultOptions: { duration: 5000, isClosable: true, position: "top" },
+        }}
+      >
+        {children}
+      </ChakraProvider>
     </QueryClientProvider>
   );
 };

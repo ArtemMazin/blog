@@ -5,18 +5,25 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { InputWithPassword } from "./input-with-password";
 import { UIButton } from "@/shared/ui/ui-button";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { authControllerSignUp } from "@/shared/api/generated";
+import {
+  AuthControllerSignUpResult,
+  SignUpDto,
+  authControllerSignUp,
+} from "@/shared/api/generated";
 import {
   REG_EXP_EMAIL,
   REG_EXP_NAME,
   REG_EXP_PASSWORD,
   messages,
 } from "../constants";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 interface IFormInput {
   email: string;
@@ -33,10 +40,12 @@ export interface ISignInFormProps
 }
 
 export function SignUpForm(props: ISignInFormProps) {
+  const toast = useToast();
+
   const {
     control,
     reset,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
   } = useForm({
     mode: "onBlur",
@@ -47,19 +56,28 @@ export function SignUpForm(props: ISignInFormProps) {
     },
   });
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (newUser: SignUpDto) => authControllerSignUp(newUser),
+
+    onSuccess: (res: AuthControllerSignUpResult) => {
+      toast({
+        title: "Вы успешно зарегистрировались",
+        status: "success",
+      });
+      reset();
+    },
+    onError: (error: AxiosError<{ type: string }>) => {
+      toast({
+        title: "Ошибка",
+        description:
+          error.response?.data?.type || "Произошла ошибка при регистрации",
+        status: "error",
+      });
+    },
+  });
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    try {
-      authControllerSignUp(data)
-        .then((res) => {
-          console.log(res);
-          reset();
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    mutate(data);
   };
 
   return (
@@ -131,7 +149,9 @@ export function SignUpForm(props: ISignInFormProps) {
         </div>
       </FormControl>
 
-      <UIButton type="submit">Зарегистрироваться</UIButton>
+      <UIButton type="submit" isDisabled={!isValid} isLoading={isPending}>
+        Зарегистрироваться
+      </UIButton>
     </form>
   );
 }

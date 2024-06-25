@@ -32,6 +32,11 @@ export interface SignUpDto {
   password: string;
 }
 
+export interface SignInDto {
+  email: string;
+  password: string;
+}
+
 export interface ProfileResponseDto {
   [key: string]: any;
 }
@@ -123,9 +128,10 @@ export const authControllerSignUp = <TData = AxiosResponse<SignUpResponseDto>>(
 };
 
 export const authControllerLogin = <TData = AxiosResponse<SignInResponseDto>>(
+  signInDto: SignInDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return instance.post(`/auth/sign-in`, undefined, options);
+  return instance.post(`/auth/sign-in`, signInDto, options);
 };
 
 export type AppControllerGetHelloResult = AxiosResponse<void>;
