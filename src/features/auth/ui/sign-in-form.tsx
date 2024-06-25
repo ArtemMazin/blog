@@ -1,36 +1,16 @@
 "use client";
 
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  useToast,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import * as React from "react";
 import { InputWithPassword } from "./input-with-password";
 import { UIButton } from "@/shared/ui/ui-button";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { SignInDto, authControllerLogin } from "@/shared/api/generated";
-import { REG_EXP_EMAIL, REG_EXP_PASSWORD, messages } from "../constants";
+import { SignInDto } from "@/shared/api/generated";
+import { useLogin } from "../hooks/useLogin";
+import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
+import { validation } from "../constants";
 
-interface IFormInput {
-  email: string;
-  password: string;
-}
-
-export interface ISignInFormProps
-  extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLFormElement>,
-    HTMLFormElement
-  > {
-  children?: React.ReactNode;
-}
-
-export function SignInForm(props: ISignInFormProps) {
-  const toast = useToast();
-
+export function SignInForm() {
   const {
     control,
     reset,
@@ -44,27 +24,10 @@ export function SignInForm(props: ISignInFormProps) {
     },
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (credentials: SignInDto) => authControllerLogin(credentials),
+  const { mutate: login, isPending } = useLogin(reset);
 
-    onSuccess: (res) => {
-      toast({
-        title: "Вы успешно авторизовались",
-        status: "success",
-      });
-      reset();
-    },
-    onError: (error) => {
-      toast({
-        title: "Ошибка",
-        description: error.message || "Произошла ошибка при авторизации",
-        status: "error",
-      });
-    },
-  });
-
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    mutate(data);
+  const onSubmit: SubmitHandler<SignInDto> = (userData) => {
+    login(userData);
   };
 
   return (
@@ -74,22 +37,12 @@ export function SignInForm(props: ISignInFormProps) {
         <Controller
           name="email"
           control={control}
-          rules={{
-            required: messages.ERROR_FORM_REQUIRED,
-            pattern: {
-              value: REG_EXP_EMAIL,
-              message: messages.ERROR_INPUT_EMAIL,
-            },
-          }}
+          rules={validation.email}
           render={({ field }) => (
             <Input type="email" placeholder="ivan@mail.ru" {...field} />
           )}
         />
-        <div className="min-h-6">
-          <FormErrorMessage fontSize={"small"} margin={0}>
-            {errors.email?.message}
-          </FormErrorMessage>
-        </div>
+        <UIFormErrorMessage>{errors.email?.message}</UIFormErrorMessage>
       </FormControl>
 
       <FormControl isInvalid={!!errors.password}>
@@ -97,20 +50,10 @@ export function SignInForm(props: ISignInFormProps) {
         <Controller
           name="password"
           control={control}
-          rules={{
-            required: messages.ERROR_FORM_REQUIRED,
-            pattern: {
-              value: REG_EXP_PASSWORD,
-              message: messages.ERROR_INPUT_PASSWORD,
-            },
-          }}
+          rules={validation.password}
           render={({ field }) => <InputWithPassword {...field} />}
         />
-        <div className="min-h-16">
-          <FormErrorMessage fontSize={"small"} margin={0}>
-            {errors.password?.message}
-          </FormErrorMessage>
-        </div>
+        <UIFormErrorMessage>{errors.password?.message}</UIFormErrorMessage>
       </FormControl>
 
       <UIButton type="submit" isDisabled={!isValid} isLoading={isPending}>

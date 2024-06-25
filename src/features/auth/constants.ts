@@ -17,3 +17,31 @@ export const messages = {
   ERROR_FORM_USER_NOT_FOUND: "Пользователь с такой почтой не найден",
   ERROR_FORM_WRONG_PASSWORD: "Неверный пароль",
 };
+
+export const validation = {
+  email: {
+    required: messages.ERROR_FORM_REQUIRED,
+    pattern: {
+      value: REG_EXP_EMAIL,
+      message: messages.ERROR_INPUT_EMAIL,
+    },
+  },
+  name: {
+    required: messages.ERROR_FORM_REQUIRED,
+    pattern: {
+      value: REG_EXP_NAME,
+      message: messages.ERROR_INPUT_NAME,
+    },
+  },
+  password: {
+    required: messages.ERROR_FORM_REQUIRED,
+    pattern: {
+      value: REG_EXP_PASSWORD,
+      message: messages.ERROR_INPUT_PASSWORD,
+    },
+    minLength: {
+      value: 6,
+      message: messages.ERROR_INPUT_PASSWORD,
+    },
+  },
+};
