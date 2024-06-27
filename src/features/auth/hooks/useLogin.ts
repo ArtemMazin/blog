@@ -1,18 +1,27 @@
 import { SignInDto, authControllerLogin } from "@/shared/api/generated";
+import { AuthContext } from "@/shared/contexts/authContext";
 import { useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
+import React from "react";
 
 export const useLogin = (reset: () => void) => {
   const toast = useToast();
 
+  const authContext = React.useContext(AuthContext);
+  const { setIsAuthenticated } = authContext;
+
   return useMutation({
-    mutationFn: (userData: SignInDto) => authControllerLogin(userData),
+    mutationFn: (userData: SignInDto) =>
+      authControllerLogin(userData, {
+        withCredentials: true,
+      }),
 
     onSuccess: (res) => {
       toast({
         title: "Вы успешно авторизовались",
         status: "success",
       });
+      setIsAuthenticated(true);
       reset();
     },
     onError: (error) => {
@@ -21,6 +30,7 @@ export const useLogin = (reset: () => void) => {
         description: error.message || "Произошла ошибка при авторизации",
         status: "error",
       });
+      setIsAuthenticated(false);
     },
   });
 };
