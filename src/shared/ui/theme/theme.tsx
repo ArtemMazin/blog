@@ -1,9 +1,10 @@
-import { extendTheme, StyleFunctionProps, TabPanel } from "@chakra-ui/react";
+import { extendTheme, StyleFunctionProps } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 import { Button } from "./theme-button";
 import { Input } from "./theme-input";
 import { FormLabel } from "./theme-form-label";
 import { Tabs } from "./theme-tabs";
+import { Textarea } from "./theme-textarea";
 
 export const theme = extendTheme({
   styles: {
@@ -18,13 +19,6 @@ export const theme = extendTheme({
           "var(--dark-backgroundalt)",
         )(props),
       },
-      form: {
-        bg: mode(
-          "var(--light-backgroundalt)",
-          "var(--dark-backgroundalt)",
-        )(props),
-        color: mode("var(--dark-secondary)", "var(--primarycontent)")(props),
-      },
     }),
   },
   components: {
@@ -32,5 +26,6 @@ export const theme = extendTheme({
     Input,
     FormLabel,
     Tabs,
+    Textarea,
   },
 });

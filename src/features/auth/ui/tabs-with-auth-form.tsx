@@ -3,15 +3,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { SignUpForm } from "./sign-up-form";
 import { SignInForm } from "./sign-in-form";
 
-export interface ITabsProps
-  extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > {
-  children?: React.ReactNode;
-}
-
-export function TabsWithForm(props: ITabsProps) {
+export function TabsWithAuthForm({ onClose }: { onClose: () => void }) {
   return (
     <Tabs variant="unstyled" className="w-full">
       <TabList className="mb-8">
@@ -20,10 +12,10 @@ export function TabsWithForm(props: ITabsProps) {
       </TabList>
       <TabPanels>
         <TabPanel p="0">
-          <SignInForm />
+          <SignInForm onClose={onClose} />
         </TabPanel>
         <TabPanel p="0">
-          <SignUpForm />
+          <SignUpForm onClose={onClose} />
         </TabPanel>
       </TabPanels>
     </Tabs>

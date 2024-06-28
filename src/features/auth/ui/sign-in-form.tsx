@@ -1,6 +1,6 @@
 "use client";
 
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 import * as React from "react";
 import { InputWithPassword } from "./input-with-password";
 import { UIButton } from "@/shared/ui/ui-button";
@@ -10,7 +10,7 @@ import { useLogin } from "../hooks/useLogin";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 import { validation } from "../constants";
 
-export function SignInForm() {
+export function SignInForm({ onClose }: { onClose: () => void }) {
   const {
     control,
     reset,
@@ -31,34 +31,38 @@ export function SignInForm() {
   };
 
   return (
-    <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-      <FormControl isInvalid={!!errors.email}>
-        <FormLabel>Почта</FormLabel>
-        <Controller
-          name="email"
-          control={control}
-          rules={validation.email}
-          render={({ field }) => (
-            <Input type="email" placeholder="ivan@mail.ru" {...field} />
-          )}
-        />
-        <UIFormErrorMessage>{errors.email?.message}</UIFormErrorMessage>
-      </FormControl>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Stack spacing="10px">
+        <FormControl isInvalid={!!errors.email}>
+          <FormLabel>Почта</FormLabel>
+          <Controller
+            name="email"
+            control={control}
+            rules={validation.email}
+            render={({ field }) => (
+              <Input type="email" placeholder="ivan@mail.ru" {...field} />
+            )}
+          />
+          <UIFormErrorMessage>{errors.email?.message}</UIFormErrorMessage>
+        </FormControl>
 
-      <FormControl isInvalid={!!errors.password}>
-        <FormLabel>Пароль</FormLabel>
-        <Controller
-          name="password"
-          control={control}
-          rules={validation.password}
-          render={({ field }) => <InputWithPassword {...field} />}
-        />
-        <UIFormErrorMessage>{errors.password?.message}</UIFormErrorMessage>
-      </FormControl>
-
-      <UIButton type="submit" isDisabled={!isValid} isLoading={isPending}>
-        Войти
-      </UIButton>
+        <FormControl isInvalid={!!errors.password}>
+          <FormLabel>Пароль</FormLabel>
+          <Controller
+            name="password"
+            control={control}
+            rules={validation.password}
+            render={({ field }) => <InputWithPassword {...field} />}
+          />
+          <UIFormErrorMessage>{errors.password?.message}</UIFormErrorMessage>
+        </FormControl>
+        <Button variant="outline" onClick={onClose}>
+          Отмена
+        </Button>
+        <UIButton type="submit" isDisabled={!isValid} isLoading={isPending}>
+          Войти
+        </UIButton>
+      </Stack>
     </form>
   );
 }

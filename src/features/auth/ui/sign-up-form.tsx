@@ -1,6 +1,6 @@
 "use client";
 
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 import * as React from "react";
 import { InputWithPassword } from "./input-with-password";
 import { UIButton } from "@/shared/ui/ui-button";
@@ -10,7 +10,7 @@ import { useRegistration } from "../hooks/useRegistration";
 import { SignUpDto } from "@/shared/api/generated";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 
-export function SignUpForm() {
+export function SignUpForm({ onClose }: { onClose: () => void }) {
   const {
     control,
     reset,
@@ -32,47 +32,51 @@ export function SignUpForm() {
   };
 
   return (
-    <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-      <FormControl isInvalid={!!errors.email}>
-        <FormLabel>Почта</FormLabel>
-        <Controller
-          name="email"
-          control={control}
-          rules={validation.email}
-          render={({ field }) => (
-            <Input type="email" placeholder="ivan@mail.ru" {...field} />
-          )}
-        />
-        <UIFormErrorMessage>{errors.email?.message}</UIFormErrorMessage>
-      </FormControl>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Stack spacing="10px">
+        <FormControl isInvalid={!!errors.email}>
+          <FormLabel>Почта</FormLabel>
+          <Controller
+            name="email"
+            control={control}
+            rules={validation.email}
+            render={({ field }) => (
+              <Input type="email" placeholder="ivan@mail.ru" {...field} />
+            )}
+          />
+          <UIFormErrorMessage>{errors.email?.message}</UIFormErrorMessage>
+        </FormControl>
 
-      <FormControl isInvalid={!!errors.name}>
-        <FormLabel>Имя пользователя</FormLabel>
-        <Controller
-          name="name"
-          control={control}
-          rules={validation.name}
-          render={({ field }) => (
-            <Input type="text" placeholder="Иван Иванович" {...field} />
-          )}
-        />
-        <UIFormErrorMessage>{errors.name?.message}</UIFormErrorMessage>
-      </FormControl>
+        <FormControl isInvalid={!!errors.name}>
+          <FormLabel>Имя пользователя</FormLabel>
+          <Controller
+            name="name"
+            control={control}
+            rules={validation.name}
+            render={({ field }) => (
+              <Input type="text" placeholder="Иван Иванович" {...field} />
+            )}
+          />
+          <UIFormErrorMessage>{errors.name?.message}</UIFormErrorMessage>
+        </FormControl>
 
-      <FormControl isInvalid={!!errors.password}>
-        <FormLabel>Пароль</FormLabel>
-        <Controller
-          name="password"
-          control={control}
-          rules={validation.password}
-          render={({ field }) => <InputWithPassword {...field} />}
-        />
-        <UIFormErrorMessage>{errors.password?.message}</UIFormErrorMessage>
-      </FormControl>
-
-      <UIButton type="submit" isDisabled={!isValid} isLoading={isPending}>
-        Зарегистрироваться
-      </UIButton>
+        <FormControl isInvalid={!!errors.password}>
+          <FormLabel>Пароль</FormLabel>
+          <Controller
+            name="password"
+            control={control}
+            rules={validation.password}
+            render={({ field }) => <InputWithPassword {...field} />}
+          />
+          <UIFormErrorMessage>{errors.password?.message}</UIFormErrorMessage>
+        </FormControl>
+        <Button variant="outline" onClick={onClose}>
+          Отмена
+        </Button>
+        <UIButton type="submit" isDisabled={!isValid} isLoading={isPending}>
+          Зарегистрироваться
+        </UIButton>
+      </Stack>
     </form>
   );
 }

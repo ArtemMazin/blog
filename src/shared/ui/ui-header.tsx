@@ -3,11 +3,11 @@
 import { ThemeButton } from "@/features/theme/ui/theme-button";
 import { CircleUserRound, Plus } from "lucide-react";
 import * as React from "react";
-import { UIButton } from "./ui-button";
 import { SearchGroup } from "@/features/search/ui/search-group";
 import { IconButton } from "@chakra-ui/react";
 import { AuthContext } from "../contexts/authContext";
-import { SidebarContext } from "../contexts/sidebarContext";
+import { CreateArticleForm } from "@/features/articles/ui/article-form";
+import { AuthForm } from "@/features/auth/ui/auth-form";
 
 export interface IHeaderProps
   extends React.DetailedHTMLProps<
@@ -19,7 +19,6 @@ export interface IHeaderProps
 
 export function UIHeader({ children }: IHeaderProps) {
   const { isAuthenticated } = React.useContext(AuthContext);
-  const { isOpen, setIsOpen } = React.useContext(SidebarContext);
 
   return (
     <header className="flex justify-between items-center">
@@ -29,9 +28,7 @@ export function UIHeader({ children }: IHeaderProps) {
         <SearchGroup />
         {isAuthenticated ? (
           <>
-            <UIButton onClick={() => setIsOpen(!isOpen)}>
-              Добавить статью <Plus size={"20px"} />
-            </UIButton>
+            <CreateArticleForm />
             <IconButton
               isRound={true}
               aria-label="Switch to form"
@@ -39,13 +36,7 @@ export function UIHeader({ children }: IHeaderProps) {
             />
           </>
         ) : (
-          <UIButton
-            onClick={() => {
-              setIsOpen(!isOpen);
-            }}
-          >
-            Войти
-          </UIButton>
+          <AuthForm />
         )}
       </div>
 
