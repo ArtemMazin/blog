@@ -4,7 +4,7 @@ import { TabsWithForm } from "@/features/auth/ui/tabs-with-form";
 import { UILogo } from "@/shared/ui/ui-logo";
 import * as React from "react";
 import { AuthContext } from "../contexts/authContext";
-import { Collapse, useDisclosure } from "@chakra-ui/react";
+import { Slide } from "@chakra-ui/react";
 
 export interface ISidebarProps
   extends React.DetailedHTMLProps<
@@ -15,23 +15,16 @@ export interface ISidebarProps
 }
 
 export function UISidebar({ children }: ISidebarProps) {
-  const { isAuthenticated } = React.useContext(AuthContext);
-  const { isOpen, onToggle } = useDisclosure({
-    defaultIsOpen: isAuthenticated,
-  });
-
-  React.useEffect(() => {
-    onToggle();
-  }, [isAuthenticated]);
+  const { isOpenForm } = React.useContext(AuthContext);
 
   return (
-    <Collapse in={isOpen} animateOpacity>
-      <aside className="p-12 w-480 flex flex-col items-center ">
+    <Slide direction="left" in={isOpenForm} className="max-w-fit z-10">
+      <aside className="p-12 h-full w-440 flex flex-col items-center ">
         <UILogo className="mb-20" />
         <TabsWithForm />
 
         {children}
       </aside>
-    </Collapse>
+    </Slide>
   );
 }

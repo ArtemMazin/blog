@@ -5,7 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       width: {
-        "480": "480px",
+        "440": "440px",
       },
     },
   },
