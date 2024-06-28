@@ -7,6 +7,7 @@ import { UIButton } from "./ui-button";
 import { SearchGroup } from "@/features/search/ui/search-group";
 import { IconButton } from "@chakra-ui/react";
 import { AuthContext } from "../contexts/authContext";
+import { SidebarContext } from "../contexts/sidebarContext";
 
 export interface IHeaderProps
   extends React.DetailedHTMLProps<
@@ -17,8 +18,8 @@ export interface IHeaderProps
 }
 
 export function UIHeader({ children }: IHeaderProps) {
-  const { isAuthenticated, setIsOpenForm, isOpenForm } =
-    React.useContext(AuthContext);
+  const { isAuthenticated } = React.useContext(AuthContext);
+  const { isOpen, setIsOpen } = React.useContext(SidebarContext);
 
   return (
     <header className="flex justify-between items-center">
@@ -28,8 +29,8 @@ export function UIHeader({ children }: IHeaderProps) {
         <SearchGroup />
         {isAuthenticated ? (
           <>
-            <UIButton>
-              Добавить новость <Plus size={"20px"} />
+            <UIButton onClick={() => setIsOpen(!isOpen)}>
+              Добавить статью <Plus size={"20px"} />
             </UIButton>
             <IconButton
               isRound={true}
@@ -40,7 +41,7 @@ export function UIHeader({ children }: IHeaderProps) {
         ) : (
           <UIButton
             onClick={() => {
-              setIsOpenForm(!isOpenForm);
+              setIsOpen(!isOpen);
             }}
           >
             Войти

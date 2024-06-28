@@ -18,6 +18,13 @@ export const theme = extendTheme({
           "var(--dark-backgroundalt)",
         )(props),
       },
+      form: {
+        bg: mode(
+          "var(--light-backgroundalt)",
+          "var(--dark-backgroundalt)",
+        )(props),
+        color: mode("var(--dark-secondary)", "var(--primarycontent)")(props),
+      },
     }),
   },
   components: {
