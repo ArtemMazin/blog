@@ -8,6 +8,7 @@ import { IconButton } from "@chakra-ui/react";
 import { AuthContext } from "../contexts/authContext";
 import { CreateArticleForm } from "@/features/articles/ui/article-form";
 import { AuthForm } from "@/features/auth/ui/auth-form";
+import { useArticleCreate } from "@/features/articles/hooks/useArticleCreate";
 
 export interface IHeaderProps
   extends React.DetailedHTMLProps<
@@ -19,6 +20,11 @@ export interface IHeaderProps
 
 export function UIHeader({ children }: IHeaderProps) {
   const { isAuthenticated } = React.useContext(AuthContext);
+  const { mutate } = useArticleCreate();
+
+  const handleSubmit = (formData: FormData) => {
+    mutate(formData);
+  };
 
   return (
     <header className="flex justify-between items-center">
@@ -28,7 +34,7 @@ export function UIHeader({ children }: IHeaderProps) {
         <SearchGroup />
         {isAuthenticated ? (
           <>
-            <CreateArticleForm />
+            <CreateArticleForm onSubmit={handleSubmit} />
             <IconButton
               isRound={true}
               aria-label="Switch to form"

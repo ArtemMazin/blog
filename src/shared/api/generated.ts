@@ -77,7 +77,7 @@ export const articlesControllerGetOneArticle = <
 export const articlesControllerCreateArticle = <
   TData = AxiosResponse<ArticleDto>,
 >(
-  articleDto: ArticleDto,
+  articleDto: FormData,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
   return instance.post(`/article/create`, articleDto, options);

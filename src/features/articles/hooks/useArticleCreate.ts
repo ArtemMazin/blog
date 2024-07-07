@@ -5,13 +5,13 @@ import {
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useArticleCreate = (reset: () => void, onClose: () => void) => {
+export const useArticleCreate = (reset?: () => void, onClose?: () => void) => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (articleData: ArticleDto) =>
-      articlesControllerCreateArticle(articleData, {
+    mutationFn: (formData: FormData) =>
+      articlesControllerCreateArticle(formData, {
         withCredentials: true,
       }),
     onSuccess: (res) => {
@@ -20,8 +20,8 @@ export const useArticleCreate = (reset: () => void, onClose: () => void) => {
         status: "success",
       });
       queryClient.invalidateQueries({ queryKey: ["articles"] });
-      onClose();
-      reset();
+      onClose && onClose();
+      reset && reset();
     },
     onError: (error) => {
       toast({

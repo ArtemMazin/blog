@@ -21,28 +21,40 @@ import { Plus } from "lucide-react";
 import { UILogo } from "@/shared/ui/ui-logo";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 
-export function CreateArticleForm() {
+interface CreateArticleFormProps {
+  onSubmit: (formData: FormData) => void;
+}
+
+export const CreateArticleForm: React.FC<CreateArticleFormProps> = ({
+  onSubmit,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
     control,
+    register,
     reset,
     formState: { errors, isValid },
     handleSubmit,
+    getValues,
+    setValue,
   } = useForm({
     mode: "onBlur",
-    defaultValues: {
-      title: "",
-      content: "",
-      image: "",
-    },
   });
 
-  const { mutate: createArticle } = useArticleCreate(reset, onClose);
+  console.log(getValues());
 
-  const onSubmit: SubmitHandler<ArticleDto> = (articleData) => {
-    createArticle(articleData);
-  };
+  const submitHandler = handleSubmit((data) => {
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("content", data.content);
+    if (data.image && data.image.length > 0) {
+      for (const file of data.image) {
+        formData.append("image", file);
+      }
+    }
+    onSubmit(formData);
+  });
 
   return (
     <>
@@ -59,54 +71,41 @@ export function CreateArticleForm() {
           </DrawerHeader>
 
           <DrawerBody>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={submitHandler}>
               <Stack spacing="10px">
                 <FormControl>
                   <FormLabel>Название</FormLabel>
-                  <Controller
-                    name="title"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="text"
-                        placeholder="Название статьи"
-                        {...field}
-                      />
-                    )}
+
+                  <Input
+                    type="text"
+                    placeholder="Название статьи"
+                    {...register("title")}
                   />
-                  <UIFormErrorMessage>
+
+                  {/* <UIFormErrorMessage>
                     {errors.title?.message}
-                  </UIFormErrorMessage>
+                  </UIFormErrorMessage> */}
                 </FormControl>
                 <FormControl>
                   <FormLabel>Текст</FormLabel>
-                  <Controller
-                    name="content"
-                    control={control}
-                    render={({ field }) => (
-                      <Textarea placeholder="Текст статьи" {...field} />
-                    )}
+
+                  <Textarea
+                    placeholder="Текст статьи"
+                    {...register("content")}
                   />
-                  <UIFormErrorMessage>
+
+                  {/* <UIFormErrorMessage>
                     {errors.content?.message}
-                  </UIFormErrorMessage>
+                  </UIFormErrorMessage> */}
                 </FormControl>
                 <FormControl>
                   <FormLabel>Изображение</FormLabel>
-                  <Controller
-                    name="image"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="text"
-                        placeholder="Ссылка на изображение"
-                        {...field}
-                      />
-                    )}
-                  />
-                  <UIFormErrorMessage>
+
+                  <Input type="file" {...register("image")} />
+
+                  {/* <UIFormErrorMessage>
                     {errors.image?.message}
-                  </UIFormErrorMessage>
+                  </UIFormErrorMessage> */}
                 </FormControl>
                 <Button variant="outline" onClick={onClose}>
                   Отмена
@@ -119,4 +118,4 @@ export function CreateArticleForm() {
       </Drawer>
     </>
   );
-}
+};
