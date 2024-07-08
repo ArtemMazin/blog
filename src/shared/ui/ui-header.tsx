@@ -1,14 +1,13 @@
 "use client";
 
 import { ThemeButton } from "@/features/theme/ui/theme-button";
-import { CircleUserRound, Plus } from "lucide-react";
+import { CircleUserRound } from "lucide-react";
 import * as React from "react";
 import { SearchGroup } from "@/features/search/ui/search-group";
 import { IconButton } from "@chakra-ui/react";
 import { AuthContext } from "../contexts/authContext";
 import { CreateArticleForm } from "@/features/articles/ui/article-form";
 import { AuthForm } from "@/features/auth/ui/auth-form";
-import { useArticleCreate } from "@/features/articles/hooks/useArticleCreate";
 
 export interface IHeaderProps
   extends React.DetailedHTMLProps<
@@ -20,21 +19,16 @@ export interface IHeaderProps
 
 export function UIHeader({ children }: IHeaderProps) {
   const { isAuthenticated } = React.useContext(AuthContext);
-  const { mutate } = useArticleCreate();
-
-  const handleSubmit = (formData: FormData) => {
-    mutate(formData);
-  };
 
   return (
-    <header className="flex justify-between items-center">
+    <header className="mb-8 flex justify-between items-center">
       <h1 className="text-nowrap text-4xl font-bold">Лента новостей</h1>
       <div className="flex gap-6 items-center">
         <ThemeButton />
         <SearchGroup />
         {isAuthenticated ? (
           <>
-            <CreateArticleForm onSubmit={handleSubmit} />
+            <CreateArticleForm />
             <IconButton
               isRound={true}
               aria-label="Switch to form"

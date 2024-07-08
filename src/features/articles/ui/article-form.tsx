@@ -1,4 +1,3 @@
-import { ArticleDto } from "@/shared/api/generated";
 import { UIButton } from "@/shared/ui/ui-button";
 import {
   Button,
@@ -16,33 +15,33 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useArticleCreate } from "../hooks/useArticleCreate";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Plus } from "lucide-react";
 import { UILogo } from "@/shared/ui/ui-logo";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 
-interface CreateArticleFormProps {
-  onSubmit: (formData: FormData) => void;
-}
-
-export const CreateArticleForm: React.FC<CreateArticleFormProps> = ({
-  onSubmit,
-}) => {
+export const CreateArticleForm = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
-    control,
     register,
     reset,
     formState: { errors, isValid },
     handleSubmit,
-    getValues,
-    setValue,
   } = useForm({
     mode: "onBlur",
+    defaultValues: {
+      title: "",
+      content: "",
+      image: [],
+    },
   });
 
-  console.log(getValues());
+  const { mutate: createArticle, isPending } = useArticleCreate(reset, onClose);
+
+  const onSubmit: SubmitHandler<FormData> = (articleData) => {
+    createArticle(articleData);
+  };
 
   const submitHandler = handleSubmit((data) => {
     const formData = new FormData();
@@ -79,38 +78,42 @@ export const CreateArticleForm: React.FC<CreateArticleFormProps> = ({
                   <Input
                     type="text"
                     placeholder="Название статьи"
+                    isRequired
                     {...register("title")}
                   />
 
-                  {/* <UIFormErrorMessage>
+                  <UIFormErrorMessage>
                     {errors.title?.message}
-                  </UIFormErrorMessage> */}
+                  </UIFormErrorMessage>
                 </FormControl>
                 <FormControl>
                   <FormLabel>Текст</FormLabel>
 
                   <Textarea
                     placeholder="Текст статьи"
+                    isRequired
                     {...register("content")}
                   />
 
-                  {/* <UIFormErrorMessage>
+                  <UIFormErrorMessage>
                     {errors.content?.message}
-                  </UIFormErrorMessage> */}
+                  </UIFormErrorMessage>
                 </FormControl>
                 <FormControl>
                   <FormLabel>Изображение</FormLabel>
 
                   <Input type="file" {...register("image")} />
-
-                  {/* <UIFormErrorMessage>
-                    {errors.image?.message}
-                  </UIFormErrorMessage> */}
                 </FormControl>
                 <Button variant="outline" onClick={onClose}>
                   Отмена
                 </Button>
-                <UIButton type="submit">Отправить</UIButton>
+                <UIButton
+                  type="submit"
+                  disabled={!isValid}
+                  isLoading={isPending}
+                >
+                  Отправить
+                </UIButton>
               </Stack>
             </form>
           </DrawerBody>
