@@ -1,5 +1,6 @@
 import { UIButton } from "@/shared/ui/ui-button";
 import {
+  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -10,31 +11,37 @@ import {
   FormLabel,
   Input,
   Stack,
+  Text,
   Textarea,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useArticleCreate } from "../hooks/useArticleCreate";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Plus } from "lucide-react";
+import { FolderPlus, Plus } from "lucide-react";
 import { UILogo } from "@/shared/ui/ui-logo";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
+import { messages } from "@/features/auth/constants";
+
+type TFormData = {
+  title: string;
+  content: string;
+  image: FileList;
+};
 
 export const CreateArticleForm = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const {
     register,
     reset,
     formState: { errors, isValid },
     handleSubmit,
-  } = useForm({
+    setValue,
+  } = useForm<TFormData>({
     mode: "onBlur",
-    defaultValues: {
-      title: "",
-      content: "",
-      image: [],
-    },
   });
 
   const { mutate: createArticle, isPending } = useArticleCreate(reset, onClose);
@@ -47,11 +54,19 @@ export const CreateArticleForm = () => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("content", data.content);
-    if (data.image && data.image.length > 0) {
-      for (const file of data.image) {
-        formData.append("image", file);
-      }
+
+    if (data.image.length === 0) {
+      toast({
+        title: "Ошибка",
+        description: "Выберите изображение",
+        status: "error",
+      });
+
+      return;
     }
+
+    formData.append("image", data.image[0]);
+
     onSubmit(formData);
   });
 
@@ -78,10 +93,11 @@ export const CreateArticleForm = () => {
                   <Input
                     type="text"
                     placeholder="Название статьи"
-                    isRequired
-                    {...register("title")}
+                    {...register("title", {
+                      required: messages.ERROR_FORM_REQUIRED,
+                    })}
+                    className="p-1"
                   />
-
                   <UIFormErrorMessage>
                     {errors.title?.message}
                   </UIFormErrorMessage>
@@ -91,8 +107,9 @@ export const CreateArticleForm = () => {
 
                   <Textarea
                     placeholder="Текст статьи"
-                    isRequired
-                    {...register("content")}
+                    {...register("content", {
+                      required: messages.ERROR_FORM_REQUIRED,
+                    })}
                   />
 
                   <UIFormErrorMessage>
@@ -100,9 +117,32 @@ export const CreateArticleForm = () => {
                   </UIFormErrorMessage>
                 </FormControl>
                 <FormControl>
-                  <FormLabel>Изображение</FormLabel>
+                  <Box
+                    className="w-full h-32 mb-4 flex flex-col items-center justify-center border-4 border-dashed rounded-lg"
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
 
-                  <Input type="file" {...register("image")} />
+                      const files = e.dataTransfer.files;
+
+                      setValue("image", files);
+                    }}
+                  >
+                    <FolderPlus size={40} strokeWidth={1} />
+                    <Text>Перетащите изображение</Text>
+                  </Box>
+
+                  <Input
+                    type="file"
+                    {...register("image")}
+                    className="p-1 h-auto"
+                  />
+
+                  <UIFormErrorMessage>
+                    {errors.image?.message}
+                  </UIFormErrorMessage>
                 </FormControl>
                 <Button variant="outline" onClick={onClose}>
                   Отмена

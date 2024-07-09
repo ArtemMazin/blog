@@ -1,4 +1,4 @@
-import { FormErrorMessage } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import * as React from "react";
 
 export interface IUIFormErrorMessageProps
@@ -12,9 +12,9 @@ export interface IUIFormErrorMessageProps
 export function UIFormErrorMessage({ children }: IUIFormErrorMessageProps) {
   return (
     <div className="min-h-6">
-      <FormErrorMessage fontSize={"small"} margin={0}>
+      <Text fontSize="sm" color={"var(--danger)"}>
         {children}
-      </FormErrorMessage>
+      </Text>
     </div>
   );
 }

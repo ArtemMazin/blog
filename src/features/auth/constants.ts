@@ -16,6 +16,8 @@ export const messages = {
   ERROR_FORM_USER_ALREADY_EXISTS: "Пользователь с такой почтой уже существует",
   ERROR_FORM_USER_NOT_FOUND: "Пользователь с такой почтой не найден",
   ERROR_FORM_WRONG_PASSWORD: "Неверный пароль",
+  ERROR_FORM_WRONG_FILE_FORMAT: "Файл должен быть в формате jpg, jpeg, png",
+  ERROR_FORM_FILE_REQUIRED: "Загрузите файл",
 };
 
 export const validation = {
