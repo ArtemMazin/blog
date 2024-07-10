@@ -1,6 +1,5 @@
 import { UIButton } from "@/shared/ui/ui-button";
 import {
-  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -11,7 +10,6 @@ import {
   FormLabel,
   Input,
   Stack,
-  Text,
   Textarea,
   useDisclosure,
   useToast,
@@ -19,12 +17,13 @@ import {
 import * as React from "react";
 import { useArticleCreate } from "../hooks/useArticleCreate";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FolderPlus, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { UILogo } from "@/shared/ui/ui-logo";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 import { messages } from "@/features/auth/constants";
+import { DropZone } from "./drop-zone";
 
-type TFormData = {
+export type TFormData = {
   title: string;
   content: string;
   image: FileList;
@@ -117,27 +116,12 @@ export const CreateArticleForm = () => {
                   </UIFormErrorMessage>
                 </FormControl>
                 <FormControl>
-                  <Box
-                    className="w-full h-32 mb-4 flex flex-col items-center justify-center border-4 border-dashed rounded-lg"
-                    onDragOver={(e) => {
-                      e.preventDefault();
-                    }}
-                    onDrop={(e) => {
-                      e.preventDefault();
+                  <DropZone setValue={setValue} />
 
-                      const files = e.dataTransfer.files;
-
-                      setValue("image", files);
-                    }}
-                  >
-                    <FolderPlus size={40} strokeWidth={1} />
-                    <Text>Перетащите изображение</Text>
-                  </Box>
-
-                  <Input
+                  <input
                     type="file"
                     {...register("image")}
-                    className="p-1 h-auto"
+                    className="w-px h-px opacity-0 absolute z-0"
                   />
 
                   <UIFormErrorMessage>
