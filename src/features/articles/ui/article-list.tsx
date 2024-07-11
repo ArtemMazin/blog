@@ -35,19 +35,12 @@ export function ArticleList() {
               position="absolute"
               p={2}
               cursor={"pointer"}
-              color={"var(--primarycontent)"}
-              bg={"rgba(0, 0, 0, 0.5)"}
+              // color={"var(--primarycontent)"}
               width={"100%"}
+              className="h-40 bg-black/50 text-primarycontent hover:bg-black transition-all duration-200"
             >
               <Heading noOfLines={1}>{article.title}</Heading>
-              <Text
-                noOfLines={5}
-                _hover={{
-                  noOfLines: 10,
-                }}
-              >
-                {article.content}
-              </Text>
+              <Text noOfLines={4}>{article.content}</Text>
             </Box>
           </Box>
         ))}

@@ -47,7 +47,7 @@ export interface UpdateArticleDto {
 
 export interface ArticleDto {
   content: string;
-  image: string;
+  image: File;
   title: string;
 }
 

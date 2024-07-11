@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useArticleCreate } from "../hooks/useArticleCreate";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Plus } from "lucide-react";
 import { UILogo } from "@/shared/ui/ui-logo";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
@@ -26,22 +26,28 @@ import { DropZone } from "./drop-zone";
 export type TFormData = {
   title: string;
   content: string;
-  image: FileList;
+  image: FileList | null;
 };
 
 export const CreateArticleForm = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
+  const methods = useForm<TFormData>({
+    mode: "onBlur",
+    defaultValues: {
+      title: "",
+      content: "",
+      image: null,
+    },
+  });
+
   const {
     register,
     reset,
     formState: { errors, isValid },
     handleSubmit,
-    setValue,
-  } = useForm<TFormData>({
-    mode: "onBlur",
-  });
+  } = methods;
 
   const { mutate: createArticle, isPending } = useArticleCreate(reset, onClose);
 
@@ -54,7 +60,7 @@ export const CreateArticleForm = () => {
     formData.append("title", data.title);
     formData.append("content", data.content);
 
-    if (data.image.length === 0) {
+    if (!data?.image) {
       toast({
         title: "Ошибка",
         description: "Выберите изображение",
@@ -70,7 +76,7 @@ export const CreateArticleForm = () => {
   });
 
   return (
-    <>
+    <FormProvider {...methods}>
       <UIButton onClick={onOpen}>
         Добавить статью <Plus size={"20px"} />
       </UIButton>
@@ -80,7 +86,7 @@ export const CreateArticleForm = () => {
 
         <DrawerContent>
           <DrawerHeader>
-            <UILogo className="mb-20" />
+            <UILogo className="mb-10" />
           </DrawerHeader>
 
           <DrawerBody>
@@ -116,17 +122,13 @@ export const CreateArticleForm = () => {
                   </UIFormErrorMessage>
                 </FormControl>
                 <FormControl>
-                  <DropZone setValue={setValue} />
+                  <DropZone />
 
                   <input
                     type="file"
                     {...register("image")}
                     className="w-px h-px opacity-0 absolute z-0"
                   />
-
-                  <UIFormErrorMessage>
-                    {errors.image?.message}
-                  </UIFormErrorMessage>
                 </FormControl>
                 <Button variant="outline" onClick={onClose}>
                   Отмена
@@ -143,6 +145,6 @@ export const CreateArticleForm = () => {
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-    </>
+    </FormProvider>
   );
 };

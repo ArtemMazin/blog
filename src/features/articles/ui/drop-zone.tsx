@@ -1,16 +1,37 @@
 import * as React from "react";
 import { Box, Text } from "@chakra-ui/react";
-import { FolderPlus } from "lucide-react";
-import { UseFormSetValue } from "react-hook-form";
-import { TFormData } from "./article-form";
+import { FileSymlink, FileX2 } from "lucide-react";
+import { useFormContext } from "react-hook-form";
 import clsx from "clsx";
 
-export function DropZone({
-  setValue,
-}: {
-  setValue: UseFormSetValue<TFormData>;
-}) {
+export function DropZone() {
+  const { setValue, getValues } = useFormContext();
+  const [activeImage, setActiveImage] = React.useState<FileList | null>(null);
   const [isActive, setIsActive] = React.useState(false);
+  const image: FileList | null = getValues("image");
+
+  React.useEffect(() => {
+    setActiveImage(image);
+  }, [image]);
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsActive(false);
+    setValue("image", e.dataTransfer.files);
+  };
+
+  const handleLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    if (
+      e.currentTarget &&
+      (e.relatedTarget instanceof Node
+        ? !e.currentTarget.contains(e.relatedTarget)
+        : true)
+    ) {
+      setIsActive(false);
+    }
+  };
 
   return (
     <Box
@@ -29,41 +50,39 @@ export function DropZone({
 
         setIsActive(true);
       }}
-      onDragLeave={(e) => {
-        e.preventDefault();
-
-        if (
-          e.currentTarget &&
-          (e.relatedTarget instanceof Node
-            ? !e.currentTarget.contains(e.relatedTarget)
-            : true)
-        ) {
-          setIsActive(false);
-        }
-      }}
-      onDrop={(e) => {
-        e.preventDefault();
-
-        const files = e.dataTransfer.files;
-
-        setValue("image", files);
-        setIsActive(false);
-      }}
+      onDragLeave={handleLeave}
+      onDrop={handleDrop}
     >
-      <FolderPlus
-        size={40}
-        strokeWidth={1}
-        className={clsx("text-primary", {
-          "text-gray-400": isActive,
-        })}
-      />
-      <Text
-        className={clsx("text-primary", {
-          "text-gray-400": isActive,
-        })}
-      >
-        Перетащите изображение
-      </Text>
+      {activeImage ? (
+        <div
+          onClick={() => {
+            setValue("image", null);
+            setActiveImage(null);
+          }}
+          className={clsx(
+            "flex flex-col items-center justify-center text-primary cursor-pointer",
+            {
+              "text-gray-400": isActive,
+            },
+          )}
+        >
+          <FileX2 size={40} strokeWidth={1} />
+          <Text>Удалить изображение</Text>
+        </div>
+      ) : (
+        <div
+          className={clsx(
+            "flex flex-col items-center justify-center text-primary cursor-default",
+            {
+              "text-gray-400": isActive,
+            },
+          )}
+        >
+          <FileSymlink size={40} strokeWidth={1} />
+
+          <Text>Перетащите изображение</Text>
+        </div>
+      )}
     </Box>
   );
 }
