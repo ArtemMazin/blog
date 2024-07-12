@@ -7,7 +7,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
@@ -46,9 +46,13 @@ export interface UpdateArticleDto {
 }
 
 export interface ArticleDto {
-  content: string;
-  image: File;
+  _id: string;
   title: string;
+  content: string;
+  image: string;
+  author: { _id: string; name: string; email: string };
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const appControllerGetHello = <TData = AxiosResponse<void>>(

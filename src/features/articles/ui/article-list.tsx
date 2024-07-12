@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useProfile } from "@/features/auth/hooks/useProfile";
 import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export function ArticleList() {
   const { data: articles } = useQuery({
@@ -16,35 +17,35 @@ export function ArticleList() {
   useProfile();
 
   return (
-    <div>
-      <SimpleGrid minChildWidth="400px" spacing="40px">
-        {articles?.map((article) => (
+    <SimpleGrid minChildWidth="320px" spacing="40px">
+      {articles?.map((article) => (
+        <Link href={`/${article._id}`} key={article.title}>
           <Box
-            key={article.title}
             position={"relative"}
-            width={"400px"}
             height={"300px"}
             className="flex flex-col justify-end"
           >
             <Image
-              src={`http:localhost:5000/${article.image}`}
+              src={process.env.NEXT_PUBLIC_API_URL + article.image}
               alt={article.title}
               fill
+              objectFit="cover"
+              sizes="(max-width: 712px) 100vw, (max-width: 1072px) 50vw, 25vw"
             />
             <Box
               position="absolute"
               p={2}
               cursor={"pointer"}
-              // color={"var(--primarycontent)"}
+              color={"var(--primarycontent)"}
               width={"100%"}
-              className="h-40 bg-black/50 text-primarycontent hover:bg-black transition-all duration-200"
+              className="h-40 bg-black/50 hover:bg-black transition-all duration-200"
             >
               <Heading noOfLines={1}>{article.title}</Heading>
               <Text noOfLines={4}>{article.content}</Text>
             </Box>
           </Box>
-        ))}
-      </SimpleGrid>
-    </div>
+        </Link>
+      ))}
+    </SimpleGrid>
   );
 }

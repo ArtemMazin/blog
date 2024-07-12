@@ -6,8 +6,9 @@ export interface IMainProps
     HTMLDivElement
   > {
   children: React.ReactNode;
+  className?: string;
 }
 
-export function UIMain({ children }: IMainProps) {
-  return <main>{children}</main>;
+export function UIMain({ children, className }: IMainProps) {
+  return <main className={className}>{children}</main>;
 }
