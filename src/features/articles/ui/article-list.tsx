@@ -3,7 +3,6 @@
 import * as React from "react";
 import { articlesControllerGetAllArticles } from "@/shared/api/generated";
 import { useQuery } from "@tanstack/react-query";
-import { useProfile } from "@/features/auth/hooks/useProfile";
 import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,8 +12,6 @@ export function ArticleList() {
     queryKey: ["articles"],
     queryFn: () => articlesControllerGetAllArticles().then((res) => res.data),
   });
-
-  useProfile();
 
   return (
     <SimpleGrid minChildWidth="320px" spacing="40px">
@@ -29,7 +26,7 @@ export function ArticleList() {
               src={process.env.NEXT_PUBLIC_API_URL + article.image}
               alt={article.title}
               fill
-              objectFit="cover"
+              className="object-cover"
               sizes="(max-width: 712px) 100vw, (max-width: 1072px) 50vw, 25vw"
             />
             <Box

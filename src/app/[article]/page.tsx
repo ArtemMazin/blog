@@ -32,7 +32,7 @@ export default function Article({ params }: { params: { article: string } }) {
                 src={process.env.NEXT_PUBLIC_API_URL + article.image}
                 alt={article?.title}
                 fill
-                objectFit="cover"
+                className="object-cover"
                 sizes="(max-width: 712px) 100vw, 50vw"
               />
             </Box>

@@ -8,6 +8,7 @@ import { AuthProvider } from "@/shared/contexts/authContext";
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   const [queryClient] = React.useState(() => new QueryClient());
+
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider

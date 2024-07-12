@@ -21,5 +21,6 @@ export function useProfile() {
           setIsAuthenticated(false);
           throw error;
         }),
+    retry: false,
   });
 }

@@ -8,6 +8,7 @@ import { IconButton } from "@chakra-ui/react";
 import { AuthContext } from "../contexts/authContext";
 import { CreateArticleForm } from "@/features/articles/ui/article-form";
 import { AuthForm } from "@/features/auth/ui/auth-form";
+import { useProfile } from "@/features/auth/hooks/useProfile";
 
 export interface IHeaderProps
   extends React.DetailedHTMLProps<
@@ -19,6 +20,8 @@ export interface IHeaderProps
 
 export function UIHeader({ children }: IHeaderProps) {
   const { isAuthenticated } = React.useContext(AuthContext);
+
+  useProfile();
 
   return (
     <header className="mb-8 flex justify-between items-center">

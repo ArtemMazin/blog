@@ -1,7 +1,4 @@
-import {
-  ArticleDto,
-  articlesControllerCreateArticle,
-} from "@/shared/api/generated";
+import { articlesControllerCreateArticle } from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
