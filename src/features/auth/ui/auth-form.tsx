@@ -25,9 +25,7 @@ export function AuthForm() {
         <DrawerOverlay />
 
         <DrawerContent>
-          <DrawerHeader>
-            <UILogo className="mb-20" />
-          </DrawerHeader>
+          <DrawerHeader></DrawerHeader>
 
           <DrawerBody>
             <TabsWithAuthForm onClose={onClose} />

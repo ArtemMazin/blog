@@ -4,11 +4,12 @@ import { ThemeButton } from "@/features/theme/ui/theme-button";
 import { CircleUserRound } from "lucide-react";
 import * as React from "react";
 import { SearchGroup } from "@/features/search/ui/search-group";
-import { IconButton } from "@chakra-ui/react";
+import { Box, IconButton } from "@chakra-ui/react";
 import { AuthContext } from "../contexts/authContext";
 import { CreateArticleForm } from "@/features/articles/ui/article-form";
 import { AuthForm } from "@/features/auth/ui/auth-form";
 import { useProfile } from "@/features/auth/hooks/useProfile";
+import { UILogo } from "./ui-logo";
 
 export interface IHeaderProps
   extends React.DetailedHTMLProps<
@@ -25,8 +26,8 @@ export function UIHeader({ children }: IHeaderProps) {
 
   return (
     <header className="mb-8 flex justify-between items-center">
-      <h1 className="text-nowrap text-4xl font-bold">Лента новостей</h1>
-      <div className="flex gap-6 items-center">
+      <UILogo />
+      <Box className="flex gap-6 items-center">
         <ThemeButton />
         <SearchGroup />
         {isAuthenticated ? (
@@ -41,7 +42,7 @@ export function UIHeader({ children }: IHeaderProps) {
         ) : (
           <AuthForm />
         )}
-      </div>
+      </Box>
 
       {children}
     </header>

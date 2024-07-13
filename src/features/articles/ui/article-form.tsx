@@ -85,9 +85,7 @@ export const CreateArticleForm = () => {
         <DrawerOverlay />
 
         <DrawerContent>
-          <DrawerHeader>
-            <UILogo className="mb-10" />
-          </DrawerHeader>
+          <DrawerHeader></DrawerHeader>
 
           <DrawerBody>
             <form onSubmit={submitHandler}>
