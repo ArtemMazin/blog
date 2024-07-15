@@ -116,6 +116,14 @@ export const articlesControllerSearchArticles = <
   });
 };
 
+export const articlesControllerGetArticlesByAuthor = <
+  TData = AxiosResponse<ArticleDto[]>,
+>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/article/my-all`, options);
+};
+
 export const usersControllerGetProfile = <
   TData = AxiosResponse<ProfileResponseDto>,
 >(

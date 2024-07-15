@@ -10,6 +10,7 @@ import { CreateArticleForm } from "@/features/articles/ui/article-form";
 import { AuthForm } from "@/features/auth/ui/auth-form";
 import { useProfile } from "@/features/auth/hooks/useProfile";
 import { UILogo } from "./ui-logo";
+import { Profile } from "@/features/profile/profile";
 
 export interface IHeaderProps
   extends React.DetailedHTMLProps<
@@ -33,11 +34,7 @@ export function UIHeader({ children }: IHeaderProps) {
         {isAuthenticated ? (
           <>
             <CreateArticleForm />
-            <IconButton
-              isRound={true}
-              aria-label="Switch to form"
-              icon={<CircleUserRound size={"20px"} />}
-            />
+            <Profile />
           </>
         ) : (
           <AuthForm />

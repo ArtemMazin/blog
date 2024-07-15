@@ -31,7 +31,7 @@ export default function Sidebar() {
             />
             <Box
               position="absolute"
-              className="p-2 w-full flex flex-col gap-2 bg-black/50 hover:bg-black transition-all duration-200"
+              className="p-2 w-full flex flex-col gap-2 bg-black/20 hover:bg-black transition-all duration-200"
             >
               <Heading size={"xs"} noOfLines={2}>
                 {article.title}
