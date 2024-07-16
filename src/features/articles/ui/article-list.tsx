@@ -5,8 +5,6 @@ import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArticleDto } from "@/shared/api/generated";
-import { ModalUpdatingArticle } from "./modal-updating-article";
-import { useProfile } from "@/features/auth/hooks/useProfile";
 
 export interface IArticleListProps {
   articles: ArticleDto[];

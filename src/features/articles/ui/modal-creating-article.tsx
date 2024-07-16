@@ -68,7 +68,12 @@ export const ModalCreatingArticle = () => {
         Добавить статью <Plus size={"20px"} />
       </UIButton>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        motionPreset="slideInBottom"
+      >
         <ModalOverlay />
 
         <ModalContent>

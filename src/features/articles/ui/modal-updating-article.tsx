@@ -7,12 +7,12 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { ArticleForm } from "./article-form";
 import { useArticleUpdate } from "../hooks/useArticleUpdate";
+import { ArticleDto } from "@/shared/api/generated";
 
 export type TFormData = {
   title: string;
@@ -20,15 +20,14 @@ export type TFormData = {
   image: FileList | null;
 };
 
-export const ModalUpdatingArticle = ({ id }: { id: string }) => {
+export const ModalUpdatingArticle = ({ article }: { article: ArticleDto }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
 
   const methods = useForm<TFormData>({
     mode: "onBlur",
     defaultValues: {
-      title: "",
-      content: "",
+      title: article.title,
+      content: article.content,
       image: null,
     },
   });
@@ -36,7 +35,7 @@ export const ModalUpdatingArticle = ({ id }: { id: string }) => {
   const { reset, handleSubmit } = methods;
 
   const { mutate: updateArticle, isPending } = useArticleUpdate(
-    id,
+    article._id,
     reset,
     onClose,
   );
@@ -50,17 +49,7 @@ export const ModalUpdatingArticle = ({ id }: { id: string }) => {
     formData.append("title", data.title);
     formData.append("content", data.content);
 
-    if (!data?.image) {
-      toast({
-        title: "Ошибка",
-        description: "Выберите изображение",
-        status: "error",
-      });
-
-      return;
-    }
-
-    formData.append("image", data.image[0]);
+    data.image && formData.append("image", data.image[0]);
 
     onSubmit(formData);
   });
@@ -71,7 +60,12 @@ export const ModalUpdatingArticle = ({ id }: { id: string }) => {
         Изменить статью
       </UIButton>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        motionPreset="slideInBottom"
+      >
         <ModalOverlay />
 
         <ModalContent>

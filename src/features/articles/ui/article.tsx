@@ -8,6 +8,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { ModalUpdatingArticle } from "./modal-updating-article";
+import { useArticleDelete } from "../hooks/useArticleDelete";
+import { ModalDeletingArticle } from "./modal-deleting-article";
 
 export default function Article({ id }: { id: string }) {
   const router = useRouter();
@@ -45,7 +47,10 @@ export default function Article({ id }: { id: string }) {
           <Text>{article?.content}</Text>
           <Box className="flex gap-2 justify-end">
             {user && article.author._id === user._id && (
-              <ModalUpdatingArticle id={article._id} />
+              <>
+                <ModalDeletingArticle id={article._id} />
+                <ModalUpdatingArticle article={article} />
+              </>
             )}
             <Button variant="outline" onClick={() => router.back()}>
               Назад
