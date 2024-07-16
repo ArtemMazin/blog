@@ -25,6 +25,7 @@ export function UIButton({
       className={clsx("flex-none gap-1 items-center", className)}
       isDisabled={isDisabled}
       isLoading={isLoading}
+      zIndex={10}
       {...props}
     >
       {children}

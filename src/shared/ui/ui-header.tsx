@@ -1,16 +1,15 @@
 "use client";
 
 import { ThemeButton } from "@/features/theme/ui/theme-button";
-import { CircleUserRound } from "lucide-react";
 import * as React from "react";
 import { SearchGroup } from "@/features/search/ui/search-group";
-import { Box, IconButton } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { AuthContext } from "../contexts/authContext";
-import { CreateArticleForm } from "@/features/articles/ui/article-form";
 import { AuthForm } from "@/features/auth/ui/auth-form";
 import { useProfile } from "@/features/auth/hooks/useProfile";
 import { UILogo } from "./ui-logo";
 import { Profile } from "@/features/profile/profile";
+import { ModalCreatingArticle } from "@/features/articles/ui/modal-creating-article";
 
 export interface IHeaderProps
   extends React.DetailedHTMLProps<
@@ -33,7 +32,7 @@ export function UIHeader({ children }: IHeaderProps) {
         <SearchGroup />
         {isAuthenticated ? (
           <>
-            <CreateArticleForm />
+            <ModalCreatingArticle />
             <Profile />
           </>
         ) : (

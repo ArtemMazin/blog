@@ -5,6 +5,8 @@ import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArticleDto } from "@/shared/api/generated";
+import { ModalUpdatingArticle } from "./modal-updating-article";
+import { useProfile } from "@/features/auth/hooks/useProfile";
 
 export interface IArticleListProps {
   articles: ArticleDto[];
@@ -24,11 +26,7 @@ export function ArticleList({ articles }: IArticleListProps) {
             key={article.title}
             className="max-w-2xl"
           >
-            <Box
-              position={"relative"}
-              height={"300px"}
-              className="flex flex-col justify-end"
-            >
+            <Box position={"relative"} height={"300px"}>
               <Image
                 src={process.env.NEXT_PUBLIC_API_URL + article.image}
                 alt={article.title}
@@ -42,6 +40,7 @@ export function ArticleList({ articles }: IArticleListProps) {
                 cursor={"pointer"}
                 color={"var(--primarycontent)"}
                 width={"100%"}
+                bottom={0}
                 className="h-40 bg-black/50 hover:bg-black transition-all duration-200"
               >
                 <Heading noOfLines={1}>{article.title}</Heading>

@@ -1,14 +1,17 @@
 "use client";
 
+import { useProfile } from "@/features/auth/hooks/useProfile";
 import { articlesControllerGetOneArticle } from "@/shared/api/generated";
 import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { ModalUpdatingArticle } from "./modal-updating-article";
 
 export default function Article({ id }: { id: string }) {
   const router = useRouter();
+  const { data: user } = useProfile();
 
   const { data: article } = useQuery({
     queryKey: ["article"],
@@ -40,13 +43,14 @@ export default function Article({ id }: { id: string }) {
             </Box>
           </Box>
           <Text>{article?.content}</Text>
-          <Button
-            variant="outline"
-            onClick={() => router.back()}
-            className="self-end"
-          >
-            Назад
-          </Button>
+          <Box className="flex gap-2 justify-end">
+            {user && article.author._id === user._id && (
+              <ModalUpdatingArticle id={article._id} />
+            )}
+            <Button variant="outline" onClick={() => router.back()}>
+              Назад
+            </Button>
+          </Box>
         </>
       )}
     </Box>
