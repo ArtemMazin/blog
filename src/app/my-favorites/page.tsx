@@ -6,15 +6,21 @@ import { ArticleList } from "@/features/articles/ui/article-list";
 import { UIHeader } from "@/shared/ui/ui-header";
 import { UIMain } from "@/shared/ui/ui-main";
 import { useProfile } from "@/features/profile/hooks/useProfile";
+import { useAllArticles } from "@/features/articles/hooks/useAllArticles";
 
 export default function MyFavoritesPage() {
-  const { data } = useProfile();
-  const articles = data?.favorite_articles;
+  const { data: profile } = useProfile();
+  const allArticles = useAllArticles();
+  const favoriteArticles = allArticles?.filter((article) =>
+    profile?.favorite_articles.includes(article._id),
+  );
 
   return (
     <Container maxW="8xl" className="h-screen p-10">
       <UIHeader />
-      <UIMain>{articles && <ArticleList articles={articles} />}</UIMain>
+      <UIMain>
+        {favoriteArticles && <ArticleList articles={favoriteArticles} />}
+      </UIMain>
     </Container>
   );
 }

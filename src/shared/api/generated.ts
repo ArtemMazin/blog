@@ -43,7 +43,7 @@ export interface ProfileResponseDto {
   email: string;
   createdAt: string;
   updatedAt: string;
-  favorite_articles: ArticleDto[];
+  favorite_articles: string[];
 }
 
 export interface UpdateArticleDto {
@@ -127,6 +127,15 @@ export const articlesControllerGetArticlesByAuthor = <
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
   return instance.get(`/article/my-all`, options);
+};
+
+export const articlesControllerAddArticleToFavorites = <
+  TData = AxiosResponse<string>,
+>(
+  articleId: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.post(`/users/add-favorite-article`, { articleId }, options);
 };
 
 export const usersControllerGetProfile = <

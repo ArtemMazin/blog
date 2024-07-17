@@ -1,10 +1,15 @@
 "use client";
 
-import React, { createContext, useState } from "react";
+import React, {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useState,
+} from "react";
 
 interface AuthContextValue {
   isAuthenticated: boolean;
-  setIsAuthenticated: (value: boolean) => void;
+  setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<AuthContextValue>({

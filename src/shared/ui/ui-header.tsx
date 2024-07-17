@@ -9,6 +9,7 @@ import { AuthForm } from "@/features/auth/ui/auth-form";
 import { UILogo } from "./ui-logo";
 import { Profile } from "@/features/profile/profile";
 import { ModalCreatingArticle } from "@/features/articles/ui/modal-creating-article";
+import { useProfile } from "@/features/profile/hooks/useProfile";
 
 export interface IHeaderProps
   extends React.DetailedHTMLProps<
@@ -20,6 +21,7 @@ export interface IHeaderProps
 
 export function UIHeader({ children }: IHeaderProps) {
   const { isAuthenticated } = React.useContext(AuthContext);
+  useProfile();
 
   return (
     <header className="mb-8 flex justify-between items-center">

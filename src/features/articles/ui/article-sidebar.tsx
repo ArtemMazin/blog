@@ -1,18 +1,14 @@
 "use client";
 
-import { articlesControllerGetAllArticles } from "@/shared/api/generated";
 import { Box, Button, Heading } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { useAllArticles } from "../hooks/useAllArticles";
 
 export default function Sidebar() {
   const router = useRouter();
-  const { data: articles } = useQuery({
-    queryKey: ["articles"],
-    queryFn: () => articlesControllerGetAllArticles().then((res) => res.data),
-  });
+  const articles = useAllArticles();
 
   return (
     <Box className="sticky top-0 h-screen overflow-y-auto max-w-xs my-4 w-full flex flex-col shrink-0 gap-4 snap-y hide-scrollbar">

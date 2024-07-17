@@ -9,6 +9,9 @@ import * as React from "react";
 import { ModalUpdatingArticle } from "./modal-updating-article";
 import { ModalDeletingArticle } from "./modal-deleting-article";
 import { useProfile } from "@/features/profile/hooks/useProfile";
+import { useAddFavorites } from "../hooks/useAddFavorites";
+import { SubmitHandler } from "react-hook-form";
+import { UIButton } from "@/shared/ui/ui-button";
 
 export default function Article({ id }: { id: string }) {
   const router = useRouter();
@@ -18,6 +21,12 @@ export default function Article({ id }: { id: string }) {
     queryKey: ["article"],
     queryFn: () => articlesControllerGetOneArticle(id).then((res) => res.data),
   });
+
+  const { mutate: addToFavorites } = useAddFavorites();
+
+  const handleClick: SubmitHandler<{ articleId: string }> = ({ articleId }) => {
+    addToFavorites(articleId);
+  };
 
   return (
     <Box className="sticky top-0 h-max p-4 flex flex-col gap-10">
@@ -51,6 +60,9 @@ export default function Article({ id }: { id: string }) {
                 <ModalUpdatingArticle article={article} />
               </>
             )}
+            <UIButton onClick={() => handleClick({ articleId: article._id })}>
+              Добавить в избранное
+            </UIButton>
             <Button variant="outline" onClick={() => router.back()}>
               Назад
             </Button>
