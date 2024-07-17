@@ -1,7 +1,6 @@
 "use client";
 
 import { ThemeButton } from "@/features/theme/ui/theme-button";
-import * as React from "react";
 import { SearchGroup } from "@/features/search/ui/search-group";
 import { Box } from "@chakra-ui/react";
 import { AuthContext } from "../contexts/authContext";
@@ -10,6 +9,7 @@ import { UILogo } from "./ui-logo";
 import { Profile } from "@/features/profile/profile";
 import { ModalCreatingArticle } from "@/features/articles/ui/modal-creating-article";
 import { useProfile } from "@/features/profile/hooks/useProfile";
+import { Suspense, useContext } from "react";
 
 export interface IHeaderProps
   extends React.DetailedHTMLProps<
@@ -20,7 +20,7 @@ export interface IHeaderProps
 }
 
 export function UIHeader({ children }: IHeaderProps) {
-  const { isAuthenticated } = React.useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
   useProfile();
 
   return (
@@ -28,7 +28,9 @@ export function UIHeader({ children }: IHeaderProps) {
       <UILogo />
       <Box className="flex gap-6 items-center">
         <ThemeButton />
-        <SearchGroup />
+        <Suspense>
+          <SearchGroup />
+        </Suspense>
         {isAuthenticated ? (
           <>
             <ModalCreatingArticle />
