@@ -1,6 +1,5 @@
 "use client";
 
-import { useProfile } from "@/features/auth/hooks/useProfile";
 import { articlesControllerGetOneArticle } from "@/shared/api/generated";
 import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
@@ -8,8 +7,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { ModalUpdatingArticle } from "./modal-updating-article";
-import { useArticleDelete } from "../hooks/useArticleDelete";
 import { ModalDeletingArticle } from "./modal-deleting-article";
+import { useProfile } from "@/features/profile/hooks/useProfile";
 
 export default function Article({ id }: { id: string }) {
   const router = useRouter();

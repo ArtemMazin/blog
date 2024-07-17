@@ -38,7 +38,12 @@ export interface SignInDto {
 }
 
 export interface ProfileResponseDto {
-  [key: string]: any;
+  _id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+  favorite_articles: ArticleDto[];
 }
 
 export interface UpdateArticleDto {
@@ -144,6 +149,12 @@ export const authControllerLogin = <TData = AxiosResponse<SignInResponseDto>>(
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
   return instance.post(`/auth/sign-in`, signInDto, options);
+};
+
+export const authControllerLogout = <TData = AxiosResponse<void>>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.post(`/auth/logout`, null, options);
 };
 
 export type AppControllerGetHelloResult = AxiosResponse<void>;
