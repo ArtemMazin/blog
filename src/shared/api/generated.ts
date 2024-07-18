@@ -135,7 +135,20 @@ export const articlesControllerAddArticleToFavorites = <
   articleId: string,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return instance.post(`/users/add-favorite-article`, { articleId }, options);
+  return instance.patch(`/users/add-favorite-article`, { articleId }, options);
+};
+
+export const articlesControllerRemoveArticlesToFavorites = <
+  TData = AxiosResponse<string>,
+>(
+  articleId: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.patch(
+    `/users/delete-favorite-article`,
+    { articleId },
+    options,
+  );
 };
 
 export const usersControllerGetProfile = <

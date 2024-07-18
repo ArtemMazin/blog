@@ -26,7 +26,12 @@ export const ModalDeletingArticle = ({ id }: { id: string }) => {
 
   return (
     <>
-      <Button colorScheme="red" onClick={onOpen} className="w-fit">
+      <Button
+        colorScheme="red"
+        backgroundColor={"darkred"}
+        onClick={onOpen}
+        className="w-fit"
+      >
         Удалить статью
       </Button>
 

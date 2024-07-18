@@ -1,25 +1,25 @@
-import { articlesControllerAddArticleToFavorites } from "@/shared/api/generated";
+import { articlesControllerRemoveArticlesToFavorites } from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 
-export const useAddFavorites = () => {
+export const useRemoveFavorites = () => {
   const toast = useToast();
 
   return useMutation({
     mutationFn: (articleId: string) =>
-      articlesControllerAddArticleToFavorites(articleId, {
+      articlesControllerRemoveArticlesToFavorites(articleId, {
         withCredentials: true,
       }),
-    onSuccess: () => {
+    onSuccess: (res) => {
       toast({
-        title: "Статья добавлена в избранное",
+        title: "Статья удалена из избранного",
         status: "success",
       });
     },
     onError: (error) => {
       toast({
         title: "Ошибка",
-        description: error?.message || "Произошла ошибка при добавлении статьи",
+        description: error?.message || "Произошла ошибка при удалении статьи",
         status: "error",
       });
     },

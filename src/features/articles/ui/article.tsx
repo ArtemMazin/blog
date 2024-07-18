@@ -12,20 +12,40 @@ import { useProfile } from "@/features/profile/hooks/useProfile";
 import { useAddFavorites } from "../hooks/useAddFavorites";
 import { SubmitHandler } from "react-hook-form";
 import { UIButton } from "@/shared/ui/ui-button";
+import { useRemoveFavorites } from "../hooks/useRemoveFavorites";
 
 export default function Article({ id }: { id: string }) {
   const router = useRouter();
-  const { data: user } = useProfile();
+  const { data: user, refetch: refetchUser } = useProfile();
 
   const { data: article } = useQuery({
-    queryKey: ["article"],
+    queryKey: ["article", id],
     queryFn: () => articlesControllerGetOneArticle(id).then((res) => res.data),
   });
 
   const { mutate: addToFavorites } = useAddFavorites();
+  const { mutate: removeFromFavorites } = useRemoveFavorites();
+
+  const isFavorite = user?.favorite_articles.includes(article?._id || "");
 
   const handleClick: SubmitHandler<{ articleId: string }> = ({ articleId }) => {
-    addToFavorites(articleId);
+    if (user) {
+      if (isFavorite) {
+        removeFromFavorites(articleId, {
+          onSuccess: () => {
+            refetchUser();
+          },
+        });
+      } else {
+        addToFavorites(articleId, {
+          onSuccess: () => {
+            refetchUser();
+          },
+        });
+      }
+    } else {
+      router.push("/");
+    }
   };
 
   return (
@@ -60,9 +80,15 @@ export default function Article({ id }: { id: string }) {
                 <ModalUpdatingArticle article={article} />
               </>
             )}
-            <UIButton onClick={() => handleClick({ articleId: article._id })}>
-              Добавить в избранное
-            </UIButton>
+            {user && (
+              <UIButton onClick={() => handleClick({ articleId: article._id })}>
+                {isFavorite ? (
+                  <Text>Удалить из избранного</Text>
+                ) : (
+                  <Text>Добавить в избранное</Text>
+                )}
+              </UIButton>
+            )}
             <Button variant="outline" onClick={() => router.back()}>
               Назад
             </Button>
