@@ -1,8 +1,9 @@
 import { articlesControllerAddArticleToFavorites } from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useAddFavorites = () => {
+  const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
@@ -15,6 +16,7 @@ export const useAddFavorites = () => {
         title: "Статья добавлена в избранное",
         status: "success",
       });
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     },
     onError: (error) => {
       toast({

@@ -26,14 +26,16 @@ export function Profile() {
       </MenuButton>
       <MenuList>
         <MenuGroup>
-          <MenuItem>Аккаунт</MenuItem>
+          <Link href={"/profile"}>
+            <MenuItem>Аккаунт</MenuItem>
+          </Link>
           <Link href={"/my-favorites"}>
             <MenuItem>Избранное</MenuItem>
           </Link>
           <Link href={"/my-articles"}>
             <MenuItem>Мои статьи</MenuItem>
           </Link>
-          <MenuItem>Купить премиум</MenuItem>
+          <MenuItem color={"lightgrey"}>Купить премиум</MenuItem>
           <MenuItem onClick={logout}>Выйти</MenuItem>
         </MenuGroup>
       </MenuList>

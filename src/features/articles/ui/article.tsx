@@ -16,7 +16,7 @@ import { useRemoveFavorites } from "../hooks/useRemoveFavorites";
 
 export default function Article({ id }: { id: string }) {
   const router = useRouter();
-  const { data: user, refetch: refetchUser } = useProfile();
+  const { data: user } = useProfile();
 
   const { data: article } = useQuery({
     queryKey: ["article", id],
@@ -31,17 +31,9 @@ export default function Article({ id }: { id: string }) {
   const handleClick: SubmitHandler<{ articleId: string }> = ({ articleId }) => {
     if (user) {
       if (isFavorite) {
-        removeFromFavorites(articleId, {
-          onSuccess: () => {
-            refetchUser();
-          },
-        });
+        removeFromFavorites(articleId);
       } else {
-        addToFavorites(articleId, {
-          onSuccess: () => {
-            refetchUser();
-          },
-        });
+        addToFavorites(articleId);
       }
     } else {
       router.push("/");

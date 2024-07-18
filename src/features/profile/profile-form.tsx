@@ -12,14 +12,14 @@ import * as React from "react";
 import { useFormContext } from "react-hook-form";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 import { messages } from "@/features/auth/constants";
-import { DropZone } from "../../../shared/ui/drop-zone";
+import { DropZone } from "../../shared/ui/drop-zone";
 
 type TArticleFormProps = {
   submitHandler: () => void;
   isPending: boolean;
 };
 
-export const ArticleForm = ({
+export const ProfileForm = ({
   submitHandler,
   isPending,
 }: TArticleFormProps) => {
@@ -34,12 +34,12 @@ export const ArticleForm = ({
     <form onSubmit={submitHandler}>
       <Stack spacing="10px">
         <FormControl>
-          <FormLabel>Название</FormLabel>
+          <FormLabel>Имя</FormLabel>
 
           <Input
             type="text"
-            placeholder="Название статьи"
-            {...register("title", {
+            placeholder="Имя"
+            {...register("name", {
               required: messages.ERROR_FORM_REQUIRED,
             })}
             className="p-1"
@@ -49,11 +49,11 @@ export const ArticleForm = ({
           </UIFormErrorMessage>
         </FormControl>
         <FormControl>
-          <FormLabel>Текст</FormLabel>
+          <FormLabel>О себе</FormLabel>
 
           <Textarea
-            placeholder="Текст статьи"
-            {...register("content", {
+            placeholder="О себе"
+            {...register("about", {
               required: messages.ERROR_FORM_REQUIRED,
             })}
           />
@@ -67,7 +67,7 @@ export const ArticleForm = ({
 
           <input
             type="file"
-            {...register("image")}
+            {...register("avatar")}
             className="w-px h-px opacity-0 absolute z-0"
           />
         </FormControl>
