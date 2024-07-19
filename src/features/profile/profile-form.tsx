@@ -48,7 +48,7 @@ export const ProfileForm = ({
             {errors.title?.message?.toString() || ""}
           </UIFormErrorMessage>
         </FormControl>
-        {/* <FormControl>
+        <FormControl>
           <FormLabel>О себе</FormLabel>
 
           <Textarea
@@ -61,7 +61,7 @@ export const ProfileForm = ({
           <UIFormErrorMessage>
             {errors.content?.message?.toString() || ""}
           </UIFormErrorMessage>
-        </FormControl> */}
+        </FormControl>
         <FormControl>
           <DropZone name="avatar" />
 

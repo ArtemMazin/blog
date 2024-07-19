@@ -13,6 +13,7 @@ import { useAddFavorites } from "../hooks/useAddFavorites";
 import { SubmitHandler } from "react-hook-form";
 import { UIButton } from "@/shared/ui/ui-button";
 import { useRemoveFavorites } from "../hooks/useRemoveFavorites";
+import Link from "next/link";
 
 export default function Article({ id }: { id: string }) {
   const router = useRouter();
@@ -57,7 +58,16 @@ export default function Article({ id }: { id: string }) {
             </Box>
 
             <Box fontSize="xs" className="w-full flex justify-between">
-              <Text>Автор статьи: {article?.author.name}</Text>
+              <Text>
+                Автор статьи:{" "}
+                <Link
+                  href={`/users/${article?.author._id}`}
+                  className="underline"
+                >
+                  {article?.author.name}
+                </Link>
+              </Text>
+
               <Text>
                 Дата публикации:{" "}
                 {new Date(article.createdAt).toLocaleDateString()}

@@ -45,6 +45,7 @@ export interface ProfileResponseDto {
   updatedAt: string;
   favorite_articles: string[];
   avatar: string;
+  about: string;
 }
 
 export interface UpdateArticleDto {

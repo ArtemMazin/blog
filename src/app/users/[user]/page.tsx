@@ -14,13 +14,11 @@ import Image from "next/image";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import { ModalUpdatingProfile } from "@/features/profile/modal-updating-profile";
 
-export default function ProfilePage() {
-  const { data: user } = useProfile();
-
+export default function UserPage({ params }: { params: { id: string } }) {
   return (
     <Container maxW="8xl" className="h-screen p-10">
       <UIHeader />
-      <UIMain className="h-full w-full">
+      {/* <UIMain className="h-full w-full">
         {user && (
           <SimpleGrid columns={2} spacing={10} p={20}>
             <Box className="w-80 h-80 relative">
@@ -44,16 +42,13 @@ export default function ProfilePage() {
             <Box className="p-4 flex flex-col gap-2">
               <Heading>{user?.name}</Heading>
               <Text>{user?.email}</Text>
-              <Text>{user?.about}</Text>
-              <Text fontSize={"xs"}>
-                Дата регистрации:{" "}
-                {new Date(user?.createdAt).toLocaleDateString()}
-              </Text>
+              <Text>Дата регистрации: {user?.createdAt}</Text>
+
               {user && <ModalUpdatingProfile user={user} />}
             </Box>
           </SimpleGrid>
         )}
-      </UIMain>
+      </UIMain> */}
     </Container>
   );
 }

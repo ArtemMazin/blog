@@ -16,6 +16,7 @@ import { ProfileForm } from "./profile-form";
 
 export type TFormData = {
   name: string;
+  about: string;
   avatar: FileList | null;
 };
 
@@ -29,7 +30,8 @@ export const ModalUpdatingProfile = ({
   const methods = useForm<TFormData>({
     mode: "onBlur",
     defaultValues: {
-      name: user.name,
+      name: user.name || "",
+      about: user.about || "",
       avatar: null,
     },
   });
@@ -45,6 +47,7 @@ export const ModalUpdatingProfile = ({
   const submitHandler = handleSubmit((data) => {
     const formData = new FormData();
     formData.append("name", data.name);
+    formData.append("about", data.about);
 
     data.avatar && formData.append("avatar", data.avatar[0]);
 
