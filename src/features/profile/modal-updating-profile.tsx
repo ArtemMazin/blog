@@ -16,6 +16,7 @@ import { ProfileForm } from "./profile-form";
 
 export type TFormData = {
   name: string;
+  avatar: FileList | null;
 };
 
 export const ModalUpdatingProfile = ({
@@ -29,26 +30,23 @@ export const ModalUpdatingProfile = ({
     mode: "onBlur",
     defaultValues: {
       name: user.name,
+      avatar: null,
     },
   });
 
   const { reset, handleSubmit } = methods;
 
-  const { mutate: updateArticle, isPending } = useProfileUpdate(
-    user._id,
-    reset,
-    onClose,
-  );
+  const { mutate: updateProfile, isPending } = useProfileUpdate(reset, onClose);
 
-  const onSubmit: SubmitHandler<FormData> = (articleData) => {
-    updateArticle(articleData);
+  const onSubmit: SubmitHandler<FormData> = (profileData) => {
+    updateProfile(profileData);
   };
 
   const submitHandler = handleSubmit((data) => {
     const formData = new FormData();
     formData.append("name", data.name);
 
-    // data.image && formData.append("image", data.image[0]);
+    data.avatar && formData.append("avatar", data.avatar[0]);
 
     onSubmit(formData);
   });

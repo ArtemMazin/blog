@@ -44,6 +44,7 @@ export interface ProfileResponseDto {
   createdAt: string;
   updatedAt: string;
   favorite_articles: string[];
+  avatar: string;
 }
 
 export interface UpdateArticleDto {
@@ -157,6 +158,15 @@ export const usersControllerGetProfile = <
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
   return instance.get(`/users/profile`, options);
+};
+
+export const usersControllerUpdateProfile = <
+  TData = AxiosResponse<ProfileResponseDto>,
+>(
+  updateProfileDto: FormData,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.patch(`/users/update-profile`, updateProfileDto, options);
 };
 
 export const authControllerSignUp = <TData = AxiosResponse<SignUpResponseDto>>(

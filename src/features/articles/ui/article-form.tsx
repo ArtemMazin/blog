@@ -63,7 +63,7 @@ export const ArticleForm = ({
           </UIFormErrorMessage>
         </FormControl>
         <FormControl>
-          <DropZone />
+          <DropZone name="image" />
 
           <input
             type="file"

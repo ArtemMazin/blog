@@ -4,11 +4,11 @@ import { FileSymlink, FileX2 } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import clsx from "clsx";
 
-export function DropZone() {
+export function DropZone({ name }: { name: string }) {
   const { setValue, getValues } = useFormContext();
   const [activeImage, setActiveImage] = React.useState<FileList | null>(null);
   const [isActive, setIsActive] = React.useState(false);
-  const image: FileList | null = getValues("image");
+  const image: FileList | null = getValues(name);
 
   React.useEffect(() => {
     setActiveImage(image);
@@ -17,7 +17,7 @@ export function DropZone() {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsActive(false);
-    setValue("image", e.dataTransfer.files);
+    setValue(name, e.dataTransfer.files);
   };
 
   const handleLeave = (e: React.DragEvent<HTMLDivElement>) => {
@@ -56,7 +56,7 @@ export function DropZone() {
       {activeImage ? (
         <div
           onClick={() => {
-            setValue("image", null);
+            setValue(name, null);
             setActiveImage(null);
           }}
           className={clsx(
