@@ -190,6 +190,28 @@ export const authControllerLogout = <TData = AxiosResponse<void>>(
   return instance.post(`/auth/logout`, null, options);
 };
 
+export const authControllerResetPassword = <TData = AxiosResponse<void>>(
+  email: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.post(`/auth/reset-password`, { email }, options);
+};
+
+export const authControllerUpdatePassword = <TData = AxiosResponse<void>>(
+  updatePasswordDto: {
+    token: string;
+    newPassword: string;
+  },
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  console.log(updatePasswordDto);
+  return instance.post(
+    `/auth/reset-password-confirm`,
+    updatePasswordDto,
+    options,
+  );
+};
+
 export type AppControllerGetHelloResult = AxiosResponse<void>;
 export type ArticlesControllerGetAllArticlesResult = AxiosResponse<
   ArticleDto[]

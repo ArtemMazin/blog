@@ -1,6 +1,13 @@
 "use client";
 
-import { Button, FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import * as React from "react";
 import { InputWithPassword } from "./input-with-password";
 import { UIButton } from "@/shared/ui/ui-button";
@@ -9,6 +16,7 @@ import { SignInDto } from "@/shared/api/generated";
 import { useLogin } from "../hooks/useLogin";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 import { validation } from "../constants";
+import { ModalResetPassword } from "./modal-reset-password";
 
 export function SignInForm({ onClose }: { onClose: () => void }) {
   const {
@@ -56,6 +64,7 @@ export function SignInForm({ onClose }: { onClose: () => void }) {
           />
           <UIFormErrorMessage>{errors.password?.message}</UIFormErrorMessage>
         </FormControl>
+        <ModalResetPassword />
         <Button variant="outline" onClick={onClose}>
           Отмена
         </Button>

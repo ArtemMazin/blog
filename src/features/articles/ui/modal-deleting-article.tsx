@@ -1,4 +1,3 @@
-import { UIButton } from "@/shared/ui/ui-button";
 import {
   Button,
   Modal,

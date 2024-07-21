@@ -28,4 +28,22 @@ export const theme = extendTheme({
     Tabs,
     Textarea,
   },
+  colors: {
+    light: {
+      background: "#fff",
+      backgroundAlt: "var(--light-backgroundalt)",
+      secondary: "var(--light-secondary)",
+      textSecondary: "var(--light-textsecondary)",
+    },
+    dark: {
+      background: "var(--dark-background)",
+      backgroundAlt: "var(--dark-backgroundalt)",
+      secondary: "var(--dark-secondary)",
+      textSecondary: "var(--dark-textsecondary)",
+    },
+    common: {
+      primary: "var(--primary)",
+      danger: "var(--danger)",
+    },
+  },
 });

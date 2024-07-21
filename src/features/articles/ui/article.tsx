@@ -1,7 +1,7 @@
 "use client";
 
 import { articlesControllerGetOneArticle } from "@/shared/api/generated";
-import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, Text, Flex, VStack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,13 +11,14 @@ import { ModalDeletingArticle } from "./modal-deleting-article";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import { useAddFavorites } from "../hooks/useAddFavorites";
 import { SubmitHandler } from "react-hook-form";
-import { UIButton } from "@/shared/ui/ui-button";
 import { useRemoveFavorites } from "../hooks/useRemoveFavorites";
 import Link from "next/link";
+import { useColors } from "@/shared/hooks/useColors";
 
 export default function Article({ id }: { id: string }) {
   const router = useRouter();
   const { data: user } = useProfile();
+  const { bgColor, borderColor, textColor } = useColors();
 
   const { data: article } = useQuery({
     queryKey: ["article", id],
@@ -42,60 +43,90 @@ export default function Article({ id }: { id: string }) {
   };
 
   return (
-    <Box className="sticky top-0 h-max p-4 flex flex-col gap-10">
+    <Box
+      bg={bgColor}
+      color={textColor}
+      borderRadius={{ base: "none", md: "xl" }}
+      overflow="hidden"
+      boxShadow={{ base: "none", md: "lg" }}
+      transition="all 0.3s"
+    >
       {article && (
-        <>
-          <Heading>{article?.title}</Heading>
-          <Box className="max-w-2xl w-full shrink-0 h-96 mx-auto">
-            <Box className="w-full h-full relative">
-              <Image
-                src={process.env.NEXT_PUBLIC_API_URL + article.image}
-                alt={article?.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 712px) 100vw, 50vw"
-              />
-            </Box>
-
-            <Box fontSize="xs" className="w-full flex justify-between">
-              <Text>
-                Автор статьи:{" "}
+        <VStack spacing={0} align="stretch">
+          <Box position="relative" h={{ base: "30vh", md: "40vh", lg: "50vh" }}>
+            <Image
+              src={process.env.NEXT_PUBLIC_API_URL + article.image}
+              alt={article?.title}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="100vw"
+            />
+          </Box>
+          <Box p={{ base: 4, md: 6, lg: 8 }}>
+            <Heading
+              fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
+              mb={4}
+              color={textColor}
+            >
+              {article?.title}
+            </Heading>
+            <Flex
+              justifyContent="space-between"
+              alignItems="center"
+              mb={6}
+              flexDirection={{ base: "column", sm: "row" }}
+              gap={2}
+            >
+              <Text fontSize="sm">
+                Автор:{" "}
                 <Link
                   href={`/users/${article?.author._id}`}
-                  className="underline"
+                  style={{ fontWeight: "bold", textDecoration: "underline" }}
                 >
                   {article?.author.name}
                 </Link>
               </Text>
-
-              <Text>
-                Дата публикации:{" "}
-                {new Date(article.createdAt).toLocaleDateString()}
+              <Text fontSize="sm">
+                Опубликовано: {new Date(article.createdAt).toLocaleDateString()}
               </Text>
-            </Box>
-          </Box>
-          <Text>{article?.content}</Text>
-          <Box className="flex gap-2 justify-end">
-            {user && article.author._id === user._id && (
-              <>
-                <ModalDeletingArticle id={article._id} />
-                <ModalUpdatingArticle article={article} />
-              </>
-            )}
-            {user && (
-              <UIButton onClick={() => handleClick({ articleId: article._id })}>
-                {isFavorite ? (
-                  <Text>Удалить из избранного</Text>
-                ) : (
-                  <Text>Добавить в избранное</Text>
+            </Flex>
+            <Text mb={8} fontSize={{ base: "md", lg: "lg" }} lineHeight="tall">
+              {article?.content}
+            </Text>
+            <Flex
+              justifyContent="space-between"
+              alignItems="center"
+              flexDirection={{ base: "column", sm: "row" }}
+              gap={4}
+            >
+              <Flex gap={2}>
+                {user && article.author._id === user._id && (
+                  <>
+                    <ModalDeletingArticle id={article._id} />
+                    <ModalUpdatingArticle article={article} />
+                  </>
                 )}
-              </UIButton>
-            )}
-            <Button variant="outline" onClick={() => router.back()}>
-              Назад
-            </Button>
+              </Flex>
+              <Flex gap={2}>
+                {user && (
+                  <Button
+                    onClick={() => handleClick({ articleId: article._id })}
+                    color="white"
+                  >
+                    {isFavorite ? "Из избранного" : "В избранное"}
+                  </Button>
+                )}
+                <Button
+                  variant="outline"
+                  onClick={() => router.back()}
+                  borderColor={borderColor}
+                >
+                  Назад
+                </Button>
+              </Flex>
+            </Flex>
           </Box>
-        </>
+        </VStack>
       )}
     </Box>
   );
