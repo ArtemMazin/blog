@@ -30,7 +30,7 @@ export function UIHeader() {
   useProfile();
 
   return (
-    <Box as="header" bg={bgColor} color={textColor} py={4} mb={4}>
+    <Box as="header" color={textColor} py={4} mb={4}>
       <Flex
         maxW="1200px"
         mx="auto"

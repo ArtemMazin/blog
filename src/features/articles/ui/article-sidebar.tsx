@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  Heading,
-  useColorModeValue,
-  VStack,
-  Text,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Button, Heading, VStack, Text, Flex } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -25,7 +17,6 @@ export default function Sidebar() {
     <Box
       className="sticky top-0 h-screen overflow-y-auto max-w-xs my-4 w-full flex flex-col shrink-0 gap-4 snap-y hide-scrollbar"
       display={{ base: "none", md: "flex" }}
-      bg={bgColor}
       borderColor={borderColor}
       p={4}
     >

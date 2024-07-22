@@ -73,7 +73,11 @@ export const ModalUpdatingProfile = ({
           <ModalCloseButton />
 
           <ModalBody>
-            <ProfileForm submitHandler={submitHandler} isPending={isPending} />
+            <ProfileForm
+              submitHandler={submitHandler}
+              onClose={onClose}
+              isPending={isPending}
+            />
           </ModalBody>
         </ModalContent>
       </Modal>

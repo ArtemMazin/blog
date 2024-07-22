@@ -10,8 +10,8 @@ export const theme = extendTheme({
   styles: {
     global: (props: StyleFunctionProps) => ({
       body: {
-        color: mode("var(--dark-secondary)", "var(--primarycontent)")(props),
-        bg: mode("var(--primarycontent)", "var(--dark-background)")(props),
+        color: mode("var(--dark-secondary)", "var(--primary)")(props),
+        bg: mode("var(--light-backgroundalt)", "var(--dark-background)")(props),
       },
       aside: {
         bg: mode(
@@ -34,12 +34,14 @@ export const theme = extendTheme({
       backgroundAlt: "var(--light-backgroundalt)",
       secondary: "var(--light-secondary)",
       textSecondary: "var(--light-textsecondary)",
+      gray: "var(--light-gray)",
     },
     dark: {
       background: "var(--dark-background)",
       backgroundAlt: "var(--dark-backgroundalt)",
       secondary: "var(--dark-secondary)",
       textSecondary: "var(--dark-textsecondary)",
+      gray: "var(--dark-gray)",
     },
     common: {
       primary: "var(--primary)",

@@ -25,6 +25,10 @@ export function useColors() {
     theme.colors.light.secondary,
     theme.colors.dark.secondary,
   );
+  const grayColor = useColorModeValue(
+    theme.colors.light.gray,
+    theme.colors.dark.gray,
+  );
   const primaryColor = theme.colors.common.primary;
 
   return {
@@ -36,5 +40,6 @@ export function useColors() {
     dangerColor,
     secondaryColor,
     primaryColor,
+    grayColor,
   };
 }

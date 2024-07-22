@@ -1,10 +1,8 @@
-import { UIButton } from "@/shared/ui/ui-button";
 import {
   Box,
   FormControl,
   FormLabel,
   Input,
-  Stack,
   Textarea,
   useDisclosure,
   VStack,
@@ -23,14 +21,15 @@ import { useColors } from "@/shared/hooks/useColors";
 
 type TArticleFormProps = {
   submitHandler: () => void;
+  onClose: () => void;
   isPending: boolean;
 };
 
 export const ArticleForm = ({
   submitHandler,
+  onClose,
   isPending,
 }: TArticleFormProps) => {
-  const { onClose } = useDisclosure();
   const colors = useColors();
 
   const {
@@ -111,7 +110,7 @@ export const ArticleForm = ({
           />
         </FormControl>
 
-        <HStack justifyContent="space-between" mt={4}>
+        <HStack mt={4} justify="flex-end">
           <Button
             onClick={onClose}
             variant="outline"

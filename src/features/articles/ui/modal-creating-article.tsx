@@ -81,7 +81,11 @@ export const ModalCreatingArticle = () => {
           <ModalCloseButton />
 
           <ModalBody>
-            <ArticleForm submitHandler={submitHandler} isPending={isPending} />
+            <ArticleForm
+              submitHandler={submitHandler}
+              onClose={onClose}
+              isPending={isPending}
+            />
           </ModalBody>
         </ModalContent>
       </Modal>

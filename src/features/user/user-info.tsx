@@ -15,6 +15,7 @@ import { useColors } from "@/shared/hooks/useColors";
 import Image from "next/image";
 import { Bookmark, Calendar, Mail } from "lucide-react";
 import { ProfileResponseDto } from "@/shared/api/generated";
+import { useProfile } from "../profile/hooks/useProfile";
 
 export interface IUserInfoProps
   extends React.DetailedHTMLProps<
@@ -27,6 +28,8 @@ export interface IUserInfoProps
 export function UserInfo({ user }: IUserInfoProps) {
   const { bgColor, bannerColor, borderColor, textColor, avatarBgColor } =
     useColors();
+
+  const authUser = useProfile();
 
   return (
     <Box
@@ -83,9 +86,11 @@ export function UserInfo({ user }: IUserInfoProps) {
                 Избранные статьи: {user.favorite_articles.length}
               </Button>
             </WrapItem>
-            <WrapItem>
-              <ModalUpdatingProfile user={user} />
-            </WrapItem>
+            {authUser && user._id === authUser.data?._id && (
+              <WrapItem>
+                <ModalUpdatingProfile user={user} />
+              </WrapItem>
+            )}
           </Wrap>
         </VStack>
       </Flex>

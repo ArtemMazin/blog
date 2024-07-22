@@ -20,14 +20,15 @@ import { useColors } from "@/shared/hooks/useColors";
 
 type TProfileFormProps = {
   submitHandler: () => void;
+  onClose: () => void;
   isPending: boolean;
 };
 
 export const ProfileForm = ({
   submitHandler,
+  onClose,
   isPending,
 }: TProfileFormProps) => {
-  const { onClose } = useDisclosure();
   const colors = useColors();
 
   const {
@@ -104,7 +105,7 @@ export const ProfileForm = ({
           />
         </FormControl>
 
-        <HStack spacing={4} justify="flex-end">
+        <HStack justify="flex-end">
           <Button
             onClick={onClose}
             variant="outline"
@@ -120,7 +121,7 @@ export const ProfileForm = ({
             isLoading={isPending}
             bg={colors.primaryColor}
             color="white"
-            _hover={{ bg: colors.bannerColor }}
+            _hover={{ bg: colors.secondaryColor }}
           >
             Сохранить
           </Button>

@@ -1,15 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  Box,
-  Heading,
-  Text,
-  Flex,
-  Circle,
-  VStack,
-  HStack,
-} from "@chakra-ui/react";
+import { Box, Heading, Text, Flex, VStack, HStack } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArticleDto } from "@/shared/api/generated";
@@ -72,7 +64,7 @@ export function ArticleList({ articles }: IArticleListProps) {
                   </Text>
                 </Box>
                 <HStack justify="space-between" color={secondaryColor}>
-                  <Text fontSize="sm">{article.author?.name}</Text>
+                  <Text fontSize="sm">Автор: {article.author?.name}</Text>
                   <HStack>
                     <BookOpen size={16} />
                     <Text fontSize="sm">{"article.readingTime"} мин</Text>
