@@ -1,5 +1,6 @@
 "use client";
 
+import { useColors } from "@/shared/hooks/useColors";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { Eye, EyeOff } from "lucide-react";
 import * as React from "react";
@@ -19,12 +20,20 @@ export const InputWithPassword = forwardRef(
     const [show, setShow] = React.useState(false);
     const handleClick = () => setShow(!show);
 
+    const { bgColor, textColor, borderColor, primaryColor } = useColors();
+
     return (
       <InputGroup>
         <Input
           type={show ? "text" : "password"}
           placeholder="Пароль"
           {...props}
+          borderColor={borderColor}
+          _hover={{ borderColor: primaryColor }}
+          _focus={{
+            borderColor: primaryColor,
+            boxShadow: `0 0 0 1px ${primaryColor}`,
+          }}
         />
         <InputRightElement>
           {show ? (

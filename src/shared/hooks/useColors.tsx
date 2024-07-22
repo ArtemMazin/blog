@@ -25,6 +25,7 @@ export function useColors() {
     theme.colors.light.secondary,
     theme.colors.dark.secondary,
   );
+  const primaryColor = theme.colors.common.primary;
 
   return {
     bgColor,
@@ -34,5 +35,6 @@ export function useColors() {
     avatarBgColor,
     dangerColor,
     secondaryColor,
+    primaryColor,
   };
 }

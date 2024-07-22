@@ -1,18 +1,25 @@
 import { UIButton } from "@/shared/ui/ui-button";
 import {
-  Button,
+  Box,
   FormControl,
   FormLabel,
   Input,
   Stack,
   Textarea,
   useDisclosure,
+  VStack,
+  HStack,
+  Icon,
+  Text,
+  Button,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useFormContext } from "react-hook-form";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 import { messages } from "@/features/auth/constants";
 import { DropZone } from "../../../shared/ui/drop-zone";
+import { FileText, Image } from "lucide-react";
+import { useColors } from "@/shared/hooks/useColors";
 
 type TArticleFormProps = {
   submitHandler: () => void;
@@ -24,6 +31,7 @@ export const ArticleForm = ({
   isPending,
 }: TArticleFormProps) => {
   const { onClose } = useDisclosure();
+  const colors = useColors();
 
   const {
     register,
@@ -31,53 +39,99 @@ export const ArticleForm = ({
   } = useFormContext();
 
   return (
-    <form onSubmit={submitHandler}>
-      <Stack spacing="10px">
+    <Box
+      as="form"
+      onSubmit={submitHandler}
+      bg={colors.bgColor}
+      borderRadius="lg"
+      p={6}
+      boxShadow="md"
+    >
+      <VStack spacing={6} align="stretch">
         <FormControl>
-          <FormLabel>Название</FormLabel>
-
+          <FormLabel>
+            <HStack>
+              <Icon as={FileText} color={colors.primaryColor} />
+              <Text fontWeight="bold">Название статьи</Text>
+            </HStack>
+          </FormLabel>
           <Input
             type="text"
-            placeholder="Название статьи"
+            placeholder="Введите название статьи"
             {...register("title", {
               required: messages.ERROR_FORM_REQUIRED,
             })}
-            className="p-1"
+            borderColor={colors.borderColor}
+            _focus={{ borderColor: colors.primaryColor }}
           />
           <UIFormErrorMessage>
             {errors.title?.message?.toString() || ""}
           </UIFormErrorMessage>
         </FormControl>
-        <FormControl>
-          <FormLabel>Текст</FormLabel>
 
+        <FormControl>
+          <FormLabel>
+            <HStack>
+              <Icon as={FileText} color={colors.primaryColor} />
+              <Text fontWeight="bold">Текст статьи</Text>
+            </HStack>
+          </FormLabel>
           <Textarea
-            placeholder="Текст статьи"
+            placeholder="Введите текст статьи"
             {...register("content", {
               required: messages.ERROR_FORM_REQUIRED,
             })}
+            minHeight="200px"
+            borderColor={colors.borderColor}
+            _focus={{ borderColor: colors.primaryColor }}
           />
-
           <UIFormErrorMessage>
             {errors.content?.message?.toString() || ""}
           </UIFormErrorMessage>
         </FormControl>
-        <FormControl>
-          <DropZone name="image" />
 
+        <FormControl>
+          <FormLabel>
+            <HStack>
+              <Icon as={Image} color={colors.primaryColor} />
+              <Text fontWeight="bold">Изображение</Text>
+            </HStack>
+          </FormLabel>
+          <DropZone name="image" />
           <input
             type="file"
             {...register("image")}
-            className="w-px h-px opacity-0 absolute z-0"
+            style={{
+              width: 0,
+              height: 0,
+              opacity: 0,
+              position: "absolute",
+              zIndex: -1,
+            }}
           />
         </FormControl>
-        <Button variant="outline" onClick={onClose}>
-          Отмена
-        </Button>
-        <UIButton type="submit" disabled={!isValid} isLoading={isPending}>
-          Отправить
-        </UIButton>
-      </Stack>
-    </form>
+
+        <HStack justifyContent="space-between" mt={4}>
+          <Button
+            onClick={onClose}
+            variant="outline"
+            borderColor={colors.borderColor}
+            color={colors.textColor}
+          >
+            Отмена
+          </Button>
+          <Button
+            type="submit"
+            disabled={!isValid}
+            isLoading={isPending}
+            bg={colors.primaryColor}
+            color="white"
+            _hover={{ bg: colors.secondaryColor }}
+          >
+            Отправить
+          </Button>
+        </HStack>
+      </VStack>
+    </Box>
   );
 };

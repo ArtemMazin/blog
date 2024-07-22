@@ -1,8 +1,8 @@
 "use client";
 
+import * as React from "react";
 import { TabsWithAuthForm } from "@/features/auth/ui/tabs-with-auth-form";
 import { UILogo } from "@/shared/ui/ui-logo";
-import * as React from "react";
 import {
   Drawer,
   DrawerBody,
@@ -10,25 +10,45 @@ import {
   DrawerHeader,
   DrawerOverlay,
   useDisclosure,
+  Button,
+  Box,
+  Flex,
 } from "@chakra-ui/react";
-
-import { UIButton } from "@/shared/ui/ui-button";
+import { LogIn } from "lucide-react";
+import { useColors } from "@/shared/hooks/useColors";
 
 export function AuthForm() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { bgColor, primaryColor } = useColors();
 
   return (
     <>
-      <UIButton onClick={onOpen}>Войти</UIButton>
+      <Button
+        leftIcon={<LogIn size={20} />}
+        px={6}
+        onClick={onOpen}
+        bg={primaryColor}
+        color={"white"}
+      >
+        Войти
+      </Button>
 
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="md">
         <DrawerOverlay />
-
-        <DrawerContent>
-          <DrawerHeader></DrawerHeader>
+        <DrawerContent bg={bgColor}>
+          <DrawerHeader borderBottomWidth="1px" p={4}>
+            <Flex justify="space-between" align="center">
+              <UILogo />
+              <Button variant="ghost" onClick={onClose}>
+                &times;
+              </Button>
+            </Flex>
+          </DrawerHeader>
 
           <DrawerBody>
-            <TabsWithAuthForm onClose={onClose} />
+            <Box mt={8}>
+              <TabsWithAuthForm onClose={onClose} />
+            </Box>
           </DrawerBody>
         </DrawerContent>
       </Drawer>

@@ -1,7 +1,15 @@
 "use client";
 
 import { articlesControllerGetOneArticle } from "@/shared/api/generated";
-import { Box, Button, Heading, Text, Flex, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  Text,
+  Flex,
+  VStack,
+  IconButton,
+} from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -14,11 +22,12 @@ import { SubmitHandler } from "react-hook-form";
 import { useRemoveFavorites } from "../hooks/useRemoveFavorites";
 import Link from "next/link";
 import { useColors } from "@/shared/hooks/useColors";
+import { Heart } from "lucide-react";
 
 export default function Article({ id }: { id: string }) {
   const router = useRouter();
   const { data: user } = useProfile();
-  const { bgColor, borderColor, textColor } = useColors();
+  const { bgColor, borderColor, textColor, dangerColor } = useColors();
 
   const { data: article } = useQuery({
     queryKey: ["article", id],
@@ -82,6 +91,7 @@ export default function Article({ id }: { id: string }) {
                 <Link
                   href={`/users/${article?.author._id}`}
                   style={{ fontWeight: "bold", textDecoration: "underline" }}
+                  className="text-blue-500 hover:text-blue-600"
                 >
                   {article?.author.name}
                 </Link>
@@ -99,7 +109,7 @@ export default function Article({ id }: { id: string }) {
               flexDirection={{ base: "column", sm: "row" }}
               gap={4}
             >
-              <Flex gap={2}>
+              <Flex gap={2} alignItems="center">
                 {user && article.author._id === user._id && (
                   <>
                     <ModalDeletingArticle id={article._id} />
@@ -107,15 +117,23 @@ export default function Article({ id }: { id: string }) {
                   </>
                 )}
               </Flex>
-              <Flex gap={2}>
-                {user && (
-                  <Button
-                    onClick={() => handleClick({ articleId: article._id })}
-                    color="white"
-                  >
-                    {isFavorite ? "Из избранного" : "В избранное"}
-                  </Button>
-                )}
+              <Flex gap={2} alignItems="center">
+                <IconButton
+                  aria-label={
+                    isFavorite
+                      ? "Удалить из избранного"
+                      : "Добавить в избранное"
+                  }
+                  icon={
+                    <Heart
+                      fill={isFavorite ? dangerColor : "none"}
+                      color={isFavorite ? dangerColor : "currentColor"}
+                    />
+                  }
+                  onClick={() => handleClick({ articleId: article._id })}
+                  variant="ghost"
+                  size="md"
+                />
                 <Button
                   variant="outline"
                   onClick={() => router.back()}

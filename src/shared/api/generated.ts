@@ -153,6 +153,15 @@ export const articlesControllerRemoveArticlesToFavorites = <
   );
 };
 
+export const usersControllerGetUser = <
+  TData = AxiosResponse<ProfileResponseDto>,
+>(
+  id: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/users/${id}`, options);
+};
+
 export const usersControllerGetProfile = <
   TData = AxiosResponse<ProfileResponseDto>,
 >(
