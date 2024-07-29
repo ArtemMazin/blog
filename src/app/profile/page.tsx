@@ -10,7 +10,7 @@ export default function ProfilePage() {
   const { data: user } = useProfile();
 
   return (
-    <Container maxW="6xl" py={10}>
+    <Container maxW="8xl" className="h-screen p-10">
       <UIHeader />
       <UIMain>{user && <UserInfo user={user} />}</UIMain>
     </Container>

@@ -10,7 +10,7 @@ export const theme = extendTheme({
   styles: {
     global: (props: StyleFunctionProps) => ({
       body: {
-        color: mode("var(--dark-secondary)", "var(--primary)")(props),
+        color: mode("var(--dark-secondary)", "var(--primarycontent)")(props),
         bg: mode("var(--light-backgroundalt)", "var(--dark-background)")(props),
       },
       aside: {
@@ -30,7 +30,7 @@ export const theme = extendTheme({
   },
   colors: {
     light: {
-      background: "#fff",
+      background: "var(--primarycontent)",
       backgroundAlt: "var(--light-backgroundalt)",
       secondary: "var(--light-secondary)",
       textSecondary: "var(--light-textsecondary)",

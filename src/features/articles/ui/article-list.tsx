@@ -20,7 +20,7 @@ export function ArticleList({ articles }: IArticleListProps) {
     <VStack spacing={12} align="stretch">
       {articles?.length === 0 ? (
         <Box textAlign="center">
-          <Heading color={primaryColor}>Не найдено ни одной статьи</Heading>
+          <Heading>Не найдено ни одной статьи</Heading>
         </Box>
       ) : (
         articles?.map((article) => (

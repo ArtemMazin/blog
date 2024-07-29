@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useLogout } from "../auth/hooks/useLogout";
+import { Payment } from "../payment/payment";
 
 export function Profile() {
   const { setIsAuthenticated } = React.useContext(AuthContext);
@@ -35,7 +36,9 @@ export function Profile() {
           <Link href={"/my-articles"}>
             <MenuItem>Мои статьи</MenuItem>
           </Link>
-          <MenuItem color={"lightgrey"}>Купить премиум</MenuItem>
+          <MenuItem>
+            <Payment />
+          </MenuItem>
           <MenuItem onClick={logout}>Выйти</MenuItem>
         </MenuGroup>
       </MenuList>

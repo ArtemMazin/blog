@@ -62,6 +62,31 @@ export interface ArticleDto {
   updatedAt: string;
 }
 
+export interface IPaymentDetails {
+  id: string;
+  status: "pending" | "succeeded" | "failed";
+  paid: boolean;
+  amount: {
+    value: string;
+    currency: string;
+  };
+  confirmation: {
+    type: string;
+    confirmation_url: string;
+  };
+  created_at: string;
+  description: string;
+  metadata: {
+    order_id: string;
+  };
+  recipient: {
+    account_id: string;
+    gateway_id: string;
+  };
+  refundable: boolean;
+  test: boolean;
+}
+
 export const appControllerGetHello = <TData = AxiosResponse<void>>(
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
@@ -219,6 +244,17 @@ export const authControllerUpdatePassword = <TData = AxiosResponse<void>>(
     updatePasswordDto,
     options,
   );
+};
+
+export const paymentControllerCreatePayment = <
+  TData = AxiosResponse<IPaymentDetails>,
+>(
+  createPaymentDto: {
+    amount: number;
+  },
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.post(`/payment`, createPaymentDto, options);
 };
 
 export type AppControllerGetHelloResult = AxiosResponse<void>;
