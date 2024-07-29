@@ -13,8 +13,7 @@ export interface IArticleListProps {
 }
 
 export function ArticleList({ articles }: IArticleListProps) {
-  const { bgColor, textColor, primaryColor, secondaryColor, borderColor } =
-    useColors();
+  const { bgColor, textColor, primaryColor, secondaryColor } = useColors();
 
   return (
     <VStack spacing={12} align="stretch">

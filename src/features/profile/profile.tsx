@@ -13,9 +13,11 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useLogout } from "../auth/hooks/useLogout";
 import { Payment } from "../payment/payment";
+import { useProfile } from "./hooks/useProfile";
 
 export function Profile() {
   const { setIsAuthenticated } = React.useContext(AuthContext);
+  const user = useProfile();
   const router = useRouter();
 
   const logout = useLogout({ setIsAuthenticated, router });
@@ -36,9 +38,11 @@ export function Profile() {
           <Link href={"/my-articles"}>
             <MenuItem>Мои статьи</MenuItem>
           </Link>
-          <MenuItem>
-            <Payment />
-          </MenuItem>
+          {!user.data?.isPremium && (
+            <MenuItem>
+              <Payment />
+            </MenuItem>
+          )}
           <MenuItem onClick={logout}>Выйти</MenuItem>
         </MenuGroup>
       </MenuList>

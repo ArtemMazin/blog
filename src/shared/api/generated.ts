@@ -46,6 +46,7 @@ export interface ProfileResponseDto {
   favorite_articles: string[];
   avatar: string;
   about: string;
+  isPremium: boolean;
 }
 
 export interface UpdateArticleDto {
@@ -238,7 +239,6 @@ export const authControllerUpdatePassword = <TData = AxiosResponse<void>>(
   },
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  console.log(updatePasswordDto);
   return instance.post(
     `/auth/reset-password-confirm`,
     updatePasswordDto,
@@ -255,6 +255,17 @@ export const paymentControllerCreatePayment = <
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
   return instance.post(`/payment`, createPaymentDto, options);
+};
+
+export const paymentControllerGetPaymentDetails = <
+  TData = AxiosResponse<IPaymentDetails>,
+>(
+  getPaymentDto: {
+    id: string;
+  },
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.post(`/payment/get-payment`, getPaymentDto, options);
 };
 
 export type AppControllerGetHelloResult = AxiosResponse<void>;

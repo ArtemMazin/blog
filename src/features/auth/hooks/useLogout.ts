@@ -1,5 +1,4 @@
 import { authControllerLogout } from "@/shared/api/generated";
-import { AuthContext } from "@/shared/contexts/authContext";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 

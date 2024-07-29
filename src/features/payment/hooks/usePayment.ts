@@ -3,11 +3,10 @@ import {
   paymentControllerCreatePayment,
 } from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 export const usePayment = (reset?: () => void, onClose?: () => void) => {
-  const queryClient = useQueryClient();
   const toast = useToast();
   const router = useRouter();
 
@@ -18,8 +17,8 @@ export const usePayment = (reset?: () => void, onClose?: () => void) => {
       }),
     onSuccess: (res: { data: IPaymentDetails }) => {
       router.push(res.data.confirmation.confirmation_url);
+      sessionStorage.setItem("paymentId", res.data.id);
 
-      queryClient.invalidateQueries({ queryKey: ["user"] });
       onClose && onClose();
       reset && reset();
     },
