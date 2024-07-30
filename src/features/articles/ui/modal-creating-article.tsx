@@ -18,6 +18,7 @@ import { ArticleForm } from "./article-form";
 export type TFormData = {
   title: string;
   content: string;
+  isPremium: boolean;
   image: FileList | null;
 };
 
@@ -46,6 +47,7 @@ export const ModalCreatingArticle = () => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("content", data.content);
+    formData.append("isPremium", data.isPremium?.toString() || "false");
 
     if (!data?.image) {
       toast({

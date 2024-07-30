@@ -16,7 +16,7 @@ export function ArticleList({ articles }: IArticleListProps) {
   const { bgColor, textColor, primaryColor, secondaryColor } = useColors();
 
   return (
-    <VStack spacing={12} align="stretch">
+    <VStack spacing={10} align="stretch">
       {articles?.length === 0 ? (
         <Box textAlign="center">
           <Heading>Не найдено ни одной статьи</Heading>
@@ -36,7 +36,7 @@ export function ArticleList({ articles }: IArticleListProps) {
             >
               <Box
                 width={{ base: "100%", md: "40%" }}
-                height={{ base: "200px", md: "auto" }}
+                height={300}
                 position="relative"
               >
                 <Image
@@ -55,28 +55,36 @@ export function ArticleList({ articles }: IArticleListProps) {
                 justifyContent="space-between"
               >
                 <Box>
-                  <Heading as="h3" size="lg" color={primaryColor} mb={2}>
+                  <Heading
+                    as="h3"
+                    size="lg"
+                    color={primaryColor}
+                    mb={2}
+                    noOfLines={2}
+                  >
                     {article.title}
                   </Heading>
-                  <Text color={textColor} noOfLines={3}>
+                  <Text color={textColor} noOfLines={4}>
                     {article.content}
                   </Text>
                 </Box>
-                <HStack justify="space-between" color={secondaryColor}>
-                  <Text fontSize="sm">Автор: {article.author?.name}</Text>
-                  <HStack>
-                    <BookOpen size={16} />
-                    <Text fontSize="sm">{"article.readingTime"} мин</Text>
+                <VStack align="stretch" spacing={2}>
+                  <HStack justify="space-between" color={secondaryColor}>
+                    <Text fontSize="sm">Автор: {article.author?.name}</Text>
+                    <HStack>
+                      <BookOpen size={16} />
+                      <Text fontSize="sm">{"article.readingTime"} мин</Text>
+                    </HStack>
                   </HStack>
-                </HStack>
-                <Link href={`/${article._id}`}>
-                  <Flex align="center" color={primaryColor}>
-                    <Text fontWeight="bold" mr={2}>
-                      Читать статью
-                    </Text>
-                    <ArrowRight size={20} />
-                  </Flex>
-                </Link>
+                  <Link href={`/${article._id}`}>
+                    <Flex align="center" color={primaryColor}>
+                      <Text fontWeight="bold" mr={2}>
+                        Читать статью
+                      </Text>
+                      <ArrowRight size={20} />
+                    </Flex>
+                  </Link>
+                </VStack>
               </VStack>
             </Flex>
           </Box>

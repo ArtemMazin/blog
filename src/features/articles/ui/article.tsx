@@ -6,9 +6,10 @@ import {
   Button,
   Heading,
   Text,
-  Flex,
   VStack,
+  HStack,
   IconButton,
+  Spacer,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -53,6 +54,8 @@ export default function Article({ id }: { id: string }) {
 
   return (
     <Box
+      w={"100%"}
+      h="100%"
       bg={bgColor}
       color={textColor}
       borderRadius={{ base: "none", md: "xl" }}
@@ -61,7 +64,7 @@ export default function Article({ id }: { id: string }) {
       transition="all 0.3s"
     >
       {article && (
-        <VStack spacing={0} align="stretch">
+        <VStack spacing={0} align="stretch" h="100%">
           <Box position="relative" h={{ base: "30vh", md: "40vh", lg: "50vh" }}>
             <Image
               src={process.env.NEXT_PUBLIC_API_URL + article.image}
@@ -71,21 +74,19 @@ export default function Article({ id }: { id: string }) {
               sizes="100vw"
             />
           </Box>
-          <Box p={{ base: 4, md: 6, lg: 8 }}>
+          <VStack
+            p={{ base: 4, md: 6, lg: 8 }}
+            spacing={4}
+            align="stretch"
+            flex={1}
+          >
             <Heading
               fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
-              mb={4}
               color={textColor}
             >
               {article?.title}
             </Heading>
-            <Flex
-              justifyContent="space-between"
-              alignItems="center"
-              mb={6}
-              flexDirection={{ base: "column", sm: "row" }}
-              gap={2}
-            >
+            <HStack justifyContent="space-between" flexWrap="wrap">
               <Text fontSize="sm">
                 Автор:{" "}
                 <Link
@@ -99,25 +100,26 @@ export default function Article({ id }: { id: string }) {
               <Text fontSize="sm">
                 Опубликовано: {new Date(article.createdAt).toLocaleDateString()}
               </Text>
-            </Flex>
-            <Text mb={8} fontSize={{ base: "md", lg: "lg" }} lineHeight="tall">
+            </HStack>
+            <Text
+              fontSize={{ base: "md", lg: "lg" }}
+              lineHeight="tall"
+              flex={1}
+              overflowY="auto"
+            >
               {article?.content}
             </Text>
-            <Flex
-              justifyContent="space-between"
-              alignItems="center"
-              flexDirection={{ base: "column", sm: "row" }}
-              gap={4}
-            >
-              <Flex gap={2} alignItems="center">
+            <Spacer />
+            <HStack justifyContent="space-between" alignItems="center">
+              <HStack>
                 {user && article.author._id === user._id && (
                   <>
                     <ModalDeletingArticle id={article._id} />
                     <ModalUpdatingArticle article={article} />
                   </>
                 )}
-              </Flex>
-              <Flex gap={2} alignItems="center">
+              </HStack>
+              <HStack>
                 <IconButton
                   aria-label={
                     isFavorite
@@ -141,9 +143,9 @@ export default function Article({ id }: { id: string }) {
                 >
                   Назад
                 </Button>
-              </Flex>
-            </Flex>
-          </Box>
+              </HStack>
+            </HStack>
+          </VStack>
         </VStack>
       )}
     </Box>

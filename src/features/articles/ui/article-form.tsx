@@ -4,12 +4,12 @@ import {
   FormLabel,
   Input,
   Textarea,
-  useDisclosure,
   VStack,
   HStack,
   Icon,
   Text,
   Button,
+  Checkbox,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useFormContext } from "react-hook-form";
@@ -18,6 +18,7 @@ import { messages } from "@/features/auth/constants";
 import { DropZone } from "../../../shared/ui/drop-zone";
 import { FileText, Image } from "lucide-react";
 import { useColors } from "@/shared/hooks/useColors";
+import { useProfile } from "@/features/profile/hooks/useProfile";
 
 type TArticleFormProps = {
   submitHandler: () => void;
@@ -36,6 +37,8 @@ export const ArticleForm = ({
     register,
     formState: { errors, isValid },
   } = useFormContext();
+
+  const user = useProfile();
 
   return (
     <Box
@@ -108,6 +111,22 @@ export const ArticleForm = ({
               zIndex: -1,
             }}
           />
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>
+            <HStack>
+              <Icon as={FileText} color={colors.primaryColor} />
+              <Text fontWeight="bold">Премиум статья</Text>
+            </HStack>
+          </FormLabel>
+          <Checkbox
+            {...register("isPremium")}
+            colorScheme="blue"
+            disabled={!user.data?.isPremium}
+          >
+            Сделать статью премиум
+          </Checkbox>
         </FormControl>
 
         <HStack mt={4} justify="flex-end">
