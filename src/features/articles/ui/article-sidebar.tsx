@@ -35,7 +35,7 @@ export default function Sidebar() {
               _hover={{ transform: "translateY(-4px)", boxShadow: "lg" }}
             >
               <Image
-                src={process.env.NEXT_PUBLIC_API_URL + article.image}
+                src={process.env.NEXT_PUBLIC_IMAGE_URL + article.image}
                 alt={article?.title}
                 width={300}
                 height={150}

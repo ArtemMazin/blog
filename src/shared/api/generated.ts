@@ -61,6 +61,7 @@ export interface ArticleDto {
   author: { _id: string; name: string; email: string };
   createdAt: string;
   updatedAt: string;
+  isPremium: boolean;
 }
 
 export interface IPaymentDetails {

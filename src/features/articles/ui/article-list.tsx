@@ -1,12 +1,25 @@
 "use client";
 
 import * as React from "react";
-import { Box, Heading, Text, Flex, VStack, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Text,
+  SimpleGrid,
+  Badge,
+  VStack,
+  HStack,
+  Flex,
+  useToast,
+  Button,
+} from "@chakra-ui/react";
 import Image from "next/image";
-import Link from "next/link";
 import { ArticleDto } from "@/shared/api/generated";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { ArrowRight, BookOpen, Star, Lock } from "lucide-react";
 import { useColors } from "@/shared/hooks/useColors";
+import { useRouter } from "next/navigation";
+import { useProfile } from "@/features/profile/hooks/useProfile";
+import Link from "next/link";
 
 export interface IArticleListProps {
   articles: ArticleDto[];
@@ -14,82 +27,115 @@ export interface IArticleListProps {
 
 export function ArticleList({ articles }: IArticleListProps) {
   const { bgColor, textColor, primaryColor, secondaryColor } = useColors();
+  const router = useRouter();
+  const toast = useToast();
+  const { data: user } = useProfile();
+
+  const handleClick = (article: ArticleDto) => {
+    if (article.isPremium && !user?.isPremium) {
+      toast({
+        title: "Ошибка",
+        description:
+          "Для просмотра этой статьи необходимо подписаться на премиум",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
+    router.push(`/${article._id}`);
+  };
 
   return (
-    <VStack spacing={10} align="stretch">
+    <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10}>
       {articles?.length === 0 ? (
-        <Box textAlign="center">
+        <Box textAlign="center" gridColumn="1 / -1">
           <Heading>Не найдено ни одной статьи</Heading>
         </Box>
       ) : (
         articles?.map((article) => (
-          <Box key={article._id} cursor={"default"}>
-            <Flex
-              direction={{ base: "column", md: "row" }}
-              bg={bgColor}
-              borderRadius="3xl"
-              overflow="hidden"
-              boxShadow="xl"
-              transition="all 0.3s"
-              _hover={{ transform: "scale(1.02)" }}
-              position="relative"
-            >
-              <Box
-                width={{ base: "100%", md: "40%" }}
-                height={300}
-                position="relative"
+          <Flex
+            key={article._id}
+            direction="column"
+            bg={bgColor}
+            borderRadius="xl"
+            overflow="hidden"
+            boxShadow="xl"
+            transition="all 0.3s"
+            _hover={{ transform: "translateY(-5px)" }}
+            position="relative"
+            height="100%"
+          >
+            {/* Бейдж для премиум-статей */}
+            {article.isPremium && (
+              <Badge
+                position="absolute"
+                top={2}
+                right={2}
+                colorScheme="yellow"
+                display="flex"
+                alignItems="center"
+                zIndex={1}
               >
-                <Image
-                  src={process.env.NEXT_PUBLIC_API_URL + article.image}
-                  alt={article.title}
-                  fill
-                  style={{ objectFit: "cover" }}
-                  sizes="(max-width: 768px) 100vw, 40vw"
-                />
-              </Box>
-              <VStack
-                align="stretch"
-                p={6}
-                spacing={4}
-                width={{ base: "100%", md: "60%" }}
-                justifyContent="space-between"
-              >
-                <Box>
-                  <Heading
-                    as="h3"
-                    size="lg"
-                    color={primaryColor}
-                    mb={2}
-                    noOfLines={2}
-                  >
-                    {article.title}
-                  </Heading>
-                  <Text color={textColor} noOfLines={4}>
-                    {article.content}
-                  </Text>
-                </Box>
-                <VStack align="stretch" spacing={2}>
-                  <HStack justify="space-between" color={secondaryColor}>
-                    <Text fontSize="sm">Автор: {article.author?.name}</Text>
-                    <HStack>
-                      <BookOpen size={16} />
-                      <Text fontSize="sm">{"article.readingTime"} мин</Text>
-                    </HStack>
+                <Star size={14} style={{ marginRight: "4px" }} />
+                Премиум
+              </Badge>
+            )}
+
+            {/* Изображение статьи */}
+            <Box height={200} position="relative">
+              <Image
+                src={process.env.NEXT_PUBLIC_IMAGE_URL + article.image}
+                alt={article.title}
+                fill
+                style={{ objectFit: "cover" }}
+              />
+            </Box>
+
+            {/* Содержимое карточки */}
+            <Flex direction="column" p={4} flex={1}>
+              <VStack align="stretch" spacing={3} flex={1}>
+                <Heading as="h3" size="md" color={primaryColor} noOfLines={2}>
+                  {article.title}
+                </Heading>
+                <Text color={textColor} noOfLines={3} fontSize="sm">
+                  {article.content}
+                </Text>
+              </VStack>
+
+              {/* Нижняя часть карточки */}
+              <VStack align="stretch" spacing={2} mt="auto">
+                <HStack justify="space-between" color={secondaryColor}>
+                  <Text fontSize="xs">Автор: {article.author?.name}</Text>
+                  <HStack>
+                    <BookOpen size={14} />
+                    <Text fontSize="xs">5 мин</Text>
                   </HStack>
+                </HStack>
+                {article.isPremium && !user?.isPremium ? (
+                  <Button
+                    leftIcon={<Lock size={16} />}
+                    colorScheme="yellow"
+                    size="sm"
+                    onClick={() => handleClick(article)}
+                  >
+                    Премиум статья
+                  </Button>
+                ) : (
                   <Link href={`/${article._id}`}>
-                    <Flex align="center" color={primaryColor}>
-                      <Text fontWeight="bold" mr={2}>
-                        Читать статью
+                    <HStack color={primaryColor} justify="flex-end">
+                      <Text fontWeight="bold" fontSize="sm">
+                        Читать
                       </Text>
-                      <ArrowRight size={20} />
-                    </Flex>
+                      <ArrowRight size={16} />
+                    </HStack>
                   </Link>
-                </VStack>
+                )}
               </VStack>
             </Flex>
-          </Box>
+          </Flex>
         ))
       )}
-    </VStack>
+    </SimpleGrid>
   );
 }

@@ -52,7 +52,7 @@ export function UserInfo({ user }: IUserInfoProps) {
         >
           {user?.avatar ? (
             <Image
-              src={process.env.NEXT_PUBLIC_API_URL + user.avatar}
+              src={process.env.NEXT_PUBLIC_IMAGE_URL + user.avatar}
               alt="Фото профиля"
               layout="fill"
               objectFit="cover"

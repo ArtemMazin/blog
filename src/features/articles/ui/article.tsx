@@ -30,16 +30,20 @@ export default function Article({ id }: { id: string }) {
   const { data: user } = useProfile();
   const { bgColor, borderColor, textColor, dangerColor } = useColors();
 
+  // Запрос на получение данных статьи
   const { data: article } = useQuery({
     queryKey: ["article", id],
     queryFn: () => articlesControllerGetOneArticle(id).then((res) => res.data),
   });
 
+  // Хуки для добавления и удаления из избранного
   const { mutate: addToFavorites } = useAddFavorites();
   const { mutate: removeFromFavorites } = useRemoveFavorites();
 
+  // Проверка, находится ли статья в избранном у пользователя
   const isFavorite = user?.favorite_articles.includes(article?._id || "");
 
+  // Обработчик клика по кнопке избранного
   const handleClick: SubmitHandler<{ articleId: string }> = ({ articleId }) => {
     if (user) {
       if (isFavorite) {
@@ -65,27 +69,31 @@ export default function Article({ id }: { id: string }) {
     >
       {article && (
         <VStack spacing={0} align="stretch" h="100%">
+          {/* Изображение статьи */}
           <Box position="relative" h={{ base: "30vh", md: "40vh", lg: "50vh" }}>
             <Image
-              src={process.env.NEXT_PUBLIC_API_URL + article.image}
+              src={process.env.NEXT_PUBLIC_IMAGE_URL + article.image}
               alt={article?.title}
               fill
               style={{ objectFit: "cover" }}
               sizes="100vw"
             />
           </Box>
+          {/* Контент статьи */}
           <VStack
             p={{ base: 4, md: 6, lg: 8 }}
             spacing={4}
             align="stretch"
             flex={1}
           >
+            {/* Заголовок статьи */}
             <Heading
               fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
               color={textColor}
             >
               {article?.title}
             </Heading>
+            {/* Информация об авторе и дате публикации */}
             <HStack justifyContent="space-between" flexWrap="wrap">
               <Text fontSize="sm">
                 Автор:{" "}
@@ -101,6 +109,7 @@ export default function Article({ id }: { id: string }) {
                 Опубликовано: {new Date(article.createdAt).toLocaleDateString()}
               </Text>
             </HStack>
+            {/* Содержание статьи */}
             <Text
               fontSize={{ base: "md", lg: "lg" }}
               lineHeight="tall"
@@ -110,8 +119,10 @@ export default function Article({ id }: { id: string }) {
               {article?.content}
             </Text>
             <Spacer />
+            {/* Нижняя панель с кнопками */}
             <HStack justifyContent="space-between" alignItems="center">
               <HStack>
+                {/* Кнопки редактирования и удаления для автора статьи */}
                 {user && article.author._id === user._id && (
                   <>
                     <ModalDeletingArticle id={article._id} />
@@ -120,22 +131,26 @@ export default function Article({ id }: { id: string }) {
                 )}
               </HStack>
               <HStack>
-                <IconButton
-                  aria-label={
-                    isFavorite
-                      ? "Удалить из избранного"
-                      : "Добавить в избранное"
-                  }
-                  icon={
-                    <Heart
-                      fill={isFavorite ? dangerColor : "none"}
-                      color={isFavorite ? dangerColor : "currentColor"}
-                    />
-                  }
-                  onClick={() => handleClick({ articleId: article._id })}
-                  variant="ghost"
-                  size="md"
-                />
+                {/* Кнопка добавления/удаления из избранного */}
+                {user && (
+                  <IconButton
+                    aria-label={
+                      isFavorite
+                        ? "Удалить из избранного"
+                        : "Добавить в избранное"
+                    }
+                    icon={
+                      <Heart
+                        fill={isFavorite ? dangerColor : "none"}
+                        color={isFavorite ? dangerColor : "currentColor"}
+                      />
+                    }
+                    onClick={() => handleClick({ articleId: article._id })}
+                    variant="ghost"
+                    size="md"
+                  />
+                )}
+                {/* Кнопка "Назад" */}
                 <Button
                   variant="outline"
                   onClick={() => router.back()}
