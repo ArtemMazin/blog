@@ -7,10 +7,7 @@ export function usePasswordReset() {
   const toast = useToast();
 
   return useMutation({
-    mutationFn: async (email: string) =>
-      authControllerResetPassword(email, {
-        withCredentials: true,
-      }),
+    mutationFn: async (email: string) => authControllerResetPassword(email),
 
     onSuccess: (data) => {
       toast({

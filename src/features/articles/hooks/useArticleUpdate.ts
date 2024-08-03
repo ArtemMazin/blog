@@ -12,9 +12,7 @@ export const useArticleUpdate = (
 
   return useMutation({
     mutationFn: (formData: FormData) =>
-      articlesControllerUpdateArticle(id, formData, {
-        withCredentials: true,
-      }),
+      articlesControllerUpdateArticle(id, formData),
     onSuccess: (res) => {
       toast({
         title: "Статья изменена",

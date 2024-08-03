@@ -8,6 +8,7 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
 });
 
 import type { AxiosRequestConfig, AxiosResponse } from "axios";

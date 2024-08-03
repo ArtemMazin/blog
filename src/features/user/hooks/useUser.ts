@@ -6,9 +6,7 @@ export function useUser(id: string) {
   return useQuery({
     queryKey: ["user", id],
     queryFn: () =>
-      usersControllerGetUser(id, {
-        withCredentials: true,
-      })
+      usersControllerGetUser(id)
         .then((res) => {
           return res.data;
         })

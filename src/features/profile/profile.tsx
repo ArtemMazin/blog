@@ -9,7 +9,6 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useLogout } from "../auth/hooks/useLogout";
 import { Payment } from "../payment/payment";
@@ -18,9 +17,12 @@ import { useProfile } from "./hooks/useProfile";
 export function Profile() {
   const { setIsAuthenticated } = React.useContext(AuthContext);
   const user = useProfile();
-  const router = useRouter();
 
-  const logout = useLogout({ setIsAuthenticated, router });
+  const { mutate: logout } = useLogout(setIsAuthenticated);
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <Menu>
@@ -43,7 +45,7 @@ export function Profile() {
               <Payment />
             </MenuItem>
           )}
-          <MenuItem onClick={logout}>Выйти</MenuItem>
+          <MenuItem onClick={handleLogout}>Выйти</MenuItem>
         </MenuGroup>
       </MenuList>
     </Menu>

@@ -10,9 +10,7 @@ export function useProfile() {
   return useQuery({
     queryKey: ["user"],
     queryFn: () =>
-      usersControllerGetProfile({
-        withCredentials: true,
-      })
+      usersControllerGetProfile()
         .then((res) => {
           setIsAuthenticated(true);
           return res.data;

@@ -7,10 +7,7 @@ export const useArticleDelete = (id: string) => {
   const toast = useToast();
 
   return useMutation({
-    mutationFn: () =>
-      articlesControllerDeleteArticle(id, {
-        withCredentials: true,
-      }),
+    mutationFn: () => articlesControllerDeleteArticle(id),
     onSuccess: (res) => {
       toast({
         title: "Статья удалена",

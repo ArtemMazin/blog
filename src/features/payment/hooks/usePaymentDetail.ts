@@ -10,10 +10,7 @@ export const usePaymentDetails = () => {
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (id: { id: string }) =>
-      paymentControllerGetPaymentDetails(id, {
-        withCredentials: true,
-      }),
+    mutationFn: (id: { id: string }) => paymentControllerGetPaymentDetails(id),
     onSuccess: (res: { data: IPaymentDetails }) => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       sessionStorage.clear();

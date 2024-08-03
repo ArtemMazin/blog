@@ -5,9 +5,7 @@ export const useMyArticles = () => {
   const { data: articles } = useQuery({
     queryKey: ["articles"],
     queryFn: () =>
-      articlesControllerGetArticlesByAuthor({
-        withCredentials: true,
-      }).then((res) => res.data),
+      articlesControllerGetArticlesByAuthor().then((res) => res.data),
   });
   return articles;
 };

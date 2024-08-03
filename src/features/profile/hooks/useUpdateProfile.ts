@@ -7,10 +7,7 @@ export const useProfileUpdate = (reset?: () => void, onClose?: () => void) => {
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (formData: FormData) =>
-      usersControllerUpdateProfile(formData, {
-        withCredentials: true,
-      }),
+    mutationFn: (formData: FormData) => usersControllerUpdateProfile(formData),
     onSuccess: (res) => {
       toast({
         title: "Профиль изменен",

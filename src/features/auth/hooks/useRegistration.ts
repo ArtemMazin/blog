@@ -17,10 +17,7 @@ export const useRegistration = (reset: () => void) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (newUserData: SignUpDto) =>
-      authControllerSignUp(newUserData, {
-        withCredentials: true,
-      }),
+    mutationFn: (newUserData: SignUpDto) => authControllerSignUp(newUserData),
 
     onSuccess: (res: AuthControllerSignUpResult) => {
       toast({

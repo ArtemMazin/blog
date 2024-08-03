@@ -8,9 +8,7 @@ export const useAddFavorites = () => {
 
   return useMutation({
     mutationFn: (articleId: string) =>
-      articlesControllerAddArticleToFavorites(articleId, {
-        withCredentials: true,
-      }),
+      articlesControllerAddArticleToFavorites(articleId),
     onSuccess: () => {
       toast({
         title: "Статья добавлена в избранное",

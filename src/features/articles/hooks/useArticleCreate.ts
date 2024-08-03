@@ -8,9 +8,7 @@ export const useArticleCreate = (reset?: () => void, onClose?: () => void) => {
 
   return useMutation({
     mutationFn: (formData: FormData) =>
-      articlesControllerCreateArticle(formData, {
-        withCredentials: true,
-      }),
+      articlesControllerCreateArticle(formData),
     onSuccess: (res) => {
       toast({
         title: "Статья опубликована",

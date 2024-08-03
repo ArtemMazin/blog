@@ -8,9 +8,7 @@ export const useRemoveFavorites = () => {
 
   return useMutation({
     mutationFn: (articleId: string) =>
-      articlesControllerRemoveArticlesToFavorites(articleId, {
-        withCredentials: true,
-      }),
+      articlesControllerRemoveArticlesToFavorites(articleId),
     onSuccess: (res) => {
       toast({
         title: "Статья удалена из избранного",

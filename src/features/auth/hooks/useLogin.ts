@@ -12,10 +12,7 @@ export const useLogin = (reset: () => void) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (userData: SignInDto) =>
-      authControllerLogin(userData, {
-        withCredentials: true,
-      }),
+    mutationFn: (userData: SignInDto) => authControllerLogin(userData),
 
     onSuccess: (res) => {
       toast({

@@ -12,9 +12,7 @@ export const usePayment = (reset?: () => void, onClose?: () => void) => {
 
   return useMutation({
     mutationFn: (amount: { amount: number }) =>
-      paymentControllerCreatePayment(amount, {
-        withCredentials: true,
-      }),
+      paymentControllerCreatePayment(amount),
     onSuccess: (res: { data: IPaymentDetails }) => {
       router.push(res.data.confirmation.confirmation_url);
       sessionStorage.setItem("paymentId", res.data.id);
