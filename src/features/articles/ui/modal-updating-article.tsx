@@ -17,6 +17,7 @@ import { ArticleDto } from "@/shared/api/generated";
 export type TFormData = {
   title: string;
   content: string;
+  isPremium: boolean;
   image: FileList | null;
 };
 
@@ -48,6 +49,7 @@ export const ModalUpdatingArticle = ({ article }: { article: ArticleDto }) => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("content", data.content);
+    formData.append("isPremium", data.isPremium?.toString() || "false");
 
     data.image && formData.append("image", data.image[0]);
 

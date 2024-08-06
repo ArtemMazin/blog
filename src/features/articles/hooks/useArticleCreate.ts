@@ -1,4 +1,4 @@
-import { articlesControllerCreateArticle } from "@/shared/api/generated";
+import { characterArticlesApi } from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -8,7 +8,7 @@ export const useArticleCreate = (reset?: () => void, onClose?: () => void) => {
 
   return useMutation({
     mutationFn: (formData: FormData) =>
-      articlesControllerCreateArticle(formData),
+      characterArticlesApi.articlesControllerCreateArticle(formData),
     onSuccess: (res) => {
       toast({
         title: "Статья опубликована",

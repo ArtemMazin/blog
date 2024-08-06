@@ -1,4 +1,4 @@
-import { articlesControllerDeleteArticle } from "@/shared/api/generated";
+import { characterArticlesApi } from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -7,7 +7,7 @@ export const useArticleDelete = (id: string) => {
   const toast = useToast();
 
   return useMutation({
-    mutationFn: () => articlesControllerDeleteArticle(id),
+    mutationFn: () => characterArticlesApi.articlesControllerDeleteArticle(id),
     onSuccess: (res) => {
       toast({
         title: "Статья удалена",

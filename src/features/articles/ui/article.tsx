@@ -1,6 +1,6 @@
 "use client";
 
-import { articlesControllerGetOneArticle } from "@/shared/api/generated";
+import { characterArticlesApi } from "@/shared/api/generated";
 import {
   Box,
   Button,
@@ -33,7 +33,10 @@ export default function Article({ id }: { id: string }) {
   // Запрос на получение данных статьи
   const { data: article } = useQuery({
     queryKey: ["article", id],
-    queryFn: () => articlesControllerGetOneArticle(id).then((res) => res.data),
+    queryFn: () =>
+      characterArticlesApi
+        .articlesControllerGetOneArticle(id)
+        .then((res) => res.data),
   });
 
   // Хуки для добавления и удаления из избранного

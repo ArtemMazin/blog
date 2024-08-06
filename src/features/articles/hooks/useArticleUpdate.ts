@@ -1,4 +1,4 @@
-import { articlesControllerUpdateArticle } from "@/shared/api/generated";
+import { characterArticlesApi } from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -12,7 +12,7 @@ export const useArticleUpdate = (
 
   return useMutation({
     mutationFn: (formData: FormData) =>
-      articlesControllerUpdateArticle(id, formData),
+      characterArticlesApi.articlesControllerUpdateArticle(id, formData),
     onSuccess: (res) => {
       toast({
         title: "Статья изменена",

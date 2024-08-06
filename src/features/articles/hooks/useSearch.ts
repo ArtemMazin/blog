@@ -1,4 +1,4 @@
-import { articlesControllerSearchArticles } from "@/shared/api/generated";
+import { characterArticlesApi } from "@/shared/api/generated";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 
@@ -9,9 +9,9 @@ export const useSearch = () => {
   const { data: articles } = useQuery({
     queryKey: ["search", search],
     queryFn: () =>
-      articlesControllerSearchArticles({ query: search || "" }).then(
-        (res) => res.data,
-      ),
+      characterArticlesApi
+        .articlesControllerSearchArticles({ query: search || "" })
+        .then((res) => res.data),
   });
   return articles;
 };

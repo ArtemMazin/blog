@@ -1,17 +1,28 @@
 "use client";
 
-import { Box, Button, Heading, VStack, Text, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  VStack,
+  Text,
+  Flex,
+  Badge,
+} from "@chakra-ui/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useAllArticles } from "../hooks/useAllArticles";
-import { ChevronRight, Clock } from "lucide-react";
+import { ChevronRight, Clock, Star, Lock } from "lucide-react";
 import { useColors } from "@/shared/hooks/useColors";
+import { useHandleClick } from "../hooks/useHandleClick";
+import { useProfile } from "@/features/profile/hooks/useProfile";
+import Link from "next/link";
 
 export default function Sidebar() {
-  const router = useRouter();
   const articles = useAllArticles();
+  const { handleClick } = useHandleClick();
   const { bgColor, borderColor, textColor } = useColors();
+  const { data: user } = useProfile();
 
   return (
     <Box
@@ -33,7 +44,22 @@ export default function Sidebar() {
               boxShadow="md"
               transition="all 0.3s"
               _hover={{ transform: "translateY(-4px)", boxShadow: "lg" }}
+              position="relative"
             >
+              {article.isPremium && (
+                <Badge
+                  position="absolute"
+                  top={2}
+                  right={2}
+                  colorScheme="yellow"
+                  display="flex"
+                  alignItems="center"
+                  zIndex={1}
+                >
+                  <Star size={14} style={{ marginRight: "4px" }} />
+                  Премиум
+                </Badge>
+              )}
               <Image
                 src={process.env.NEXT_PUBLIC_IMAGE_URL + article.image}
                 alt={article?.title}
@@ -53,15 +79,28 @@ export default function Sidebar() {
                       {new Date(article.createdAt).toLocaleDateString()}
                     </Text>
                   </Flex>
-                  <Button
-                    size="sm"
-                    rightIcon={<ChevronRight size={16} />}
-                    onClick={() => router.push(article._id)}
-                    colorScheme="blue"
-                    variant="ghost"
-                  >
-                    Читать
-                  </Button>
+                  {article.isPremium && !user?.isPremium ? (
+                    <Button
+                      size="sm"
+                      leftIcon={<Lock size={16} />}
+                      onClick={() => handleClick(article)}
+                      colorScheme="yellow"
+                      variant="solid"
+                    >
+                      Премиум
+                    </Button>
+                  ) : (
+                    <Link href={`/${article._id}`}>
+                      <Button
+                        size="sm"
+                        rightIcon={<ChevronRight size={16} />}
+                        colorScheme="blue"
+                        variant="ghost"
+                      >
+                        Читать
+                      </Button>
+                    </Link>
+                  )}
                 </Flex>
               </Box>
             </Box>

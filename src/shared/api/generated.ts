@@ -16,6 +16,11 @@ export type ArticlesControllerSearchArticlesParams = {
   query: string;
 };
 
+enum ArticleType {
+  Character = "character-articles",
+  Race = "race-articles",
+}
+
 export interface SignInResponseDto {
   [key: string]: any;
 }
@@ -90,74 +95,64 @@ export interface IPaymentDetails {
   test: boolean;
 }
 
-export const appControllerGetHello = <TData = AxiosResponse<void>>(
-  options?: AxiosRequestConfig,
-): Promise<TData> => {
-  return instance.get(`/`, options);
-};
+const createArticlesApi = (type: ArticleType) => ({
+  appControllerGetHello: <TData = AxiosResponse<void>>(
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return instance.get(`/`, options);
+  },
 
-export const articlesControllerGetAllArticles = <
-  TData = AxiosResponse<ArticleDto[]>,
->(
-  options?: AxiosRequestConfig,
-): Promise<TData> => {
-  return instance.get(`/article/all`, options);
-};
+  articlesControllerGetAllArticles: <TData = AxiosResponse<ArticleDto[]>>(
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return instance.get(`/${type}/all`, options);
+  },
 
-export const articlesControllerGetOneArticle = <
-  TData = AxiosResponse<ArticleDto>,
->(
-  id: string,
-  options?: AxiosRequestConfig,
-): Promise<TData> => {
-  return instance.get(`/article/find/${id}`, options);
-};
+  articlesControllerGetOneArticle: <TData = AxiosResponse<ArticleDto>>(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return instance.get(`/${type}/find/${id}`, options);
+  },
 
-export const articlesControllerCreateArticle = <
-  TData = AxiosResponse<ArticleDto>,
->(
-  articleDto: FormData,
-  options?: AxiosRequestConfig,
-): Promise<TData> => {
-  return instance.post(`/article/create`, articleDto, options);
-};
+  articlesControllerCreateArticle: <TData = AxiosResponse<ArticleDto>>(
+    articleDto: FormData,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return instance.post(`/${type}/create`, articleDto, options);
+  },
 
-export const articlesControllerUpdateArticle = <
-  TData = AxiosResponse<ArticleDto>,
->(
-  id: string,
-  updateArticleDto: UpdateArticleDto,
-  options?: AxiosRequestConfig,
-): Promise<TData> => {
-  return instance.patch(`/article/update/${id}`, updateArticleDto, options);
-};
+  articlesControllerUpdateArticle: <TData = AxiosResponse<ArticleDto>>(
+    id: string,
+    updateArticleDto: UpdateArticleDto,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return instance.patch(`/${type}/update/${id}`, updateArticleDto, options);
+  },
 
-export const articlesControllerDeleteArticle = <TData = AxiosResponse<void>>(
-  id: string,
-  options?: AxiosRequestConfig,
-): Promise<TData> => {
-  return instance.delete(`/article/delete/${id}`, options);
-};
+  articlesControllerDeleteArticle: <TData = AxiosResponse<void>>(
+    id: string,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return instance.delete(`/${type}/delete/${id}`, options);
+  },
 
-export const articlesControllerSearchArticles = <
-  TData = AxiosResponse<ArticleDto[]>,
->(
-  params: ArticlesControllerSearchArticlesParams,
-  options?: AxiosRequestConfig,
-): Promise<TData> => {
-  return instance.get(`/article/search`, {
-    ...options,
-    params: { ...params, ...options?.params },
-  });
-};
+  articlesControllerSearchArticles: <TData = AxiosResponse<ArticleDto[]>>(
+    params: ArticlesControllerSearchArticlesParams,
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return instance.get(`/${type}/search`, {
+      ...options,
+      params: { ...params, ...options?.params },
+    });
+  },
 
-export const articlesControllerGetArticlesByAuthor = <
-  TData = AxiosResponse<ArticleDto[]>,
->(
-  options?: AxiosRequestConfig,
-): Promise<TData> => {
-  return instance.get(`/article/my-all`, options);
-};
+  articlesControllerGetArticlesByAuthor: <TData = AxiosResponse<ArticleDto[]>>(
+    options?: AxiosRequestConfig,
+  ): Promise<TData> => {
+    return instance.get(`/${type}/my-all`, options);
+  },
+});
 
 export const articlesControllerAddArticleToFavorites = <
   TData = AxiosResponse<string>,
@@ -270,6 +265,7 @@ export const paymentControllerGetPaymentDetails = <
   return instance.post(`/payment/get-payment`, getPaymentDto, options);
 };
 
+export const characterArticlesApi = createArticlesApi(ArticleType.Character);
 export type AppControllerGetHelloResult = AxiosResponse<void>;
 export type ArticlesControllerGetAllArticlesResult = AxiosResponse<
   ArticleDto[]
