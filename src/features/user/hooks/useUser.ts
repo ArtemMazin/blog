@@ -1,4 +1,4 @@
-import { usersControllerGetUser } from "@/shared/api/generated";
+import { usersControllerGetUserById } from "@/shared/api/generated";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
@@ -6,7 +6,7 @@ export function useUser(id: string) {
   return useQuery({
     queryKey: ["user", id],
     queryFn: () =>
-      usersControllerGetUser(id)
+      usersControllerGetUserById(id)
         .then((res) => {
           return res.data;
         })

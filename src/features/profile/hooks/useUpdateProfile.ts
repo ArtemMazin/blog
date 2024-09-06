@@ -1,4 +1,7 @@
-import { usersControllerUpdateProfile } from "@/shared/api/generated";
+import {
+  UpdateProfileDto,
+  usersControllerUpdateProfile,
+} from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -7,7 +10,8 @@ export const useProfileUpdate = (reset?: () => void, onClose?: () => void) => {
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (formData: FormData) => usersControllerUpdateProfile(formData),
+    mutationFn: (formData: UpdateProfileDto) =>
+      usersControllerUpdateProfile(formData),
     onSuccess: (res) => {
       toast({
         title: "Профиль изменен",

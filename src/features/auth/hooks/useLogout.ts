@@ -1,4 +1,4 @@
-import { authControllerLogout } from "@/shared/api/generated";
+import { authControllerLogoutUser } from "@/shared/api/generated";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import * as React from "react";
@@ -10,7 +10,7 @@ export const useLogout = (
   const router = useRouter();
 
   return useMutation({
-    mutationFn: () => authControllerLogout(),
+    mutationFn: () => authControllerLogoutUser(),
 
     onSuccess: () => {
       setIsAuthenticated(false);

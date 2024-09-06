@@ -18,6 +18,11 @@ const nextConfig = {
         hostname: "viva-msk-test.ru",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "viva-msk-test.online",
+        pathname: "/**",
+      },
     ],
   },
 };

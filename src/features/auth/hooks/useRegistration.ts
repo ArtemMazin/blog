@@ -1,7 +1,7 @@
 import {
-  AuthControllerSignUpResult,
-  SignUpDto,
-  authControllerSignUp,
+  AuthControllerRegisterUserResult,
+  RegisterDto,
+  authControllerRegisterUser,
 } from "@/shared/api/generated";
 import { AuthContext } from "@/shared/contexts/authContext";
 import { useToast } from "@chakra-ui/react";
@@ -17,9 +17,10 @@ export const useRegistration = (reset: () => void) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (newUserData: SignUpDto) => authControllerSignUp(newUserData),
+    mutationFn: (newUserData: RegisterDto) =>
+      authControllerRegisterUser(newUserData),
 
-    onSuccess: (res: AuthControllerSignUpResult) => {
+    onSuccess: (res: AuthControllerRegisterUserResult) => {
       toast({
         title: "Вы успешно зарегистрировались",
         status: "success",

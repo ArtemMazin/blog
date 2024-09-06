@@ -1,4 +1,3 @@
-import { authControllerLogout } from "@/shared/api/generated";
 import { AuthContext } from "@/shared/contexts/authContext";
 import {
   Button,

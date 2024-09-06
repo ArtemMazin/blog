@@ -14,7 +14,7 @@ import { ModalUpdatingProfile } from "../profile/modal-updating-profile";
 import { useColors } from "@/shared/hooks/useColors";
 import Image from "next/image";
 import { Bookmark, Calendar, Mail } from "lucide-react";
-import { ProfileResponseDto } from "@/shared/api/generated";
+import { ResponseUserDto } from "@/shared/api/generated";
 import { useProfile } from "../profile/hooks/useProfile";
 
 export interface IUserInfoProps
@@ -22,7 +22,7 @@ export interface IUserInfoProps
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   > {
-  user: ProfileResponseDto;
+  user: ResponseUserDto;
 }
 
 export function UserInfo({ user }: IUserInfoProps) {

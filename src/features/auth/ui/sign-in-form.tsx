@@ -14,9 +14,8 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { InputWithPassword } from "./input-with-password";
-import { UIButton } from "@/shared/ui/ui-button";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { SignInDto } from "@/shared/api/generated";
+import { LoginDto } from "@/shared/api/generated";
 import { useLogin } from "../hooks/useLogin";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 import { validation } from "../constants";
@@ -41,7 +40,7 @@ export function SignInForm({ onClose }: { onClose: () => void }) {
   const { mutate: login, isPending } = useLogin(reset);
   const { bgColor, textColor, borderColor, primaryColor } = useColors();
 
-  const onSubmit: SubmitHandler<SignInDto> = (userData) => {
+  const onSubmit: SubmitHandler<LoginDto> = (userData) => {
     login(userData);
   };
 

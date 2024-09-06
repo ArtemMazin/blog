@@ -12,9 +12,8 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { InputWithPassword } from "./input-with-password";
-import { UIButton } from "@/shared/ui/ui-button";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { SignUpDto } from "@/shared/api/generated";
+import { RegisterDto } from "@/shared/api/generated";
 import { useRegistration } from "../hooks/useRegistration";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 import { validation } from "../constants";
@@ -39,7 +38,7 @@ export function SignUpForm({ onClose }: { onClose: () => void }) {
   const { mutate: register, isPending } = useRegistration(reset);
   const { bgColor, textColor, borderColor, primaryColor } = useColors();
 
-  const onSubmit: SubmitHandler<SignUpDto> = (userData) => {
+  const onSubmit: SubmitHandler<RegisterDto> = (userData) => {
     register(userData);
   };
 

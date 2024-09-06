@@ -1,4 +1,4 @@
-import { ProfileResponseDto } from "@/shared/api/generated";
+import { ResponseUserDto } from "@/shared/api/generated";
 import { UIButton } from "@/shared/ui/ui-button";
 import {
   Modal,
@@ -20,11 +20,7 @@ export type TFormData = {
   avatar: FileList | null;
 };
 
-export const ModalUpdatingProfile = ({
-  user,
-}: {
-  user: ProfileResponseDto;
-}) => {
+export const ModalUpdatingProfile = ({ user }: { user: ResponseUserDto }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const methods = useForm<TFormData>({

@@ -1,4 +1,7 @@
-import { authControllerUpdatePassword } from "@/shared/api/generated";
+import {
+  authControllerResetPasswordConfirm,
+  AuthControllerResetPasswordConfirmResult,
+} from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,14 +15,14 @@ export const usePasswordConfirm = () => {
 
   return useMutation({
     mutationFn: (newPassword: string) =>
-      authControllerUpdatePassword(
-        { token: token ?? "", newPassword },
+      authControllerResetPasswordConfirm(
+        { resetToken: token ?? "", newPassword },
         {
           withCredentials: true,
         },
       ),
 
-    onSuccess: (res) => {
+    onSuccess: (res: AuthControllerResetPasswordConfirmResult) => {
       toast({
         title: "Пароль изменен",
         status: "success",

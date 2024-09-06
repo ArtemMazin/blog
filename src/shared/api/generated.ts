@@ -12,172 +12,389 @@ const instance = axios.create({
 });
 
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
-export type ArticlesControllerSearchArticlesParams = {
+export type RaceArticleControllerSearchRaceArticlesParams = {
   query: string;
 };
 
-enum ArticleType {
-  Character = "character-articles",
-  Race = "race-articles",
-}
+export type RaceArticleControllerDeleteRaceArticle200 = {
+  success?: boolean;
+};
 
-export interface SignInResponseDto {
-  [key: string]: any;
-}
+export type CharacterArticleControllerSearchCharacterArticlesParams = {
+  query: string;
+};
 
-export interface SignUpResponseDto {
-  [key: string]: any;
-}
+export type CharacterArticleControllerDeleteCharacterArticle200 = {
+  success?: boolean;
+};
 
-export interface SignUpDto {
-  /** User email */
-  email: string;
-  /** User name */
-  name: string;
-  /** User password */
-  password: string;
-}
+export type AuthControllerResetPassword200 = {
+  success?: boolean;
+};
 
-export interface SignInDto {
-  email: string;
-  password: string;
-}
+export type AuthControllerLogoutUser200 = {
+  success?: boolean;
+};
 
-export interface ProfileResponseDto {
-  _id: string;
-  name: string;
-  email: string;
-  createdAt: string;
-  updatedAt: string;
-  favorite_articles: string[];
-  avatar: string;
-  about: string;
-  isPremium: boolean;
-}
+/**
+ * Является ли статья премиум-контентом
+ */
+export type UpdateRaceArticleDtoIsPremium =
+  (typeof UpdateRaceArticleDtoIsPremium)[keyof typeof UpdateRaceArticleDtoIsPremium];
 
-export interface UpdateArticleDto {
-  [key: string]: any;
-}
+export const UpdateRaceArticleDtoIsPremium = {
+  true: "true",
+  false: "false",
+} as const;
 
-export interface ArticleDto {
-  _id: string;
-  title: string;
+export interface UpdateRaceArticleDto {
+  /** Класс расы */
+  class: string;
+  /** Содержание статьи */
   content: string;
-  image: string;
-  author: { _id: string; name: string; email: string };
-  createdAt: string;
-  updatedAt: string;
-  isPremium: boolean;
+  /** Отличительные признаки */
+  distinctiveFeatures: string[];
+  /** Планета происхождения */
+  homeWorld: string;
+  /** Изображение статьи */
+  image: Blob;
+  /** Является ли статья премиум-контентом */
+  isPremium: UpdateRaceArticleDtoIsPremium;
+  /** Известные представители */
+  knownRepresentatives?: string[];
+  /** Язык */
+  language: string;
+  /** Название расы */
+  raceName: string;
+  /** Цвет кожи */
+  skinColor: string;
+  /** Заголовок статьи */
+  title: string;
+  /** Тип расы */
+  type: string;
 }
 
-export interface IPaymentDetails {
+/**
+ * Является ли статья премиум-контентом
+ */
+export type CreateRaceArticleDtoIsPremium =
+  (typeof CreateRaceArticleDtoIsPremium)[keyof typeof CreateRaceArticleDtoIsPremium];
+
+export const CreateRaceArticleDtoIsPremium = {
+  true: "true",
+  false: "false",
+} as const;
+
+export interface CreateRaceArticleDto {
+  /** Класс расы */
+  class: string;
+  /** Содержание статьи */
+  content: string;
+  /** Отличительные признаки */
+  distinctiveFeatures: string[];
+  /** Планета происхождения */
+  homeWorld: string;
+  /** Изображение статьи */
+  image: Blob;
+  /** Является ли статья премиум-контентом */
+  isPremium: CreateRaceArticleDtoIsPremium;
+  /** Известные представители */
+  knownRepresentatives?: string[];
+  /** Язык */
+  language: string;
+  /** Название расы */
+  raceName: string;
+  /** Цвет кожи */
+  skinColor: string;
+  /** Заголовок статьи */
+  title: string;
+  /** Тип расы */
+  type: string;
+}
+
+export interface ResponseRaceArticleDto {
+  _id: string;
+  author: ResponseUserDto;
+  /** Класс расы */
+  class: string;
+  content: string;
+  createdAt: string;
+  /** Отличительные признаки */
+  distinctiveFeatures: string[];
+  /** Планета происхождения */
+  homeWorld: string;
+  image: string;
+  isPremium: boolean;
+  /** Известные представители */
+  knownRepresentatives: string[];
+  /** Язык */
+  language: string;
+  /** Название расы */
+  raceName: string;
+  readingTime: number;
+  /** Цвет кожи */
+  skinColor: string;
+  title: string;
+  /** Тип расы */
+  type: string;
+  updatedAt: string;
+}
+
+/**
+ * Является ли статья премиум-контентом
+ */
+export type UpdateCharacterArticleDtoIsPremium =
+  (typeof UpdateCharacterArticleDtoIsPremium)[keyof typeof UpdateCharacterArticleDtoIsPremium];
+
+export const UpdateCharacterArticleDtoIsPremium = {
+  true: "true",
+  false: "false",
+} as const;
+
+/**
+ * Пол персонажа
+ */
+export type UpdateCharacterArticleDtoGender =
+  (typeof UpdateCharacterArticleDtoGender)[keyof typeof UpdateCharacterArticleDtoGender];
+
+export const UpdateCharacterArticleDtoGender = {
+  Мужской: "Мужской",
+  Женский: "Женский",
+  Другое: "Другое",
+} as const;
+
+export interface UpdateCharacterArticleDto {
+  /** Дата рождения */
+  birthDate?: string;
+  /** Имя персонажа */
+  characterName: string;
+  /** Содержание статьи */
+  content: string;
+  /** Дата смерти */
+  deathDate?: string;
+  /** Пол персонажа */
+  gender: UpdateCharacterArticleDtoGender;
+  /** Рост персонажа */
+  height?: string;
+  /** Родной мир персонажа */
+  homeWorld: string;
+  /** Изображение статьи */
+  image: Blob;
+  /** Является ли статья премиум-контентом */
+  isPremium: UpdateCharacterArticleDtoIsPremium;
+  /** Раса персонажа */
+  race: string;
+  /** Заголовок статьи */
+  title: string;
+}
+
+/**
+ * Является ли статья премиум-контентом
+ */
+export type CreateCharacterArticleDtoIsPremium =
+  (typeof CreateCharacterArticleDtoIsPremium)[keyof typeof CreateCharacterArticleDtoIsPremium];
+
+export const CreateCharacterArticleDtoIsPremium = {
+  true: "true",
+  false: "false",
+} as const;
+
+/**
+ * Пол персонажа
+ */
+export type CreateCharacterArticleDtoGender =
+  (typeof CreateCharacterArticleDtoGender)[keyof typeof CreateCharacterArticleDtoGender];
+
+export const CreateCharacterArticleDtoGender = {
+  Мужской: "Мужской",
+  Женский: "Женский",
+  Другое: "Другое",
+} as const;
+
+export interface CreateCharacterArticleDto {
+  /** Дата рождения */
+  birthDate?: string;
+  /** Имя персонажа */
+  characterName: string;
+  /** Содержание статьи */
+  content: string;
+  /** Дата смерти */
+  deathDate?: string;
+  /** Пол персонажа */
+  gender: CreateCharacterArticleDtoGender;
+  /** Рост персонажа */
+  height?: string;
+  /** Родной мир персонажа */
+  homeWorld: string;
+  /** Изображение статьи */
+  image: Blob;
+  /** Является ли статья премиум-контентом */
+  isPremium: CreateCharacterArticleDtoIsPremium;
+  /** Раса персонажа */
+  race: string;
+  /** Заголовок статьи */
+  title: string;
+}
+
+export interface ResponseCharacterArticleDto {
+  _id: string;
+  author: ResponseUserDto;
+  /** Дата рождения персонажа */
+  birthDate?: string;
+  /** Имя персонажа */
+  characterName: string;
+  content: string;
+  createdAt: string;
+  /** Дата смерти персонажа */
+  deathDate?: string;
+  /** Пол персонажа */
+  gender: string;
+  /** Рост персонажа */
+  height?: number;
+  /** Родной мир персонажа */
+  homeWorld: string;
+  image: string;
+  isPremium: boolean;
+  /** Раса персонажа */
+  race: string;
+  readingTime: number;
+  title: string;
+  updatedAt: string;
+}
+
+export interface GetPaymentDto {
+  /** ID платежа */
   id: string;
-  status: "pending" | "succeeded" | "failed";
-  paid: boolean;
-  amount: {
-    value: string;
-    currency: string;
-  };
-  confirmation: {
-    type: string;
-    confirmation_url: string;
-  };
+}
+
+export interface RecipientDto {
+  account_id: string;
+  gateway_id: string;
+}
+
+export interface MetadataDto {
+  order_id: string;
+}
+
+export interface ConfirmationDto {
+  confirmation_url: string;
+  type: string;
+}
+
+export interface AmountDto {
+  currency: string;
+  value: string;
+}
+
+export interface ResponsePaymentDto {
+  amount: AmountDto;
+  confirmation: ConfirmationDto;
   created_at: string;
   description: string;
-  metadata: {
-    order_id: string;
-  };
-  recipient: {
-    account_id: string;
-    gateway_id: string;
-  };
+  id: string;
+  metadata: MetadataDto;
+  paid: boolean;
+  recipient: RecipientDto;
   refundable: boolean;
+  status: string;
   test: boolean;
 }
 
-const createArticlesApi = (type: ArticleType) => ({
-  appControllerGetHello: <TData = AxiosResponse<void>>(
-    options?: AxiosRequestConfig,
-  ): Promise<TData> => {
-    return instance.get(`/`, options);
-  },
+export interface CreatePaymentDto {
+  /** Сумма платежа */
+  amount: number;
+}
 
-  articlesControllerGetAllArticles: <TData = AxiosResponse<ArticleDto[]>>(
-    options?: AxiosRequestConfig,
-  ): Promise<TData> => {
-    return instance.get(`/${type}/all`, options);
-  },
+export interface UpdatePasswordDto {
+  /** Новый пароль */
+  newPassword: string;
+  /** Токен сброса пароля */
+  resetToken: string;
+}
 
-  articlesControllerGetOneArticle: <TData = AxiosResponse<ArticleDto>>(
-    id: string,
-    options?: AxiosRequestConfig,
-  ): Promise<TData> => {
-    return instance.get(`/${type}/find/${id}`, options);
-  },
+export interface ResetPasswordDto {
+  /** Email пользователя */
+  email: string;
+}
 
-  articlesControllerCreateArticle: <TData = AxiosResponse<ArticleDto>>(
-    articleDto: FormData,
-    options?: AxiosRequestConfig,
-  ): Promise<TData> => {
-    return instance.post(`/${type}/create`, articleDto, options);
-  },
+export interface LoginDto {
+  /** Email пользователя */
+  email: string;
+  /** Пароль пользователя */
+  password: string;
+}
 
-  articlesControllerUpdateArticle: <TData = AxiosResponse<ArticleDto>>(
-    id: string,
-    updateArticleDto: UpdateArticleDto,
-    options?: AxiosRequestConfig,
-  ): Promise<TData> => {
-    return instance.patch(`/${type}/update/${id}`, updateArticleDto, options);
-  },
+export interface RegisterDto {
+  /** Email пользователя */
+  email: string;
+  /** Имя пользователя */
+  name: string;
+  /** Пароль пользователя */
+  password: string;
+}
 
-  articlesControllerDeleteArticle: <TData = AxiosResponse<void>>(
-    id: string,
-    options?: AxiosRequestConfig,
-  ): Promise<TData> => {
-    return instance.delete(`/${type}/delete/${id}`, options);
-  },
+export interface UpdateProfileDto {
+  /** Информация о пользователе */
+  about?: string;
+  /** Изображение профиля */
+  avatar?: Blob;
+  /** Имя пользователя */
+  name: string;
+}
 
-  articlesControllerSearchArticles: <TData = AxiosResponse<ArticleDto[]>>(
-    params: ArticlesControllerSearchArticlesParams,
-    options?: AxiosRequestConfig,
-  ): Promise<TData> => {
-    return instance.get(`/${type}/search`, {
-      ...options,
-      params: { ...params, ...options?.params },
-    });
-  },
+/**
+ * Действие с избранной статьей
+ */
+export type ToggleFavoriteArticleDtoAction =
+  (typeof ToggleFavoriteArticleDtoAction)[keyof typeof ToggleFavoriteArticleDtoAction];
 
-  articlesControllerGetArticlesByAuthor: <TData = AxiosResponse<ArticleDto[]>>(
-    options?: AxiosRequestConfig,
-  ): Promise<TData> => {
-    return instance.get(`/${type}/my-all`, options);
-  },
-});
+export const ToggleFavoriteArticleDtoAction = {
+  add: "add",
+  remove: "remove",
+} as const;
 
-export const articlesControllerAddArticleToFavorites = <
-  TData = AxiosResponse<string>,
+export interface ToggleFavoriteArticleDto {
+  /** Действие с избранной статьей */
+  action: ToggleFavoriteArticleDtoAction;
+  /** ID статьи для добавления/удаления в избранное */
+  articleId: string;
+}
+
+export interface ResponseUserDto {
+  /** ID пользователя */
+  _id: string;
+  /** Информация о пользователе */
+  about?: string;
+  /** Аватар пользователя */
+  avatar?: string;
+  createdAt: string;
+  /** Email пользователя */
+  email: string;
+  /** Список ID избранных статей */
+  favorite_articles: string[];
+  /** Статус премиум-подписки */
+  isPremium: boolean;
+  /** Имя пользователя */
+  name: string;
+  updatedAt: string;
+}
+
+/**
+ * @summary Получить профиль текущего пользователя
+ */
+export const usersControllerGetProfile = <
+  TData = AxiosResponse<ResponseUserDto>,
 >(
-  articleId: string,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return instance.patch(`/users/add-favorite-article`, { articleId }, options);
+  return instance.get(`/users/profile`, options);
 };
 
-export const articlesControllerRemoveArticlesToFavorites = <
-  TData = AxiosResponse<string>,
->(
-  articleId: string,
-  options?: AxiosRequestConfig,
-): Promise<TData> => {
-  return instance.patch(
-    `/users/delete-favorite-article`,
-    { articleId },
-    options,
-  );
-};
-
-export const usersControllerGetUser = <
-  TData = AxiosResponse<ProfileResponseDto>,
+/**
+ * @summary Получить пользователя по ID
+ */
+export const usersControllerGetUserById = <
+  TData = AxiosResponse<ResponseUserDto>,
 >(
   id: string,
   options?: AxiosRequestConfig,
@@ -185,55 +402,97 @@ export const usersControllerGetUser = <
   return instance.get(`/users/${id}`, options);
 };
 
-export const usersControllerGetProfile = <
-  TData = AxiosResponse<ProfileResponseDto>,
+/**
+ * @summary Добавить/удалить статью в/из избранного
+ */
+export const usersControllerToggleFavoriteArticle = <
+  TData = AxiosResponse<ResponseUserDto>,
 >(
+  toggleFavoriteArticleDto: ToggleFavoriteArticleDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return instance.get(`/users/profile`, options);
+  return instance.patch(
+    `/users/favorite-article`,
+    toggleFavoriteArticleDto,
+    options,
+  );
 };
 
+/**
+ * @summary Обновить профиль пользователя
+ */
 export const usersControllerUpdateProfile = <
-  TData = AxiosResponse<ProfileResponseDto>,
+  TData = AxiosResponse<ResponseUserDto>,
 >(
-  updateProfileDto: FormData,
+  updateProfileDto: UpdateProfileDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return instance.patch(`/users/update-profile`, updateProfileDto, options);
+  const formData = new FormData();
+  formData.append("name", updateProfileDto.name);
+  if (updateProfileDto.about !== undefined) {
+    formData.append("about", updateProfileDto.about);
+  }
+  if (updateProfileDto.avatar !== undefined) {
+    formData.append("avatar", updateProfileDto.avatar);
+  }
+
+  return instance.patch(`/users/update-profile`, formData, options);
 };
 
-export const authControllerSignUp = <TData = AxiosResponse<SignUpResponseDto>>(
-  signUpDto: SignUpDto,
+/**
+ * @summary Регистрация нового пользователя
+ */
+export const authControllerRegisterUser = <
+  TData = AxiosResponse<ResponseUserDto>,
+>(
+  registerDto: RegisterDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return instance.post(`/auth/sign-up`, signUpDto, options);
+  return instance.post(`/auth/sign-up`, registerDto, options);
 };
 
-export const authControllerLogin = <TData = AxiosResponse<SignInResponseDto>>(
-  signInDto: SignInDto,
+/**
+ * @summary Авторизация пользователя
+ */
+export const authControllerAuthenticateUser = <
+  TData = AxiosResponse<ResponseUserDto>,
+>(
+  loginDto: LoginDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return instance.post(`/auth/sign-in`, signInDto, options);
+  return instance.post(`/auth/sign-in`, loginDto, options);
 };
 
-export const authControllerLogout = <TData = AxiosResponse<void>>(
+/**
+ * @summary Выход пользователя
+ */
+export const authControllerLogoutUser = <
+  TData = AxiosResponse<AuthControllerLogoutUser200>,
+>(
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return instance.post(`/auth/logout`, null, options);
+  return instance.post(`/auth/logout`, undefined, options);
 };
 
-export const authControllerResetPassword = <TData = AxiosResponse<void>>(
-  email: string,
+/**
+ * @summary Запрос на сброс пароля
+ */
+export const authControllerResetPassword = <
+  TData = AxiosResponse<AuthControllerResetPassword200>,
+>(
+  resetPasswordDto: ResetPasswordDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
-  return instance.post(`/auth/reset-password`, { email }, options);
+  return instance.post(`/auth/reset-password`, resetPasswordDto, options);
 };
 
-export const authControllerUpdatePassword = <TData = AxiosResponse<void>>(
-  updatePasswordDto: {
-    token: string;
-    newPassword: string;
-  },
+/**
+ * @summary Подтверждение сброса пароля
+ */
+export const authControllerResetPasswordConfirm = <
+  TData = AxiosResponse<ResponseUserDto>,
+>(
+  updatePasswordDto: UpdatePasswordDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
   return instance.post(
@@ -243,40 +502,327 @@ export const authControllerUpdatePassword = <TData = AxiosResponse<void>>(
   );
 };
 
+/**
+ * @summary Создать платеж
+ */
 export const paymentControllerCreatePayment = <
-  TData = AxiosResponse<IPaymentDetails>,
+  TData = AxiosResponse<ResponsePaymentDto>,
 >(
-  createPaymentDto: {
-    amount: number;
-  },
+  createPaymentDto: CreatePaymentDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
   return instance.post(`/payment`, createPaymentDto, options);
 };
 
-export const paymentControllerGetPaymentDetails = <
-  TData = AxiosResponse<IPaymentDetails>,
+/**
+ * @summary Получить информацию о платеже
+ */
+export const paymentControllerGetPayment = <
+  TData = AxiosResponse<ResponsePaymentDto>,
 >(
-  getPaymentDto: {
-    id: string;
-  },
+  getPaymentDto: GetPaymentDto,
   options?: AxiosRequestConfig,
 ): Promise<TData> => {
   return instance.post(`/payment/get-payment`, getPaymentDto, options);
 };
 
-export const characterArticlesApi = createArticlesApi(ArticleType.Character);
-export type AppControllerGetHelloResult = AxiosResponse<void>;
-export type ArticlesControllerGetAllArticlesResult = AxiosResponse<
-  ArticleDto[]
+/**
+ * @summary Получить все статьи о персонажах
+ */
+export const characterArticleControllerGetAllCharacterArticles = <
+  TData = AxiosResponse<ResponseCharacterArticleDto[]>,
+>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/character-articles/all`, options);
+};
+
+/**
+ * @summary Получить все мои статьи о персонажах
+ */
+export const characterArticleControllerGetMyAllCharacterArticles = <
+  TData = AxiosResponse<ResponseCharacterArticleDto[]>,
+>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/character-articles/my-all`, options);
+};
+
+/**
+ * @summary Получить одну статью о персонаже
+ */
+export const characterArticleControllerGetOneCharacterArticle = <
+  TData = AxiosResponse<ResponseCharacterArticleDto>,
+>(
+  id: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/character-articles/find/${id}`, options);
+};
+
+/**
+ * @summary Создать новую статью о персонаже
+ */
+export const characterArticleControllerCreateCharacterArticle = <
+  TData = AxiosResponse<ResponseUserDto | ResponseCharacterArticleDto>,
+>(
+  createCharacterArticleDto: CreateCharacterArticleDto,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  const formData = new FormData();
+  formData.append("title", createCharacterArticleDto.title);
+  formData.append("content", createCharacterArticleDto.content);
+  formData.append("isPremium", createCharacterArticleDto.isPremium);
+  formData.append("image", createCharacterArticleDto.image);
+  formData.append("characterName", createCharacterArticleDto.characterName);
+  if (createCharacterArticleDto.birthDate !== undefined) {
+    formData.append("birthDate", createCharacterArticleDto.birthDate);
+  }
+  if (createCharacterArticleDto.deathDate !== undefined) {
+    formData.append("deathDate", createCharacterArticleDto.deathDate);
+  }
+  formData.append("race", createCharacterArticleDto.race);
+  formData.append("gender", createCharacterArticleDto.gender);
+  if (createCharacterArticleDto.height !== undefined) {
+    formData.append("height", createCharacterArticleDto.height);
+  }
+  formData.append("homeWorld", createCharacterArticleDto.homeWorld);
+
+  return instance.post(`/character-articles/create`, formData, options);
+};
+
+/**
+ * @summary Обновить статью о персонаже
+ */
+export const characterArticleControllerUpdateCharacterArticle = <
+  TData = AxiosResponse<ResponseCharacterArticleDto>,
+>(
+  id: string,
+  updateCharacterArticleDto: UpdateCharacterArticleDto,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  const formData = new FormData();
+  formData.append("title", updateCharacterArticleDto.title);
+  formData.append("content", updateCharacterArticleDto.content);
+  formData.append("isPremium", updateCharacterArticleDto.isPremium);
+  formData.append("image", updateCharacterArticleDto.image);
+  formData.append("characterName", updateCharacterArticleDto.characterName);
+  if (updateCharacterArticleDto.birthDate !== undefined) {
+    formData.append("birthDate", updateCharacterArticleDto.birthDate);
+  }
+  if (updateCharacterArticleDto.deathDate !== undefined) {
+    formData.append("deathDate", updateCharacterArticleDto.deathDate);
+  }
+  formData.append("race", updateCharacterArticleDto.race);
+  formData.append("gender", updateCharacterArticleDto.gender);
+  if (updateCharacterArticleDto.height !== undefined) {
+    formData.append("height", updateCharacterArticleDto.height);
+  }
+  formData.append("homeWorld", updateCharacterArticleDto.homeWorld);
+
+  return instance.patch(`/character-articles/update/${id}`, formData, options);
+};
+
+/**
+ * @summary Удалить статью о персонаже
+ */
+export const characterArticleControllerDeleteCharacterArticle = <
+  TData = AxiosResponse<CharacterArticleControllerDeleteCharacterArticle200>,
+>(
+  id: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.delete(`/character-articles/delete/${id}`, options);
+};
+
+/**
+ * @summary Поиск статей о персонажах
+ */
+export const characterArticleControllerSearchCharacterArticles = <
+  TData = AxiosResponse<ResponseCharacterArticleDto[]>,
+>(
+  params: CharacterArticleControllerSearchCharacterArticlesParams,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/character-articles/search`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  });
+};
+
+/**
+ * @summary Получить все статьи о расах
+ */
+export const raceArticleControllerGetAllRaceArticles = <
+  TData = AxiosResponse<ResponseRaceArticleDto[]>,
+>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/race-articles/all`, options);
+};
+
+/**
+ * @summary Получить все мои статьи о расах
+ */
+export const raceArticleControllerGetMyAllRaceArticles = <
+  TData = AxiosResponse<ResponseRaceArticleDto[]>,
+>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/race-articles/my-all`, options);
+};
+
+/**
+ * @summary Получить одну статью о расе
+ */
+export const raceArticleControllerGetOneRaceArticle = <
+  TData = AxiosResponse<ResponseRaceArticleDto>,
+>(
+  id: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/race-articles/find/${id}`, options);
+};
+
+/**
+ * @summary Создать новую статью о расе
+ */
+export const raceArticleControllerCreateRaceArticle = <
+  TData = AxiosResponse<ResponseUserDto | ResponseRaceArticleDto>,
+>(
+  createRaceArticleDto: CreateRaceArticleDto,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  const formData = new FormData();
+  formData.append("title", createRaceArticleDto.title);
+  formData.append("content", createRaceArticleDto.content);
+  formData.append("isPremium", createRaceArticleDto.isPremium);
+  formData.append("image", createRaceArticleDto.image);
+  formData.append("raceName", createRaceArticleDto.raceName);
+  formData.append("type", createRaceArticleDto.type);
+  formData.append("class", createRaceArticleDto.class);
+  formData.append("skinColor", createRaceArticleDto.skinColor);
+  createRaceArticleDto.distinctiveFeatures.forEach((value) =>
+    formData.append("distinctiveFeatures", value),
+  );
+  formData.append("homeWorld", createRaceArticleDto.homeWorld);
+  formData.append("language", createRaceArticleDto.language);
+  if (createRaceArticleDto.knownRepresentatives !== undefined) {
+    createRaceArticleDto.knownRepresentatives.forEach((value) =>
+      formData.append("knownRepresentatives", value),
+    );
+  }
+
+  return instance.post(`/race-articles/create`, formData, options);
+};
+
+/**
+ * @summary Обновить статью о расе
+ */
+export const raceArticleControllerUpdateRaceArticle = <
+  TData = AxiosResponse<ResponseRaceArticleDto>,
+>(
+  id: string,
+  updateRaceArticleDto: UpdateRaceArticleDto,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  const formData = new FormData();
+  formData.append("title", updateRaceArticleDto.title);
+  formData.append("content", updateRaceArticleDto.content);
+  formData.append("isPremium", updateRaceArticleDto.isPremium);
+  formData.append("image", updateRaceArticleDto.image);
+  formData.append("raceName", updateRaceArticleDto.raceName);
+  formData.append("type", updateRaceArticleDto.type);
+  formData.append("class", updateRaceArticleDto.class);
+  formData.append("skinColor", updateRaceArticleDto.skinColor);
+  updateRaceArticleDto.distinctiveFeatures.forEach((value) =>
+    formData.append("distinctiveFeatures", value),
+  );
+  formData.append("homeWorld", updateRaceArticleDto.homeWorld);
+  formData.append("language", updateRaceArticleDto.language);
+  if (updateRaceArticleDto.knownRepresentatives !== undefined) {
+    updateRaceArticleDto.knownRepresentatives.forEach((value) =>
+      formData.append("knownRepresentatives", value),
+    );
+  }
+
+  return instance.patch(`/race-articles/update/${id}`, formData, options);
+};
+
+/**
+ * @summary Удалить статью о расе
+ */
+export const raceArticleControllerDeleteRaceArticle = <
+  TData = AxiosResponse<RaceArticleControllerDeleteRaceArticle200>,
+>(
+  id: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.delete(`/race-articles/delete/${id}`, options);
+};
+
+/**
+ * @summary Поиск статей о расах
+ */
+export const raceArticleControllerSearchRaceArticles = <
+  TData = AxiosResponse<ResponseRaceArticleDto[]>,
+>(
+  params: RaceArticleControllerSearchRaceArticlesParams,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/race-articles/search`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  });
+};
+
+export type UsersControllerGetProfileResult = AxiosResponse<ResponseUserDto>;
+export type UsersControllerGetUserByIdResult = AxiosResponse<ResponseUserDto>;
+export type UsersControllerToggleFavoriteArticleResult =
+  AxiosResponse<ResponseUserDto>;
+export type UsersControllerUpdateProfileResult = AxiosResponse<ResponseUserDto>;
+export type AuthControllerRegisterUserResult = AxiosResponse<ResponseUserDto>;
+export type AuthControllerAuthenticateUserResult =
+  AxiosResponse<ResponseUserDto>;
+export type AuthControllerLogoutUserResult =
+  AxiosResponse<AuthControllerLogoutUser200>;
+export type AuthControllerResetPasswordResult =
+  AxiosResponse<AuthControllerResetPassword200>;
+export type AuthControllerResetPasswordConfirmResult =
+  AxiosResponse<ResponseUserDto>;
+export type PaymentControllerCreatePaymentResult =
+  AxiosResponse<ResponsePaymentDto>;
+export type PaymentControllerGetPaymentResult =
+  AxiosResponse<ResponsePaymentDto>;
+export type CharacterArticleControllerGetAllCharacterArticlesResult =
+  AxiosResponse<ResponseCharacterArticleDto[]>;
+export type CharacterArticleControllerGetMyAllCharacterArticlesResult =
+  AxiosResponse<ResponseCharacterArticleDto[]>;
+export type CharacterArticleControllerGetOneCharacterArticleResult =
+  AxiosResponse<ResponseCharacterArticleDto>;
+export type CharacterArticleControllerCreateCharacterArticleResult =
+  AxiosResponse<ResponseUserDto | ResponseCharacterArticleDto>;
+export type CharacterArticleControllerUpdateCharacterArticleResult =
+  AxiosResponse<ResponseCharacterArticleDto>;
+export type CharacterArticleControllerDeleteCharacterArticleResult =
+  AxiosResponse<CharacterArticleControllerDeleteCharacterArticle200>;
+export type CharacterArticleControllerSearchCharacterArticlesResult =
+  AxiosResponse<ResponseCharacterArticleDto[]>;
+export type RaceArticleControllerGetAllRaceArticlesResult = AxiosResponse<
+  ResponseRaceArticleDto[]
 >;
-export type ArticlesControllerGetOneArticleResult = AxiosResponse<ArticleDto>;
-export type ArticlesControllerCreateArticleResult = AxiosResponse<ArticleDto>;
-export type ArticlesControllerUpdateArticleResult = AxiosResponse<ArticleDto>;
-export type ArticlesControllerDeleteArticleResult = AxiosResponse<void>;
-export type ArticlesControllerSearchArticlesResult = AxiosResponse<
-  ArticleDto[]
+export type RaceArticleControllerGetMyAllRaceArticlesResult = AxiosResponse<
+  ResponseRaceArticleDto[]
 >;
-export type UsersControllerGetProfileResult = AxiosResponse<ProfileResponseDto>;
-export type AuthControllerSignUpResult = AxiosResponse<SignUpResponseDto>;
-export type AuthControllerLoginResult = AxiosResponse<SignInResponseDto>;
+export type RaceArticleControllerGetOneRaceArticleResult =
+  AxiosResponse<ResponseRaceArticleDto>;
+export type RaceArticleControllerCreateRaceArticleResult = AxiosResponse<
+  ResponseUserDto | ResponseRaceArticleDto
+>;
+export type RaceArticleControllerUpdateRaceArticleResult =
+  AxiosResponse<ResponseRaceArticleDto>;
+export type RaceArticleControllerDeleteRaceArticleResult =
+  AxiosResponse<RaceArticleControllerDeleteRaceArticle200>;
+export type RaceArticleControllerSearchRaceArticlesResult = AxiosResponse<
+  ResponseRaceArticleDto[]
+>;

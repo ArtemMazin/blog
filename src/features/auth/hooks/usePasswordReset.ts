@@ -1,4 +1,8 @@
-import { authControllerResetPassword } from "@/shared/api/generated";
+import {
+  authControllerResetPassword,
+  AuthControllerResetPasswordResult,
+  ResetPasswordDto,
+} from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import * as React from "react";
@@ -7,9 +11,10 @@ export function usePasswordReset() {
   const toast = useToast();
 
   return useMutation({
-    mutationFn: async (email: string) => authControllerResetPassword(email),
+    mutationFn: async (email: ResetPasswordDto) =>
+      authControllerResetPassword(email),
 
-    onSuccess: (data) => {
+    onSuccess: (res: AuthControllerResetPasswordResult) => {
       toast({
         title: "Письмо отправлено",
         description: "Проверьте почту",

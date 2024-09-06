@@ -1,15 +1,285 @@
 openapi: 3.0.0
 paths:
-  /:
+  /users/profile:
     get:
-      operationId: AppController_getHello
+      operationId: UsersController_getProfile
+      summary: Получить профиль текущего пользователя
       parameters: []
       responses:
         "200":
           description: ""
-  /article/all:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseUserDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Пользователи
+      security:
+        - bearer: []
+  /users/{id}:
     get:
-      operationId: ArticlesController_getAllArticles
+      operationId: UsersController_getUserById
+      summary: Получить пользователя по ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID пользователя
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Операция успешно выполнена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseUserDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+        "404":
+          description: Пользователь не найден
+      tags:
+        - Пользователи
+  /users/favorite-article:
+    patch:
+      operationId: UsersController_toggleFavoriteArticle
+      summary: Добавить/удалить статью в/из избранного
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ToggleFavoriteArticleDto"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseUserDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Пользователи
+      security:
+        - bearer: []
+  /users/update-profile:
+    patch:
+      operationId: UsersController_updateProfile
+      summary: Обновить профиль пользователя
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UpdateProfileDto"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseUserDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Пользователи
+      security:
+        - bearer: []
+  /auth/sign-up:
+    post:
+      operationId: AuthController_registerUser
+      summary: Регистрация нового пользователя
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterDto"
+      responses:
+        "201":
+          description: Пользователь успешно зарегистрирован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseUserDto"
+        "400":
+          description: Некорректные данные
+        "409":
+          description: Пользователь с таким email уже существует
+      tags:
+        - Аутентификация
+  /auth/sign-in:
+    post:
+      operationId: AuthController_authenticateUser
+      summary: Авторизация пользователя
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginDto"
+      responses:
+        "200":
+          description: Операция успешно выполнена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseUserDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Аутентификация
+  /auth/logout:
+    post:
+      operationId: AuthController_logoutUser
+      summary: Выход пользователя
+      parameters: []
+      responses:
+        "200":
+          description: Операция успешно выполнена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Аутентификация
+  /auth/reset-password:
+    post:
+      operationId: AuthController_resetPassword
+      summary: Запрос на сброс пароля
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordDto"
+      responses:
+        "200":
+          description: Операция успешно выполнена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Аутентификация
+  /auth/reset-password-confirm:
+    post:
+      operationId: AuthController_resetPasswordConfirm
+      summary: Подтверждение сброса пароля
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePasswordDto"
+      responses:
+        "200":
+          description: Операция успешно выполнена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseUserDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Аутентификация
+  /payment:
+    post:
+      operationId: PaymentController_createPayment
+      summary: Создать платеж
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePaymentDto"
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponsePaymentDto"
+      tags:
+        - Платежи
+      security:
+        - bearer: []
+  /payment/get-payment:
+    post:
+      operationId: PaymentController_getPayment
+      summary: Получить информацию о платеже
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetPaymentDto"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponsePaymentDto"
+      tags:
+        - Платежи
+      security:
+        - bearer: []
+  /character-articles/all:
+    get:
+      operationId: CharacterArticleController_getAllCharacterArticles
+      summary: Получить все статьи о персонажах
       parameters: []
       responses:
         "200":
@@ -19,10 +289,39 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ArticleDto"
-  /article/find/{id}:
+                  $ref: "#/components/schemas/ResponseCharacterArticleDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Статьи о персонажах
+  /character-articles/my-all:
     get:
-      operationId: ArticlesController_getOneArticle
+      operationId: CharacterArticleController_getMyAllCharacterArticles
+      summary: Получить все мои статьи о персонажах
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResponseCharacterArticleDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о персонажах
+  /character-articles/find/{id}:
+    get:
+      operationId: CharacterArticleController_getOneCharacterArticle
+      summary: Получить одну статью о персонаже
       parameters:
         - name: id
           required: true
@@ -35,27 +334,49 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ArticleDto"
-  /article/create:
+                $ref: "#/components/schemas/ResponseCharacterArticleDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Статьи о персонажах
+  /character-articles/create:
     post:
-      operationId: ArticlesController_createArticle
+      operationId: CharacterArticleController_createCharacterArticle
+      summary: Создать новую статью о персонаже
       parameters: []
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: "#/components/schemas/ArticleDto"
+              $ref: "#/components/schemas/CreateCharacterArticleDto"
       responses:
+        "200":
+          description: Операция успешно выполнена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseUserDto"
         "201":
           description: ""
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ArticleDto"
-  /article/update/{id}:
+                $ref: "#/components/schemas/ResponseCharacterArticleDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о персонажах
+  /character-articles/update/{id}:
     patch:
-      operationId: ArticlesController_updateArticle
+      operationId: CharacterArticleController_updateCharacterArticle
+      summary: Обновить статью о персонаже
       parameters:
         - name: id
           required: true
@@ -65,19 +386,26 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: "#/components/schemas/UpdateArticleDto"
+              $ref: "#/components/schemas/UpdateCharacterArticleDto"
       responses:
         "200":
           description: ""
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ArticleDto"
-  /article/delete/{id}:
+                $ref: "#/components/schemas/ResponseCharacterArticleDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о персонажах
+  /character-articles/delete/{id}:
     delete:
-      operationId: ArticlesController_deleteArticle
+      operationId: CharacterArticleController_deleteCharacterArticle
+      summary: Удалить статью о персонаже
       parameters:
         - name: id
           required: true
@@ -86,10 +414,25 @@ paths:
             type: string
       responses:
         "200":
-          description: ""
-  /article/search:
+          description: Операция успешно выполнена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о персонажах
+  /character-articles/search:
     get:
-      operationId: ArticlesController_searchArticles
+      operationId: CharacterArticleController_searchCharacterArticles
+      summary: Поиск статей о персонажах
       parameters:
         - name: query
           required: true
@@ -104,10 +447,19 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ArticleDto"
-  /users/profile:
+                  $ref: "#/components/schemas/ResponseCharacterArticleDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Статьи о персонажах
+  /race-articles/all:
     get:
-      operationId: UsersController_getProfile
+      operationId: RaceArticleController_getAllRaceArticles
+      summary: Получить все статьи о расах
       parameters: []
       responses:
         "200":
@@ -115,35 +467,175 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ProfileResponseDto"
-  /auth/sign-up:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResponseRaceArticleDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Статьи о расах
+  /race-articles/my-all:
+    get:
+      operationId: RaceArticleController_getMyAllRaceArticles
+      summary: Получить все мои статьи о расах
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResponseRaceArticleDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о расах
+  /race-articles/find/{id}:
+    get:
+      operationId: RaceArticleController_getOneRaceArticle
+      summary: Получить одну статью о расе
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseRaceArticleDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Статьи о расах
+  /race-articles/create:
     post:
-      operationId: AuthController_signUp
+      operationId: RaceArticleController_createRaceArticle
+      summary: Создать новую статью о расе
       parameters: []
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: "#/components/schemas/SignUpDto"
+              $ref: "#/components/schemas/CreateRaceArticleDto"
       responses:
+        "200":
+          description: Операция успешно выполнена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseUserDto"
         "201":
           description: ""
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SignUpResponseDto"
-  /auth/sign-in:
-    post:
-      operationId: AuthController_login
-      parameters: []
+                $ref: "#/components/schemas/ResponseRaceArticleDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о расах
+  /race-articles/update/{id}:
+    patch:
+      operationId: RaceArticleController_updateRaceArticle
+      summary: Обновить статью о расе
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UpdateRaceArticleDto"
       responses:
         "200":
           description: ""
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SignInResponseDto"
+                $ref: "#/components/schemas/ResponseRaceArticleDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о расах
+  /race-articles/delete/{id}:
+    delete:
+      operationId: RaceArticleController_deleteRaceArticle
+      summary: Удалить статью о расе
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Операция успешно выполнена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о расах
+  /race-articles/search:
+    get:
+      operationId: RaceArticleController_searchRaceArticles
+      summary: Поиск статей о расах
+      parameters:
+        - name: query
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResponseRaceArticleDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Статьи о расах
 info:
   title: Blog API
   description: ""
@@ -153,50 +645,618 @@ tags: []
 servers: []
 components:
   schemas:
-    ArticleDto:
+    ResponseUserDto:
       type: object
       properties:
-        title:
+        _id:
           type: string
-          example: Title
-        content:
+          description: ID пользователя
+          example: 60d5ecb74f421b2d1c8829fb
+        name:
           type: string
-          example: Content
-        image:
+          description: Имя пользователя
+          example: Люк Скайуокер
+        email:
           type: string
-          example: https://unsplash.com/photos/a-man-wearing-a-white-hat-mjdBHLjOEMY
+          description: Email пользователя
+          example: luke@rebellion.com
+        avatar:
+          type: string
+          description: Аватар пользователя
+          example: avatar.jpg
+        about:
+          type: string
+          description: Информация о пользователе
+          example: Джедай и пилот X-wing
+        favorite_articles:
+          description: Список ID избранных статей
+          example:
+            - 60d5ecb74f421b2d1c8829fb
+            - 60d5ecb74f421b2d1c8829fc
+          type: array
+          items:
+            type: string
+        isPremium:
+          type: boolean
+          description: Статус премиум-подписки
+          example: false
+        createdAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
+        updatedAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
       required:
-        - title
-        - content
-        - image
-    UpdateArticleDto:
+        - _id
+        - name
+        - email
+        - favorite_articles
+        - isPremium
+        - createdAt
+        - updatedAt
+    ToggleFavoriteArticleDto:
       type: object
-      properties: {}
-    ProfileResponseDto:
-      type: object
-      properties: {}
-    SignUpDto:
+      properties:
+        articleId:
+          type: string
+          description: ID статьи для добавления/удаления в избранное
+          example: 60d5ecb74f421b2d1c8829fb
+        action:
+          type: string
+          description: Действие с избранной статьей
+          example: add
+          enum:
+            - add
+            - remove
+      required:
+        - articleId
+        - action
+    UpdateProfileDto:
       type: object
       properties:
         name:
           type: string
-          example: John
-          description: User name
+          description: Имя пользователя
+          example: Люк Скайуокер
+        about:
+          type: string
+          description: Информация о пользователе
+          example: Джедай и пилот X-wing
+        avatar:
+          type: string
+          format: binary
+          description: Изображение профиля
+      required:
+        - name
+    RegisterDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Имя пользователя
+          example: Люк Скайуокер
         email:
           type: string
-          example: test@gmail.com
-          description: User email
+          description: Email пользователя
+          example: luke@rebellion.com
         password:
           type: string
-          example: "123456"
-          description: User password
+          description: Пароль пользователя
+          example: usetheforce123
       required:
         - name
         - email
         - password
-    SignUpResponseDto:
+    LoginDto:
       type: object
-      properties: {}
-    SignInResponseDto:
+      properties:
+        email:
+          type: string
+          description: Email пользователя
+          example: luke@rebellion.com
+        password:
+          type: string
+          description: Пароль пользователя
+          example: usetheforce123
+      required:
+        - email
+        - password
+    ResetPasswordDto:
       type: object
-      properties: {}
+      properties:
+        email:
+          type: string
+          description: Email пользователя
+          example: luke@rebellion.com
+      required:
+        - email
+    UpdatePasswordDto:
+      type: object
+      properties:
+        resetToken:
+          type: string
+          description: Токен сброса пароля
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        newPassword:
+          type: string
+          description: Новый пароль
+          example: newforce123
+      required:
+        - resetToken
+        - newPassword
+    CreatePaymentDto:
+      type: object
+      properties:
+        amount:
+          type: number
+          example: 300
+          description: Сумма платежа
+      required:
+        - amount
+    AmountDto:
+      type: object
+      properties:
+        value:
+          type: string
+          example: "100.00"
+        currency:
+          type: string
+          example: RUB
+      required:
+        - value
+        - currency
+    ConfirmationDto:
+      type: object
+      properties:
+        type:
+          type: string
+          example: redirect
+        confirmation_url:
+          type: string
+          example: >-
+            https://yoomoney.ru/api-pages/v2/payment-confirm/epl?orderId=2419a771-000f-5000-9000-1edaf29243f2
+      required:
+        - type
+        - confirmation_url
+    MetadataDto:
+      type: object
+      properties:
+        order_id:
+          type: string
+          example: "37"
+      required:
+        - order_id
+    RecipientDto:
+      type: object
+      properties:
+        account_id:
+          type: string
+          example: "100500"
+        gateway_id:
+          type: string
+          example: "100700"
+      required:
+        - account_id
+        - gateway_id
+    ResponsePaymentDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 2419a771-000f-5000-9000-1edaf29243f2
+        status:
+          type: string
+          example: pending
+        paid:
+          type: boolean
+          example: false
+        amount:
+          $ref: "#/components/schemas/AmountDto"
+        confirmation:
+          $ref: "#/components/schemas/ConfirmationDto"
+        created_at:
+          type: string
+          example: "2019-03-12T11:10:41.802Z"
+        description:
+          type: string
+          example: Заказ №37
+        metadata:
+          $ref: "#/components/schemas/MetadataDto"
+        recipient:
+          $ref: "#/components/schemas/RecipientDto"
+        refundable:
+          type: boolean
+          example: false
+        test:
+          type: boolean
+          example: false
+      required:
+        - id
+        - status
+        - paid
+        - amount
+        - confirmation
+        - created_at
+        - description
+        - metadata
+        - recipient
+        - refundable
+        - test
+    GetPaymentDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 2e3205eb-000f-5000-9000-1e9b60aa75bc
+          description: ID платежа
+      required:
+        - id
+    ResponseCharacterArticleDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 60d5ecb54e7d5a001f5d4f2c
+        title:
+          type: string
+          example: Заголовок статьи
+        content:
+          type: string
+          example: Содержание статьи...
+        image:
+          type: string
+          example: path/to/image.jpg
+        author:
+          $ref: "#/components/schemas/ResponseUserDto"
+        isPremium:
+          type: boolean
+          example: false
+        readingTime:
+          type: number
+          example: 5
+        createdAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
+        updatedAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
+        characterName:
+          type: string
+          description: Имя персонажа
+        birthDate:
+          type: string
+          description: Дата рождения персонажа
+        deathDate:
+          type: string
+          description: Дата смерти персонажа
+        race:
+          type: string
+          description: Раса персонажа
+        gender:
+          type: string
+          description: Пол персонажа
+        height:
+          type: number
+          description: Рост персонажа
+        homeWorld:
+          type: string
+          description: Родной мир персонажа
+      required:
+        - _id
+        - title
+        - content
+        - image
+        - author
+        - isPremium
+        - readingTime
+        - createdAt
+        - updatedAt
+        - characterName
+        - race
+        - gender
+        - homeWorld
+    CreateCharacterArticleDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Заголовок статьи
+        content:
+          type: string
+          description: Содержание статьи
+        isPremium:
+          type: string
+          description: Является ли статья премиум-контентом
+          enum:
+            - "true"
+            - "false"
+        image:
+          type: string
+          format: binary
+          description: Изображение статьи
+        characterName:
+          type: string
+          description: Имя персонажа
+        birthDate:
+          type: string
+          description: Дата рождения
+        deathDate:
+          type: string
+          description: Дата смерти
+        race:
+          type: string
+          description: Раса персонажа
+        gender:
+          type: string
+          description: Пол персонажа
+          enum:
+            - Мужской
+            - Женский
+            - Другое
+        height:
+          type: string
+          description: Рост персонажа
+        homeWorld:
+          type: string
+          description: Родной мир персонажа
+      required:
+        - title
+        - content
+        - isPremium
+        - image
+        - characterName
+        - race
+        - gender
+        - homeWorld
+    UpdateCharacterArticleDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Заголовок статьи
+        content:
+          type: string
+          description: Содержание статьи
+        isPremium:
+          type: string
+          description: Является ли статья премиум-контентом
+          enum:
+            - "true"
+            - "false"
+        image:
+          type: string
+          format: binary
+          description: Изображение статьи
+        characterName:
+          type: string
+          description: Имя персонажа
+        birthDate:
+          type: string
+          description: Дата рождения
+        deathDate:
+          type: string
+          description: Дата смерти
+        race:
+          type: string
+          description: Раса персонажа
+        gender:
+          type: string
+          description: Пол персонажа
+          enum:
+            - Мужской
+            - Женский
+            - Другое
+        height:
+          type: string
+          description: Рост персонажа
+        homeWorld:
+          type: string
+          description: Родной мир персонажа
+      required:
+        - title
+        - content
+        - isPremium
+        - image
+        - characterName
+        - race
+        - gender
+        - homeWorld
+    ResponseRaceArticleDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 60d5ecb54e7d5a001f5d4f2c
+        title:
+          type: string
+          example: Заголовок статьи
+        content:
+          type: string
+          example: Содержание статьи...
+        image:
+          type: string
+          example: path/to/image.jpg
+        author:
+          $ref: "#/components/schemas/ResponseUserDto"
+        isPremium:
+          type: boolean
+          example: false
+        readingTime:
+          type: number
+          example: 5
+        createdAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
+        updatedAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
+        raceName:
+          type: string
+          description: Название расы
+        type:
+          type: string
+          description: Тип расы
+        class:
+          type: string
+          description: Класс расы
+        skinColor:
+          type: string
+          description: Цвет кожи
+        distinctiveFeatures:
+          description: Отличительные признаки
+          type: array
+          items:
+            type: string
+        homeWorld:
+          type: string
+          description: Планета происхождения
+        language:
+          type: string
+          description: Язык
+        knownRepresentatives:
+          description: Известные представители
+          type: array
+          items:
+            type: string
+      required:
+        - _id
+        - title
+        - content
+        - image
+        - author
+        - isPremium
+        - readingTime
+        - createdAt
+        - updatedAt
+        - raceName
+        - type
+        - class
+        - skinColor
+        - distinctiveFeatures
+        - homeWorld
+        - language
+        - knownRepresentatives
+    CreateRaceArticleDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Заголовок статьи
+        content:
+          type: string
+          description: Содержание статьи
+        isPremium:
+          type: string
+          description: Является ли статья премиум-контентом
+          enum:
+            - "true"
+            - "false"
+        image:
+          type: string
+          format: binary
+          description: Изображение статьи
+        raceName:
+          type: string
+          description: Название расы
+        type:
+          type: string
+          description: Тип расы
+        class:
+          type: string
+          description: Класс расы
+        skinColor:
+          type: string
+          description: Цвет кожи
+        distinctiveFeatures:
+          description: Отличительные признаки
+          type: array
+          items:
+            type: string
+        homeWorld:
+          type: string
+          description: Планета происхождения
+        language:
+          type: string
+          description: Язык
+        knownRepresentatives:
+          description: Известные представители
+          type: array
+          items:
+            type: string
+      required:
+        - title
+        - content
+        - isPremium
+        - image
+        - raceName
+        - type
+        - class
+        - skinColor
+        - distinctiveFeatures
+        - homeWorld
+        - language
+    UpdateRaceArticleDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Заголовок статьи
+        content:
+          type: string
+          description: Содержание статьи
+        isPremium:
+          type: string
+          description: Является ли статья премиум-контентом
+          enum:
+            - "true"
+            - "false"
+        image:
+          type: string
+          format: binary
+          description: Изображение статьи
+        raceName:
+          type: string
+          description: Название расы
+        type:
+          type: string
+          description: Тип расы
+        class:
+          type: string
+          description: Класс расы
+        skinColor:
+          type: string
+          description: Цвет кожи
+        distinctiveFeatures:
+          description: Отличительные признаки
+          type: array
+          items:
+            type: string
+        homeWorld:
+          type: string
+          description: Планета происхождения
+        language:
+          type: string
+          description: Язык
+        knownRepresentatives:
+          description: Известные представители
+          type: array
+          items:
+            type: string
+      required:
+        - title
+        - content
+        - isPremium
+        - image
+        - raceName
+        - type
+        - class
+        - skinColor
+        - distinctiveFeatures
+        - homeWorld
+        - language
