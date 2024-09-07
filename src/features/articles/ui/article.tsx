@@ -1,6 +1,9 @@
 "use client";
 
-import { characterArticlesApi } from "@/shared/api/generated";
+import {
+  characterArticleControllerGetOneCharacterArticle,
+  raceArticleControllerGetOneRaceArticle,
+} from "@/shared/api/generated";
 import {
   Box,
   Button,
@@ -18,30 +21,41 @@ import * as React from "react";
 import { ModalUpdatingArticle } from "./modal-updating-article";
 import { ModalDeletingArticle } from "./modal-deleting-article";
 import { useProfile } from "@/features/profile/hooks/useProfile";
-import { useAddFavorites } from "../hooks/useAddFavorites";
+import { useToggleFavorites } from "../hooks/useToggleFavorites";
 import { SubmitHandler } from "react-hook-form";
-import { useRemoveFavorites } from "../hooks/useRemoveFavorites";
 import Link from "next/link";
 import { useColors } from "@/shared/hooks/useColors";
 import { Heart } from "lucide-react";
 
-export default function Article({ id }: { id: string }) {
+type ArticleType = "characters" | "races";
+
+export default function Article({
+  id,
+  type,
+}: {
+  id: string;
+  type: ArticleType;
+}) {
   const router = useRouter();
   const { data: user } = useProfile();
   const { bgColor, borderColor, textColor, dangerColor } = useColors();
 
   // Запрос на получение данных статьи
   const { data: article } = useQuery({
-    queryKey: ["article", id],
-    queryFn: () =>
-      characterArticlesApi
-        .articlesControllerGetOneArticle(id)
-        .then((res) => res.data),
+    queryKey: ["article", id, type],
+    queryFn: async () => {
+      if (type === "characters") {
+        const res = await characterArticleControllerGetOneCharacterArticle(id);
+        return res.data;
+      } else {
+        const res_1 = await raceArticleControllerGetOneRaceArticle(id);
+        return res_1.data;
+      }
+    },
   });
 
   // Хуки для добавления и удаления из избранного
-  const { mutate: addToFavorites } = useAddFavorites();
-  const { mutate: removeFromFavorites } = useRemoveFavorites();
+  const { mutate: toFavorites } = useToggleFavorites();
 
   // Проверка, находится ли статья в избранном у пользователя
   const isFavorite = user?.favorite_articles.includes(article?._id || "");
@@ -49,11 +63,7 @@ export default function Article({ id }: { id: string }) {
   // Обработчик клика по кнопке избранного
   const handleClick: SubmitHandler<{ articleId: string }> = ({ articleId }) => {
     if (user) {
-      if (isFavorite) {
-        removeFromFavorites(articleId);
-      } else {
-        addToFavorites(articleId);
-      }
+      toFavorites({ action: isFavorite ? "remove" : "add", articleId });
     } else {
       router.push("/");
     }
@@ -128,7 +138,7 @@ export default function Article({ id }: { id: string }) {
                 {/* Кнопки редактирования и удаления для автора статьи */}
                 {user && article.author._id === user._id && (
                   <>
-                    <ModalDeletingArticle id={article._id} />
+                    <ModalDeletingArticle id={article._id} type={type} />
                     <ModalUpdatingArticle article={article} />
                   </>
                 )}

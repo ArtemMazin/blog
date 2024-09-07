@@ -1,13 +1,22 @@
-import { characterArticlesApi } from "@/shared/api/generated";
 import { useQuery } from "@tanstack/react-query";
+import {
+  characterArticleControllerGetAllCharacterArticles,
+  raceArticleControllerGetAllRaceArticles,
+} from "@/shared/api/generated";
 
-export const useAllArticles = () => {
-  const { data: articles } = useQuery({
-    queryKey: ["articles"],
-    queryFn: () =>
-      characterArticlesApi
-        .articlesControllerGetAllArticles()
-        .then((res) => res.data),
+type ArticleType = "characters" | "races";
+
+export const useAllArticles = (type: ArticleType) => {
+  return useQuery({
+    queryKey: ["articles", type],
+    queryFn: async () => {
+      if (type === "characters") {
+        const res = await characterArticleControllerGetAllCharacterArticles();
+        return res.data;
+      } else {
+        const res_1 = await raceArticleControllerGetAllRaceArticles();
+        return res_1.data;
+      }
+    },
   });
-  return articles;
 };

@@ -19,7 +19,12 @@ import { useProfile } from "@/features/profile/hooks/useProfile";
 import Link from "next/link";
 
 export default function Sidebar() {
-  const articles = useAllArticles();
+  const {
+    data: characterArticles,
+    isLoading: isLoadingCharacters,
+    error: characterError,
+  } = useAllArticles("characters");
+
   const { handleClick } = useHandleClick();
   const { bgColor, borderColor, textColor } = useColors();
   const { data: user } = useProfile();
@@ -35,8 +40,8 @@ export default function Sidebar() {
         Другие статьи
       </Heading>
       <VStack spacing={4} align="stretch">
-        {articles &&
-          articles.slice(0, 5).map((article) => (
+        {characterArticles &&
+          characterArticles.slice(0, 5).map((article) => (
             <Box
               key={article._id}
               borderRadius="lg"

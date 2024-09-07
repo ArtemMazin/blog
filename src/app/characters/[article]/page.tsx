@@ -16,7 +16,7 @@ export default function ArticlePage({
 
       <UIMain className="flex gap-10">
         <Sidebar />
-        <Article id={params.article} />
+        <Article id={params.article} type="characters" />
       </UIMain>
     </Container>
   );

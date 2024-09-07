@@ -3,6 +3,10 @@ import * as React from "react";
 import { theme } from "../ui/theme/theme";
 
 export function useColors() {
+  const contentColor = useColorModeValue(
+    theme.colors.dark.background,
+    theme.colors.light.background,
+  );
   const bgColor = useColorModeValue(
     theme.colors.light.background,
     theme.colors.dark.background,
@@ -41,5 +45,6 @@ export function useColors() {
     secondaryColor,
     primaryColor,
     grayColor,
+    contentColor,
   };
 }

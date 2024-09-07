@@ -12,12 +12,20 @@ import * as React from "react";
 import { useArticleDelete } from "../hooks/useArticleDelete";
 import { useRouter } from "next/navigation";
 
-export const ModalDeletingArticle = ({ id }: { id: string }) => {
+type ArticleType = "characters" | "races";
+
+export const ModalDeletingArticle = ({
+  id,
+  type,
+}: {
+  id: string;
+  type: ArticleType;
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const router = useRouter();
 
-  const { mutate: deleteArticle } = useArticleDelete(id);
+  const { mutate: deleteArticle } = useArticleDelete(id, type);
   const onDelete = () => {
     deleteArticle();
     router.push("/");

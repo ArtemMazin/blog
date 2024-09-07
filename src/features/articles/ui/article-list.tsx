@@ -11,32 +11,54 @@ import {
   HStack,
   Flex,
   Button,
+  Skeleton,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { ArticleDto } from "@/shared/api/generated";
 import { ArrowRight, BookOpen, Star, Lock } from "lucide-react";
 import { useColors } from "@/shared/hooks/useColors";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import Link from "next/link";
 import { useHandleClick } from "../hooks/useHandleClick";
+import { ArticleType } from "@/shared/api/generated";
 
-export interface IArticleListProps {
-  articles: ArticleDto[];
+interface ArticleListProps {
+  articles: ArticleType[] | undefined;
+  isLoading: boolean;
+  error: Error | null;
+  type: "characters" | "races";
 }
 
-export function ArticleList({ articles }: IArticleListProps) {
+export function ArticleList({
+  articles,
+  isLoading,
+  error,
+  type,
+}: ArticleListProps) {
   const { bgColor, textColor, primaryColor, secondaryColor } = useColors();
   const { data: user } = useProfile();
   const { handleClick } = useHandleClick();
 
+  if (isLoading) {
+    return (
+      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10}>
+        {[...Array(6)].map((_, index) => (
+          <Skeleton key={index} height="300px" borderRadius="xl" />
+        ))}
+      </SimpleGrid>
+    );
+  }
+
+  if (error) return <Box>Ошибка: {error.message}</Box>;
+  if (!articles) return <Box>Статьи не найдены</Box>;
+
   return (
     <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10}>
-      {articles?.length === 0 ? (
+      {articles.length === 0 ? (
         <Box textAlign="center" gridColumn="1 / -1">
           <Heading>Не найдено ни одной статьи</Heading>
         </Box>
       ) : (
-        articles?.map((article) => (
+        articles.map((article) => (
           <Flex
             key={article._id}
             direction="column"
@@ -92,7 +114,7 @@ export function ArticleList({ articles }: IArticleListProps) {
                   <Text fontSize="xs">Автор: {article.author?.name}</Text>
                   <HStack>
                     <BookOpen size={14} />
-                    <Text fontSize="xs">5 мин</Text>
+                    <Text fontSize="xs">{article.readingTime} мин.</Text>
                   </HStack>
                 </HStack>
                 {article.isPremium && !user?.isPremium ? (
@@ -105,7 +127,7 @@ export function ArticleList({ articles }: IArticleListProps) {
                     Премиум статья
                   </Button>
                 ) : (
-                  <Link href={`/${article._id}`}>
+                  <Link href={`/${type}/${article._id}`}>
                     <HStack color={primaryColor} justify="flex-end">
                       <Text fontWeight="bold" fontSize="sm">
                         Читать
