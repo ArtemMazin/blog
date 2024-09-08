@@ -456,6 +456,74 @@ paths:
           description: Доступ запрещен
       tags:
         - Статьи о персонажах
+  /character-articles/like/{id}:
+    post:
+      operationId: CharacterArticleController_likeCharacterArticle
+      summary: Лайкнуть статью о персонаже
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseCharacterArticleDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о персонажах
+  /character-articles/unlike/{id}:
+    post:
+      operationId: CharacterArticleController_unlikeCharacterArticle
+      summary: Убрать лайк со статьи о персонаже
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseCharacterArticleDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о персонажах
+  /character-articles/top:
+    get:
+      operationId: CharacterArticleController_getTopCharacterArticles
+      summary: Получить топ-5 статей о персонажах
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResponseCharacterArticleDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Статьи о персонажах
   /race-articles/all:
     get:
       operationId: RaceArticleController_getAllRaceArticles
@@ -619,6 +687,74 @@ paths:
           in: query
           schema:
             type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResponseRaceArticleDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Статьи о расах
+  /race-articles/like/{id}:
+    post:
+      operationId: RaceArticleController_likeRaceArticle
+      summary: Лайкнуть статью о расе
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseRaceArticleDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о расах
+  /race-articles/unlike/{id}:
+    post:
+      operationId: RaceArticleController_unlikeRaceArticle
+      summary: Убрать лайк со статьи о расе
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseRaceArticleDto"
+        "400":
+          description: Некорректные данные
+        "401":
+          description: Неверные учетные данные
+      tags:
+        - Статьи о расах
+  /race-articles/top:
+    get:
+      operationId: RaceArticleController_getTopRaceArticles
+      summary: Получить топ-5 статей о расах
+      parameters: []
       responses:
         "200":
           description: ""
@@ -916,6 +1052,9 @@ components:
         readingTime:
           type: number
           example: 5
+        likesCount:
+          type: number
+          example: 0
         createdAt:
           format: date-time
           type: string
@@ -940,7 +1079,7 @@ components:
           type: string
           description: Пол персонажа
         height:
-          type: number
+          type: string
           description: Рост персонажа
         homeWorld:
           type: string
@@ -953,6 +1092,7 @@ components:
         - author
         - isPremium
         - readingTime
+        - likesCount
         - createdAt
         - updatedAt
         - characterName
@@ -1088,6 +1228,9 @@ components:
         readingTime:
           type: number
           example: 5
+        likesCount:
+          type: number
+          example: 0
         createdAt:
           format: date-time
           type: string
@@ -1132,6 +1275,7 @@ components:
         - author
         - isPremium
         - readingTime
+        - likesCount
         - createdAt
         - updatedAt
         - raceName

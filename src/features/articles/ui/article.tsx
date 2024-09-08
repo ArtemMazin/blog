@@ -26,6 +26,8 @@ import { SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { useColors } from "@/shared/hooks/useColors";
 import { Heart } from "lucide-react";
+import { useLikeCharacterArticle } from "../hooks/useLikeCharacterArticle";
+import { useLikeRaceArticle } from "../hooks/useLikeRaceArticle";
 
 type ArticleType = "characters" | "races";
 
@@ -57,6 +59,9 @@ export default function Article({
   // Хуки для добавления и удаления из избранного
   const { mutate: toFavorites } = useToggleFavorites();
 
+  const { mutate: toggleCharacterLike } = useLikeCharacterArticle();
+  const { mutate: toggleRaceLike } = useLikeRaceArticle();
+
   // Проверка, находится ли статья в избранном у пользователя
   const isFavorite = user?.favorite_articles.includes(article?._id || "");
 
@@ -64,6 +69,14 @@ export default function Article({
   const handleClick: SubmitHandler<{ articleId: string }> = ({ articleId }) => {
     if (user) {
       toFavorites({ action: isFavorite ? "remove" : "add", articleId });
+      if (type === "characters") {
+        toggleCharacterLike({
+          action: isFavorite ? "remove" : "add",
+          articleId,
+        });
+      } else {
+        toggleRaceLike({ action: isFavorite ? "remove" : "add", articleId });
+      }
     } else {
       router.push("/");
     }
@@ -88,7 +101,7 @@ export default function Article({
               src={process.env.NEXT_PUBLIC_IMAGE_URL + article.image}
               alt={article?.title}
               fill
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "contain" }}
               sizes="100vw"
             />
           </Box>

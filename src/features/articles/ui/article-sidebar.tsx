@@ -95,7 +95,9 @@ export default function Sidebar() {
                       Премиум
                     </Button>
                   ) : (
-                    <Link href={`/${article._id}`}>
+                    <Link
+                      href={`/${article.homeWorld ? "characters" : "races"}/${article._id}`}
+                    >
                       <Button
                         size="sm"
                         rightIcon={<ChevronRight size={16} />}

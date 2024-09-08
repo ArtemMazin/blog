@@ -5,14 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 import axios from "axios";
-
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
-
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
-
 export type ArticleType = ResponseCharacterArticleDto | ResponseRaceArticleDto;
 export type RaceArticleControllerSearchRaceArticlesParams = {
   query: string;
@@ -131,6 +128,7 @@ export interface ResponseRaceArticleDto {
   knownRepresentatives: string[];
   /** Язык */
   language: string;
+  likesCount: number;
   /** Название расы */
   raceName: string;
   readingTime: number;
@@ -252,11 +250,12 @@ export interface ResponseCharacterArticleDto {
   /** Пол персонажа */
   gender: string;
   /** Рост персонажа */
-  height?: number;
+  height?: string;
   /** Родной мир персонажа */
   homeWorld: string;
   image: string;
   isPremium: boolean;
+  likesCount: number;
   /** Раса персонажа */
   race: string;
   readingTime: number;
@@ -653,6 +652,41 @@ export const characterArticleControllerSearchCharacterArticles = <
 };
 
 /**
+ * @summary Лайкнуть статью о персонаже
+ */
+export const characterArticleControllerLikeCharacterArticle = <
+  TData = AxiosResponse<ResponseCharacterArticleDto>,
+>(
+  id: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.post(`/character-articles/like/${id}`, undefined, options);
+};
+
+/**
+ * @summary Убрать лайк со статьи о персонаже
+ */
+export const characterArticleControllerUnlikeCharacterArticle = <
+  TData = AxiosResponse<ResponseCharacterArticleDto>,
+>(
+  id: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.post(`/character-articles/unlike/${id}`, undefined, options);
+};
+
+/**
+ * @summary Получить топ-5 статей о персонажах
+ */
+export const characterArticleControllerGetTopCharacterArticles = <
+  TData = AxiosResponse<ResponseCharacterArticleDto[]>,
+>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/character-articles/top`, options);
+};
+
+/**
  * @summary Получить все статьи о расах
  */
 export const raceArticleControllerGetAllRaceArticles = <
@@ -778,6 +812,41 @@ export const raceArticleControllerSearchRaceArticles = <
   });
 };
 
+/**
+ * @summary Лайкнуть статью о расе
+ */
+export const raceArticleControllerLikeRaceArticle = <
+  TData = AxiosResponse<ResponseRaceArticleDto>,
+>(
+  id: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.post(`/race-articles/like/${id}`, undefined, options);
+};
+
+/**
+ * @summary Убрать лайк со статьи о расе
+ */
+export const raceArticleControllerUnlikeRaceArticle = <
+  TData = AxiosResponse<ResponseRaceArticleDto>,
+>(
+  id: string,
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.post(`/race-articles/unlike/${id}`, undefined, options);
+};
+
+/**
+ * @summary Получить топ-5 статей о расах
+ */
+export const raceArticleControllerGetTopRaceArticles = <
+  TData = AxiosResponse<ResponseRaceArticleDto[]>,
+>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/race-articles/top`, options);
+};
+
 export type UsersControllerGetProfileResult = AxiosResponse<ResponseUserDto>;
 export type UsersControllerGetUserByIdResult = AxiosResponse<ResponseUserDto>;
 export type UsersControllerToggleFavoriteArticleResult =
@@ -810,6 +879,12 @@ export type CharacterArticleControllerDeleteCharacterArticleResult =
   AxiosResponse<CharacterArticleControllerDeleteCharacterArticle200>;
 export type CharacterArticleControllerSearchCharacterArticlesResult =
   AxiosResponse<ResponseCharacterArticleDto[]>;
+export type CharacterArticleControllerLikeCharacterArticleResult =
+  AxiosResponse<ResponseCharacterArticleDto>;
+export type CharacterArticleControllerUnlikeCharacterArticleResult =
+  AxiosResponse<ResponseCharacterArticleDto>;
+export type CharacterArticleControllerGetTopCharacterArticlesResult =
+  AxiosResponse<ResponseCharacterArticleDto[]>;
 export type RaceArticleControllerGetAllRaceArticlesResult = AxiosResponse<
   ResponseRaceArticleDto[]
 >;
@@ -826,5 +901,12 @@ export type RaceArticleControllerUpdateRaceArticleResult =
 export type RaceArticleControllerDeleteRaceArticleResult =
   AxiosResponse<RaceArticleControllerDeleteRaceArticle200>;
 export type RaceArticleControllerSearchRaceArticlesResult = AxiosResponse<
+  ResponseRaceArticleDto[]
+>;
+export type RaceArticleControllerLikeRaceArticleResult =
+  AxiosResponse<ResponseRaceArticleDto>;
+export type RaceArticleControllerUnlikeRaceArticleResult =
+  AxiosResponse<ResponseRaceArticleDto>;
+export type RaceArticleControllerGetTopRaceArticlesResult = AxiosResponse<
   ResponseRaceArticleDto[]
 >;

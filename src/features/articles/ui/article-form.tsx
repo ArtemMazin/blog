@@ -10,6 +10,7 @@ import {
   Text,
   Button,
   Checkbox,
+  Select,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useFormContext } from "react-hook-form";
@@ -24,12 +25,14 @@ type TArticleFormProps = {
   submitHandler: () => void;
   onClose: () => void;
   isPending: boolean;
+  articleType: "characters" | "races";
 };
 
 export const ArticleForm = ({
   submitHandler,
   onClose,
   isPending,
+  articleType,
 }: TArticleFormProps) => {
   const colors = useColors();
 
@@ -50,6 +53,7 @@ export const ArticleForm = ({
       boxShadow="md"
     >
       <VStack spacing={6} align="stretch">
+        {/* Общие поля */}
         <FormControl>
           <FormLabel>
             <HStack>
@@ -112,6 +116,82 @@ export const ArticleForm = ({
             }}
           />
         </FormControl>
+
+        {/* Поля для статьи о персонаже */}
+        {articleType === "characters" && (
+          <>
+            <FormControl>
+              <FormLabel>Имя персонажа</FormLabel>
+              <Input {...register("characterName", { required: true })} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Дата рождения</FormLabel>
+              <Input type="text" {...register("birthDate")} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Дата смерти</FormLabel>
+              <Input type="text" {...register("deathDate")} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Пол</FormLabel>
+              <Select {...register("gender", { required: true })}>
+                <option value="Мужской">Мужской</option>
+                <option value="Женский">Женский</option>
+                <option value="Другое">Другое</option>
+              </Select>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Рост</FormLabel>
+              <Input {...register("height")} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Родной мир</FormLabel>
+              <Input {...register("homeWorld", { required: true })} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Раса</FormLabel>
+              <Input {...register("race", { required: true })} />
+            </FormControl>
+          </>
+        )}
+
+        {/* Поля для статьи о расе */}
+        {articleType === "races" && (
+          <>
+            <FormControl>
+              <FormLabel>Название расы</FormLabel>
+              <Input {...register("raceName", { required: true })} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Класс</FormLabel>
+              <Input {...register("class", { required: true })} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Отличительные признаки</FormLabel>
+              <Textarea {...register("distinctiveFeatures")} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Планета происхождения</FormLabel>
+              <Input {...register("homeWorld", { required: true })} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Язык</FormLabel>
+              <Input {...register("language", { required: true })} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Цвет кожи</FormLabel>
+              <Input {...register("skinColor", { required: true })} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Тип</FormLabel>
+              <Input {...register("type", { required: true })} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Известные представители</FormLabel>
+              <Textarea {...register("knownRepresentatives")} />
+            </FormControl>
+          </>
+        )}
 
         <FormControl>
           <FormLabel>
