@@ -73,9 +73,7 @@ export const ProfileForm = ({
           </HStack>
           <Textarea
             placeholder="Расскажите о себе"
-            {...register("about", {
-              required: messages.ERROR_FORM_REQUIRED,
-            })}
+            {...register("about")}
             borderColor={colors.borderColor}
             _hover={{ borderColor: colors.primaryColor }}
             _focus={{ borderColor: colors.primaryColor, boxShadow: "outline" }}

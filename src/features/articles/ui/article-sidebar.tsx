@@ -11,19 +11,19 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import * as React from "react";
-import { useAllArticles } from "../hooks/useAllArticles";
+import { useTopArticles } from "../hooks/useTopArticles";
 import { ChevronRight, Clock, Star, Lock } from "lucide-react";
 import { useColors } from "@/shared/hooks/useColors";
 import { useHandleClick } from "../hooks/useHandleClick";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import Link from "next/link";
 
-export default function Sidebar() {
-  const {
-    data: characterArticles,
-    isLoading: isLoadingCharacters,
-    error: characterError,
-  } = useAllArticles("characters");
+interface SidebarProps {
+  type: "characters" | "races";
+}
+
+export default function Sidebar({ type }: SidebarProps) {
+  const { data: topArticles } = useTopArticles(type);
 
   const { handleClick } = useHandleClick();
   const { bgColor, borderColor, textColor } = useColors();
@@ -37,11 +37,11 @@ export default function Sidebar() {
       p={4}
     >
       <Heading size="md" mb={4} color={textColor}>
-        Другие статьи
+        Популярные статьи
       </Heading>
       <VStack spacing={4} align="stretch">
-        {characterArticles &&
-          characterArticles.slice(0, 5).map((article) => (
+        {topArticles &&
+          topArticles.map((article) => (
             <Box
               key={article._id}
               borderRadius="lg"
@@ -95,9 +95,7 @@ export default function Sidebar() {
                       Премиум
                     </Button>
                   ) : (
-                    <Link
-                      href={`/${article.homeWorld ? "characters" : "races"}/${article._id}`}
-                    >
+                    <Link href={`/${type}/${article._id}`}>
                       <Button
                         size="sm"
                         rightIcon={<ChevronRight size={16} />}

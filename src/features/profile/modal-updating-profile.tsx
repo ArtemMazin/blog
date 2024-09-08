@@ -1,4 +1,4 @@
-import { ResponseUserDto } from "@/shared/api/generated";
+import { ResponseUserDto, UpdateProfileDto } from "@/shared/api/generated";
 import { UIButton } from "@/shared/ui/ui-button";
 import {
   Modal,
@@ -10,17 +10,19 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import * as React from "react";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useProfileUpdate } from "./hooks/useUpdateProfile";
 import { ProfileForm } from "./profile-form";
 
-export type TFormData = {
+type TFormData = {
   name: string;
-  about: string;
-  avatar: FileList | null;
+  about?: string;
+  avatar?: FileList;
 };
 
-export const ModalUpdatingProfile = ({ user }: { user: ResponseUserDto }) => {
+export const ModalUpdatingProfile: React.FC<{ user: ResponseUserDto }> = ({
+  user,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const methods = useForm<TFormData>({
@@ -28,7 +30,7 @@ export const ModalUpdatingProfile = ({ user }: { user: ResponseUserDto }) => {
     defaultValues: {
       name: user.name || "",
       about: user.about || "",
-      avatar: null,
+      avatar: undefined,
     },
   });
 
@@ -36,18 +38,13 @@ export const ModalUpdatingProfile = ({ user }: { user: ResponseUserDto }) => {
 
   const { mutate: updateProfile, isPending } = useProfileUpdate(reset, onClose);
 
-  const onSubmit: SubmitHandler<FormData> = (profileData) => {
-    updateProfile(profileData);
-  };
-
-  const submitHandler = handleSubmit((data) => {
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("about", data.about);
-
-    data.avatar && formData.append("avatar", data.avatar[0]);
-
-    onSubmit(formData);
+  const submitHandler = handleSubmit((data: TFormData) => {
+    const updateData: UpdateProfileDto = {
+      name: data.name,
+      about: data.about,
+      ...(data.avatar && { avatar: data.avatar[0] }),
+    };
+    updateProfile(updateData);
   });
 
   return (
@@ -63,11 +60,9 @@ export const ModalUpdatingProfile = ({ user }: { user: ResponseUserDto }) => {
         motionPreset="slideInBottom"
       >
         <ModalOverlay />
-
         <ModalContent>
           <ModalHeader>Изменить профиль</ModalHeader>
           <ModalCloseButton />
-
           <ModalBody>
             <ProfileForm
               submitHandler={submitHandler}
