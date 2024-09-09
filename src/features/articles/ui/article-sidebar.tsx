@@ -4,10 +4,11 @@ import {
   Box,
   Button,
   Heading,
-  VStack,
   Text,
   Flex,
   Badge,
+  HStack,
+  VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import * as React from "react";
@@ -24,22 +25,16 @@ interface SidebarProps {
 
 export default function Sidebar({ type }: SidebarProps) {
   const { data: topArticles } = useTopArticles(type);
-
   const { handleClick } = useHandleClick();
   const { bgColor, borderColor, textColor } = useColors();
   const { data: user } = useProfile();
 
   return (
-    <Box
-      className="sticky top-0 h-screen overflow-y-auto max-w-xs my-4 w-full flex flex-col shrink-0 gap-4 snap-y hide-scrollbar"
-      display={{ base: "none", md: "flex" }}
-      borderColor={borderColor}
-      p={4}
-    >
+    <Box className="w-full my-4" borderColor={borderColor} p={4}>
       <Heading size="md" mb={4} color={textColor}>
         Популярные статьи
       </Heading>
-      <VStack spacing={4} align="stretch">
+      <HStack spacing={4} overflowX="auto" pb={4}>
         {topArticles &&
           topArticles.map((article) => (
             <Box
@@ -47,9 +42,8 @@ export default function Sidebar({ type }: SidebarProps) {
               borderRadius="lg"
               overflow="hidden"
               boxShadow="md"
-              transition="all 0.3s"
-              _hover={{ transform: "translateY(-4px)", boxShadow: "lg" }}
               position="relative"
+              minWidth="250px"
             >
               {article.isPremium && (
                 <Badge
@@ -68,13 +62,12 @@ export default function Sidebar({ type }: SidebarProps) {
               <Image
                 src={process.env.NEXT_PUBLIC_IMAGE_URL + article.image}
                 alt={article?.title}
-                width={300}
+                width={250}
                 height={150}
-                layout="responsive"
                 objectFit="cover"
               />
-              <Box p={3} bg={bgColor}>
-                <Heading size="sm" noOfLines={2} mb={2}>
+              <VStack p={3} bg={bgColor} align="stretch">
+                <Heading size="sm" noOfLines={2}>
                   {article.title}
                 </Heading>
                 <Flex justify="space-between" align="center">
@@ -107,10 +100,10 @@ export default function Sidebar({ type }: SidebarProps) {
                     </Link>
                   )}
                 </Flex>
-              </Box>
+              </VStack>
             </Box>
           ))}
-      </VStack>
+      </HStack>
     </Box>
   );
 }

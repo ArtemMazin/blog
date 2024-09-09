@@ -1,43 +1,19 @@
-"use client";
-
-import { ArticleList } from "@/features/articles/ui/article-list";
-import { UIHeader } from "@/shared/ui/ui-header";
+import Sidebar from "@/features/articles/ui/article-sidebar";
 import { UIMain } from "@/shared/ui/ui-main";
-import { Container } from "@chakra-ui/react";
-import { useAllArticles } from "@/features/articles/hooks/useAllArticles";
-import { ArticleTabs } from "@/features/articles/ui/article-tabs";
+import { Heading, Text } from "@chakra-ui/react";
 
 export default function HomePage() {
-  const {
-    data: characterArticles,
-    isLoading: isLoadingCharacters,
-    error: characterError,
-  } = useAllArticles("characters");
-  const {
-    data: raceArticles,
-    isLoading: isLoadingRaces,
-    error: raceError,
-  } = useAllArticles("races");
-
   return (
-    <Container maxW="8xl" className="h-screen p-10">
-      <UIHeader />
-      <UIMain>
-        <ArticleTabs>
-          <ArticleList
-            articles={characterArticles}
-            isLoading={isLoadingCharacters}
-            error={characterError}
-            type="characters"
-          />
-          <ArticleList
-            articles={raceArticles}
-            isLoading={isLoadingRaces}
-            error={raceError}
-            type="races"
-          />
-        </ArticleTabs>
-      </UIMain>
-    </Container>
+    <UIMain>
+      <Heading as="h1" mb={4}>
+        Добро пожаловать в мир Звездных войн
+      </Heading>
+      <Text>
+        Здесь вы найдете информацию о персонажах, расах и многом другом из
+        вселенной Звездных войн.
+      </Text>
+      <Sidebar type="characters" />
+      <Sidebar type="races" />
+    </UIMain>
   );
 }

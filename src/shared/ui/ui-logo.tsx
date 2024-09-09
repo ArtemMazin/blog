@@ -17,16 +17,16 @@ export function UILogo() {
   return (
     <Link href="/">
       <AdaptiveSvg
-        width="320"
+        width="240"
         height="100"
-        viewBox="0 0 320 100"
+        viewBox="0 0 240 100"
         xmlns="http://www.w3.org/2000/svg"
       >
         <text
-          x="160"
+          x="120"
           y="60"
           fontFamily="'Trebuchet MS', sans-serif"
-          fontSize="48"
+          fontSize="42"
           fontWeight="bold"
           textAnchor="middle"
           fill={contentColor}
@@ -34,12 +34,12 @@ export function UILogo() {
           STAR WARS
         </text>
         <path
-          d="M60 80 L260 80"
+          d="M10 80 L230 80"
           stroke={contentColor}
           strokeWidth="4"
           strokeLinecap="round"
         />
-        <circle cx="160" cy="80" r="8" fill={dangerColor} />
+        <circle cx="120" cy="80" r="8" fill={dangerColor} />
       </AdaptiveSvg>
     </Link>
   );

@@ -1,28 +1,31 @@
-import { UIButton } from "@/shared/ui/ui-button";
+"use client";
+
+import * as React from "react";
+import { UIMain } from "@/shared/ui/ui-main";
+import { useArticleCreate } from "@/features/articles/hooks/useArticleCreate";
+import { ArticleForm } from "@/features/articles/ui/article-form";
+import { useColors } from "@/shared/hooks/useColors";
 import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+  Heading,
+  Box,
   useToast,
-  RadioGroup,
   Radio,
+  RadioGroup,
   Stack,
 } from "@chakra-ui/react";
-import * as React from "react";
-import { useArticleCreate } from "../hooks/useArticleCreate";
-import { FormProvider, useForm } from "react-hook-form";
-import { Plus } from "lucide-react";
-import { ArticleForm } from "./article-form";
+import { useForm, FormProvider } from "react-hook-form";
 import {
+  CreateCharacterArticleDtoIsPremium,
   CreateCharacterArticleDto,
   CreateCharacterArticleDtoGender,
-  CreateCharacterArticleDtoIsPremium,
   CreateRaceArticleDto,
 } from "@/shared/api/generated";
+import { useRouter } from "next/navigation";
 
 // Тип данных формы
 export type TFormData = {
@@ -48,13 +51,13 @@ export type TFormData = {
   knownRepresentatives?: string;
 };
 
-export const ModalCreatingArticle = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
+export default function CreateArticlePage() {
   const [articleType, setArticleType] = React.useState<"characters" | "races">(
     "characters",
   );
-
+  const router = useRouter();
+  const toast = useToast();
+  const { bgColor, textColor } = useColors();
   const methods = useForm<TFormData>({
     mode: "onBlur",
     defaultValues: {
@@ -86,7 +89,7 @@ export const ModalCreatingArticle = () => {
   const { mutate: createArticle, isPending } = useArticleCreate(
     articleType,
     reset,
-    onClose,
+    () => router.push("/"),
   );
 
   const submitHandler = handleSubmit((data: TFormData) => {
@@ -148,45 +151,32 @@ export const ModalCreatingArticle = () => {
   });
 
   return (
-    <FormProvider {...methods}>
-      <UIButton onClick={onOpen}>
-        Добавить статью <Plus size={"20px"} />
-      </UIButton>
-
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        isCentered
-        motionPreset="slideInBottom"
-      >
-        <ModalOverlay />
-
-        <ModalContent>
-          <ModalHeader>Создать статью</ModalHeader>
-          <ModalCloseButton />
-
-          <ModalBody>
-            <RadioGroup
-              onChange={(value) =>
-                setArticleType(value as "characters" | "races")
-              }
-              value={articleType}
-              mb={4}
-            >
-              <Stack direction="row">
-                <Radio value="characters">Персонаж</Radio>
-                <Radio value="races">Раса</Radio>
-              </Stack>
-            </RadioGroup>
-            <ArticleForm
-              submitHandler={submitHandler}
-              onClose={onClose}
-              isPending={isPending}
-              articleType={articleType}
-            />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </FormProvider>
+    <UIMain>
+      <Box bg={bgColor} borderRadius="lg" p={6} boxShadow="xl">
+        <Heading as="h1" mb={6} color={textColor}>
+          Создать новую статью
+        </Heading>
+        <FormProvider {...methods}>
+          <RadioGroup
+            onChange={(value) =>
+              setArticleType(value as "characters" | "races")
+            }
+            value={articleType}
+            mb={4}
+          >
+            <Stack direction="row">
+              <Radio value="characters">Персонаж</Radio>
+              <Radio value="races">Раса</Radio>
+            </Stack>
+          </RadioGroup>
+          <ArticleForm
+            submitHandler={submitHandler}
+            onClose={() => router.push("/")}
+            isPending={isPending}
+            articleType={articleType}
+          />
+        </FormProvider>
+      </Box>
+    </UIMain>
   );
-};
+}
