@@ -1,4 +1,4 @@
-import Sidebar from "@/features/articles/ui/article-sidebar";
+import ArticleSlider from "@/features/articles/ui/article-slider";
 import { UIMain } from "@/shared/ui/ui-main";
 import { Heading, Text } from "@chakra-ui/react";
 
@@ -12,8 +12,8 @@ export default function HomePage() {
         Здесь вы найдете информацию о персонажах, расах и многом другом из
         вселенной Звездных войн.
       </Text>
-      <Sidebar type="characters" />
-      <Sidebar type="races" />
+      <ArticleSlider type="characters" />
+      <ArticleSlider type="races" />
     </UIMain>
   );
 }

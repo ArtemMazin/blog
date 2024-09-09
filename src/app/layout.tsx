@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { Box, Container, Flex } from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 import Navbar from "@/shared/ui/ui-navbar";
 import { UIHeader } from "@/shared/ui/ui-header";
 
@@ -22,18 +22,28 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Container
-            maxW="8xl"
-            className="h-screen relative"
-            p={{ base: 2, md: 6 }}
-          >
-            <UIHeader />
-            <Flex>
-              <Navbar />
-              <Box flex={1} ml={6}>
+          <Container maxW="8xl" className="min-h-screen" p={{ base: 2, md: 6 }}>
+            <Box
+              display="grid"
+              gridTemplateAreas={`
+                "header header"
+                "nav main"
+              `}
+              gridTemplateRows="auto 1fr"
+              gridTemplateColumns="auto 1fr"
+              minHeight="100vh"
+              gap={4}
+            >
+              <Box gridArea="header">
+                <UIHeader />
+              </Box>
+              <Box gridArea="nav">
+                <Navbar />
+              </Box>
+              <Box gridArea="main" overflowX="hidden">
                 {children}
               </Box>
-            </Flex>
+            </Box>
           </Container>
         </Providers>
       </body>
