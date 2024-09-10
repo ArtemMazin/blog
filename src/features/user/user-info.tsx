@@ -34,7 +34,6 @@ export function UserInfo({ user }: IUserInfoProps) {
   return (
     <Box
       borderWidth={1}
-      borderRadius="xl"
       overflow="hidden"
       boxShadow="xl"
       bg={bgColor}

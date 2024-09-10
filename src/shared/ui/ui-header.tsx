@@ -51,8 +51,7 @@ export function UIHeader() {
       as="header"
       color={textColor}
       py={1}
-      mb={4}
-      borderRadius="xl"
+      mb={2}
       borderWidth={1}
       borderColor={borderColor}
       boxShadow="md"
@@ -61,7 +60,7 @@ export function UIHeader() {
       <Flex
         mx="auto"
         maxW="8xl"
-        px={2}
+        px={3}
         alignItems="center"
         justifyContent="space-between"
       >

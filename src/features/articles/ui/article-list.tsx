@@ -22,7 +22,7 @@ export function ArticleList({
     return (
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10}>
         {[...Array(6)].map((_, index) => (
-          <Skeleton key={index} height="300px" borderRadius="xl" />
+          <Skeleton key={index} height="300px" />
         ))}
       </SimpleGrid>
     );

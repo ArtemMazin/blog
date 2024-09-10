@@ -1,18 +1,36 @@
-import { characterArticlesApi } from "@/shared/api/generated";
+import {
+  characterArticleControllerUpdateCharacterArticle,
+  raceArticleControllerUpdateRaceArticle,
+  UpdateCharacterArticleDto,
+  UpdateRaceArticleDto,
+} from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useArticleUpdate = (
-  id: string,
-  reset?: () => void,
-  onClose?: () => void,
-) => {
+type ArticleType = "characters" | "races";
+
+export const useArticleUpdate = (id: string, type: ArticleType) => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (formData: FormData) =>
-      characterArticlesApi.articlesControllerUpdateArticle(id, formData),
+    mutationFn: async (
+      articleData: UpdateCharacterArticleDto | UpdateRaceArticleDto,
+    ) => {
+      if (type === "characters") {
+        const res = await characterArticleControllerUpdateCharacterArticle(
+          id,
+          articleData as UpdateCharacterArticleDto,
+        );
+        return res.data;
+      } else {
+        const res = await raceArticleControllerUpdateRaceArticle(
+          id,
+          articleData as UpdateRaceArticleDto,
+        );
+        return res.data;
+      }
+    },
     onSuccess: (res) => {
       toast({
         title: "Статья изменена",
@@ -20,8 +38,6 @@ export const useArticleUpdate = (
       });
       queryClient.invalidateQueries({ queryKey: ["article"] });
       queryClient.invalidateQueries({ queryKey: ["articles"] });
-      onClose && onClose();
-      reset && reset();
     },
     onError: (error) => {
       toast({

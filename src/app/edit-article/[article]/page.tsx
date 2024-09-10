@@ -1,65 +1,43 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
+import { Radio, RadioGroup, Stack, useToast } from "@chakra-ui/react";
+import { useForm, FormProvider } from "react-hook-form";
 import { UIMain } from "@/shared/ui/ui-main";
-import { useArticleCreate } from "@/features/articles/hooks/useArticleCreate";
+import { useArticleUpdate } from "@/features/articles/hooks/useArticleUpdate";
 import { ArticleForm } from "@/features/articles/ui/article-form";
 import { useColors } from "@/shared/hooks/useColors";
+import { Box, Heading } from "@chakra-ui/react";
+import { TFormData } from "../../create-article/page";
 import {
-  Heading,
-  Box,
-  useToast,
-  Radio,
-  RadioGroup,
-  Stack,
-} from "@chakra-ui/react";
-import { useForm, FormProvider } from "react-hook-form";
-import {
-  CreateCharacterArticleDtoIsPremium,
-  CreateCharacterArticleDto,
-  CreateCharacterArticleDtoGender,
-  CreateRaceArticleDto,
+  UpdateCharacterArticleDto,
+  UpdateCharacterArticleDtoGender,
+  UpdateCharacterArticleDtoIsPremium,
+  UpdateRaceArticleDto,
 } from "@/shared/api/generated";
-import { useRouter } from "next/navigation";
 
-// Тип данных формы
-export type TFormData = {
-  title: string;
-  content: string;
-  isPremium: boolean;
-  image: FileList | null;
-  // Поля для статьи о персонаже
-  characterName: string;
-  birthDate?: string;
-  deathDate?: string;
-  gender: CreateCharacterArticleDtoGender;
-  height?: string;
-  homeWorld: string;
-  race: string;
-  // Поля для статьи о расе
-  class: string;
-  distinctiveFeatures: string;
-  language: string;
-  raceName: string;
-  skinColor: string;
-  type: string;
-  knownRepresentatives?: string;
-};
-
-export default function CreateArticlePage() {
+export default function EditArticlePage({
+  params,
+}: {
+  params: { article: string };
+}) {
   const [articleType, setArticleType] = React.useState<"characters" | "races">(
     "characters",
   );
   const router = useRouter();
   const toast = useToast();
   const { bgColor, textColor } = useColors();
+
+  const { data: article } = useArticleUpdate(params.article, articleType);
+
   const methods = useForm<TFormData>({
     mode: "onBlur",
     defaultValues: {
-      title: "",
-      content: "",
+      title: article?.title,
+      content: article?.content,
       image: null,
-      isPremium: false,
+      isPremium: article?.isPremium,
       // Поля для статьи о персонаже
       characterName: "",
       birthDate: "",
@@ -79,12 +57,11 @@ export default function CreateArticlePage() {
     },
   });
 
-  const { reset, handleSubmit } = methods;
+  const { handleSubmit } = methods;
 
-  const { mutate: createArticle, isPending } = useArticleCreate(
+  const { mutate: updateArticle, isPending } = useArticleUpdate(
+    params.article,
     articleType,
-    reset,
-    () => router.push("/"),
   );
 
   const submitHandler = handleSubmit((data: TFormData) => {
@@ -97,12 +74,12 @@ export default function CreateArticlePage() {
       return;
     }
 
-    const isPremium: CreateCharacterArticleDtoIsPremium = data.isPremium
+    const isPremium: UpdateCharacterArticleDtoIsPremium = data.isPremium
       ? "true"
       : "false";
 
     if (articleType === "characters") {
-      const characterArticleData: CreateCharacterArticleDto = {
+      const characterArticleData: UpdateCharacterArticleDto = {
         title: data.title,
         content: data.content,
         isPremium: isPremium,
@@ -111,13 +88,13 @@ export default function CreateArticlePage() {
         birthDate: data.birthDate,
         deathDate: data.deathDate,
         race: data.race || "",
-        gender: (data.gender as CreateCharacterArticleDtoGender) || "Другое",
+        gender: (data.gender as UpdateCharacterArticleDtoGender) || "Другое",
         height: data.height,
         homeWorld: data.homeWorld || "",
       };
-      createArticle(characterArticleData);
+      updateArticle(characterArticleData);
     } else {
-      const raceArticleData: CreateRaceArticleDto = {
+      const raceArticleData: UpdateRaceArticleDto = {
         title: data.title,
         content: data.content,
         isPremium: isPremium,
@@ -141,7 +118,7 @@ export default function CreateArticlePage() {
               .filter((item) => item !== "")) ||
           [],
       };
-      createArticle(raceArticleData);
+      updateArticle(raceArticleData);
     }
   });
 
@@ -149,7 +126,7 @@ export default function CreateArticlePage() {
     <UIMain>
       <Box bg={bgColor} borderRadius="lg" p={6} boxShadow="xl">
         <Heading as="h1" mb={6} color={textColor}>
-          Создать новую статью
+          Редактировать статью
         </Heading>
         <FormProvider {...methods}>
           <RadioGroup

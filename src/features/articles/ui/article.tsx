@@ -28,6 +28,7 @@ import { useColors } from "@/shared/hooks/useColors";
 import { Heart } from "lucide-react";
 import { useLikeCharacterArticle } from "../hooks/useLikeCharacterArticle";
 import { useLikeRaceArticle } from "../hooks/useLikeRaceArticle";
+import { UIButton } from "@/shared/ui/ui-button";
 
 type ArticleType = "characters" | "races";
 
@@ -152,7 +153,9 @@ export default function Article({
                 {user && article.author._id === user._id && (
                   <>
                     <ModalDeletingArticle id={article._id} type={type} />
-                    <ModalUpdatingArticle article={article} />
+                    <Link href={`/edit-article/${article._id}`}>
+                      <UIButton className="w-fit">Изменить статью</UIButton>
+                    </Link>
                   </>
                 )}
               </HStack>

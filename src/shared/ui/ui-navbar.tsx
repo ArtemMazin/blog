@@ -17,11 +17,10 @@ export default function Navbar() {
       display={{ base: "none", md: "block" }}
       position="sticky"
       top={0}
-      h="100vh"
+      h="90vh"
       w="250px"
       bg={bgColor}
       color={textColor}
-      borderRadius="xl"
       borderWidth={1}
       borderColor={borderColor}
       boxShadow="xl"
