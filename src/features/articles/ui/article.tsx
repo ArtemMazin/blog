@@ -1,10 +1,6 @@
 "use client";
 
 import {
-  characterArticleControllerGetOneCharacterArticle,
-  raceArticleControllerGetOneRaceArticle,
-} from "@/shared/api/generated";
-import {
   Box,
   Button,
   Heading,
@@ -14,11 +10,9 @@ import {
   IconButton,
   Spacer,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as React from "react";
-import { ModalUpdatingArticle } from "./modal-updating-article";
 import { ModalDeletingArticle } from "./modal-deleting-article";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import { useToggleFavorites } from "../hooks/useToggleFavorites";
@@ -29,6 +23,7 @@ import { Heart } from "lucide-react";
 import { useLikeCharacterArticle } from "../hooks/useLikeCharacterArticle";
 import { useLikeRaceArticle } from "../hooks/useLikeRaceArticle";
 import { UIButton } from "@/shared/ui/ui-button";
+import { useArticleByID } from "../hooks/useArticleByID";
 
 type ArticleType = "characters" | "races";
 
@@ -44,18 +39,7 @@ export default function Article({
   const { bgColor, borderColor, textColor, dangerColor } = useColors();
 
   // Запрос на получение данных статьи
-  const { data: article } = useQuery({
-    queryKey: ["article", id, type],
-    queryFn: async () => {
-      if (type === "characters") {
-        const res = await characterArticleControllerGetOneCharacterArticle(id);
-        return res.data;
-      } else {
-        const res_1 = await raceArticleControllerGetOneRaceArticle(id);
-        return res_1.data;
-      }
-    },
-  });
+  const { data: article } = useArticleByID(type, id);
 
   // Хуки для добавления и удаления из избранного
   const { mutate: toFavorites } = useToggleFavorites();
@@ -153,7 +137,7 @@ export default function Article({
                 {user && article.author._id === user._id && (
                   <>
                     <ModalDeletingArticle id={article._id} type={type} />
-                    <Link href={`/edit-article/${article._id}`}>
+                    <Link href={`edit-article/${article._id}`}>
                       <UIButton className="w-fit">Изменить статью</UIButton>
                     </Link>
                   </>
