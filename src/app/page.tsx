@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useTopArticles } from "@/features/articles/hooks/useTopArticles";
-import ArticleSlider from "@/features/articles/ui/article-slider";
 import { UIMain } from "@/shared/ui/ui-main";
 import {
   Box,
@@ -13,6 +12,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useColors } from "@/shared/hooks/useColors";
+import { CharacterArticleSlider } from "@/features/articles/ui/slider/character-slider";
+import { RaceArticleSlider } from "@/features/articles/ui/slider/race-slider";
 
 export default function HomePage() {
   const { data: topCharacterArticles, isLoading: isLoadingCharacters } =
@@ -77,10 +78,10 @@ export default function HomePage() {
       </Center>
 
       {topCharacterArticles && topCharacterArticles.length > 0 && (
-        <ArticleSlider articles={topCharacterArticles} type="characters" />
+        <CharacterArticleSlider articles={topCharacterArticles} />
       )}
       {topRaceArticles && topRaceArticles.length > 0 && (
-        <ArticleSlider articles={topRaceArticles} type="races" />
+        <RaceArticleSlider articles={topRaceArticles} />
       )}
     </UIMain>
   );

@@ -1,8 +1,8 @@
 "use client";
 
-import { ArticleList } from "@/features/articles/ui/article-list";
 import { UIMain } from "@/shared/ui/ui-main";
 import { useAllArticles } from "@/features/articles/hooks/useAllArticles";
+import { RaceArticleList } from "@/features/articles/ui/article-list/race-article";
 
 export default function RacesPage() {
   const {
@@ -13,11 +13,10 @@ export default function RacesPage() {
 
   return (
     <UIMain>
-      <ArticleList
+      <RaceArticleList
         articles={raceArticles}
         isLoading={isLoadingRaces}
         error={raceError}
-        type="races"
       />
     </UIMain>
   );

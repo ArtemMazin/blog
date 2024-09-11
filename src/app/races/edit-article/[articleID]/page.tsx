@@ -6,12 +6,12 @@ import { useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { UIMain } from "@/shared/ui/ui-main";
 import { useArticleUpdate } from "@/features/articles/hooks/useArticleUpdate";
-import { ArticleForm } from "@/features/articles/ui/article-form";
 import { useColors } from "@/shared/hooks/useColors";
 import { Box, Heading } from "@chakra-ui/react";
 import { useArticleByID } from "@/features/articles/hooks/useArticleByID";
-import { TFormData } from "@/app/create-article/page";
 import { handleSubmitArticle } from "@/features/articles/hooks/handleArticleSubmit";
+import { ArticleForm } from "@/features/articles/ui/article-form/article-form";
+import { UpdateRaceArticleDto } from "@/shared/api/generated";
 
 export default function EditArticlePage({
   params,
@@ -25,21 +25,19 @@ export default function EditArticlePage({
   // Запрос на получение данных статьи
   const { data: article } = useArticleByID("races", params.articleID);
 
-  const methods = useForm<TFormData>({
+  const methods = useForm<UpdateRaceArticleDto>({
     mode: "onBlur",
     defaultValues: {
       title: article?.title,
       content: article?.content,
-      image: null,
-      isPremium: article?.isPremium,
-      // Поля для статьи о расе
-      class: "",
-      distinctiveFeatures: "",
-      language: "",
-      raceName: "",
-      skinColor: "",
-      type: "",
-      knownRepresentatives: "",
+      image: undefined,
+      class: article?.class || "",
+      // distinctiveFeatures: article?.distinctiveFeatures || "",
+      language: article?.language || "",
+      raceName: article?.raceName || "",
+      skinColor: article?.skinColor || "",
+      type: article?.type || "",
+      // knownRepresentatives: article?.knownRepresentatives || "",
     },
   });
 
@@ -50,7 +48,7 @@ export default function EditArticlePage({
     "races",
   );
 
-  const onSubmit = handleSubmit((data: TFormData) => {
+  const onSubmit = handleSubmit((data: UpdateRaceArticleDto) => {
     handleSubmitArticle(data, "races", updateArticle, toast, router);
   });
 

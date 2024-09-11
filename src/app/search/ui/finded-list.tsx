@@ -1,10 +1,11 @@
 "use client";
 
-import { ArticleList } from "@/features/articles/ui/article-list";
 import { UIMain } from "@/shared/ui/ui-main";
 import { useSearch } from "@/features/articles/hooks/useSearch";
 import { ArticleTabs } from "@/features/articles/ui/article-tabs";
 import { Heading, Box } from "@chakra-ui/react";
+import { CharacterArticleList } from "@/features/articles/ui/article-list/character-list";
+import { RaceArticleList } from "@/features/articles/ui/article-list/race-article";
 
 export function FindedList() {
   const {
@@ -30,17 +31,15 @@ export function FindedList() {
         <Heading size="xl">Найдено статей: {count}</Heading>
       </Box>
       <ArticleTabs>
-        <ArticleList
+        <CharacterArticleList
           articles={characterArticles}
           isLoading={isLoadingCharacters}
           error={characterError}
-          type="characters"
         />
-        <ArticleList
+        <RaceArticleList
           articles={raceArticles}
           isLoading={isLoadingRaces}
           error={raceError}
-          type="races"
         />
       </ArticleTabs>
     </UIMain>

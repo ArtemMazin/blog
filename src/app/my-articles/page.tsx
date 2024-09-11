@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { ArticleList } from "@/features/articles/ui/article-list";
 import { UIMain } from "@/shared/ui/ui-main";
 import { useMyArticles } from "@/features/articles/hooks/useMyArticles";
 import { ArticleTabs } from "@/features/articles/ui/article-tabs";
+import { CharacterArticleList } from "@/features/articles/ui/article-list/character-list";
+import { RaceArticleList } from "@/features/articles/ui/article-list/race-article";
 
 export default function MyArticlesPage() {
   const {
@@ -22,17 +23,15 @@ export default function MyArticlesPage() {
   return (
     <UIMain>
       <ArticleTabs>
-        <ArticleList
+        <CharacterArticleList
           articles={characterArticles}
           isLoading={isLoadingCharacters}
           error={characterError}
-          type="characters"
         />
-        <ArticleList
+        <RaceArticleList
           articles={raceArticles}
           isLoading={isLoadingRaces}
           error={raceError}
-          type="races"
         />
       </ArticleTabs>
     </UIMain>

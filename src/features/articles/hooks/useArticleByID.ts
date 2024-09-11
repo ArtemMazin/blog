@@ -1,12 +1,23 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import {
   characterArticleControllerGetOneCharacterArticle,
   raceArticleControllerGetOneRaceArticle,
+  ResponseCharacterArticleDto,
+  ResponseRaceArticleDto,
 } from "@/shared/api/generated";
 
-type ArticleType = "characters" | "races";
-
-export const useArticleByID = (type: ArticleType, id: string) => {
+function useArticleByID(
+  type: "characters",
+  id: string,
+): UseQueryResult<ResponseCharacterArticleDto, Error>;
+function useArticleByID(
+  type: "races",
+  id: string,
+): UseQueryResult<ResponseRaceArticleDto, Error>;
+function useArticleByID(
+  type: "characters" | "races",
+  id: string,
+): UseQueryResult<ResponseCharacterArticleDto | ResponseRaceArticleDto, Error> {
   return useQuery({
     queryKey: ["article", id, type],
     queryFn: async () => {
@@ -14,9 +25,11 @@ export const useArticleByID = (type: ArticleType, id: string) => {
         const res = await characterArticleControllerGetOneCharacterArticle(id);
         return res.data;
       } else {
-        const res_1 = await raceArticleControllerGetOneRaceArticle(id);
-        return res_1.data;
+        const res = await raceArticleControllerGetOneRaceArticle(id);
+        return res.data;
       }
     },
   });
-};
+}
+
+export { useArticleByID };

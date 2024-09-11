@@ -1,20 +1,31 @@
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import {
   characterArticleControllerSearchCharacterArticles,
   raceArticleControllerSearchRaceArticles,
+  ResponseCharacterArticleDto,
+  ResponseRaceArticleDto,
 } from "@/shared/api/generated";
-import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
 
-type ArticleType = "characters" | "races";
-
-export const useSearch = (type: ArticleType) => {
+function useSearch(
+  type: "characters",
+): UseQueryResult<ResponseCharacterArticleDto[] | undefined, Error>;
+function useSearch(
+  type: "races",
+): UseQueryResult<ResponseRaceArticleDto[] | undefined, Error>;
+function useSearch(
+  type: "characters" | "races",
+): UseQueryResult<
+  ResponseCharacterArticleDto[] | ResponseRaceArticleDto[] | undefined,
+  Error
+> {
   const searchParams = useSearchParams();
-
   const search = searchParams.get("query");
+
   return useQuery({
     queryKey: ["search", search, type],
     queryFn: async () => {
-      if (!search) return;
+      if (!search) return undefined;
 
       if (type === "characters") {
         const res = await characterArticleControllerSearchCharacterArticles({
@@ -22,11 +33,13 @@ export const useSearch = (type: ArticleType) => {
         });
         return res.data;
       } else {
-        const res_1 = await raceArticleControllerSearchRaceArticles({
+        const res = await raceArticleControllerSearchRaceArticles({
           query: search,
         });
-        return res_1.data;
+        return res.data;
       }
     },
   });
-};
+}
+
+export { useSearch };

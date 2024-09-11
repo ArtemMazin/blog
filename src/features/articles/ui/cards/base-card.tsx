@@ -12,19 +12,21 @@ import {
 import Image from "next/image";
 import * as React from "react";
 import { useColors } from "@/shared/hooks/useColors";
-import {
-  ResponseCharacterArticleDto,
-  ResponseRaceArticleDto,
-} from "@/shared/api/generated";
-import { useHandleClick } from "../hooks/useHandleClick";
+import { useHandleClick } from "../../hooks/useHandleClick";
 import { useProfile } from "@/features/profile/hooks/useProfile";
+import { ArticleType } from "@/shared/api/generated";
 
-export interface IAppProps {
-  article: ResponseCharacterArticleDto | ResponseRaceArticleDto;
+interface BaseArticleCardProps {
+  article: ArticleType;
   type: "characters" | "races";
+  renderSpecificContent: () => React.ReactNode;
 }
 
-export function ArticleCard({ article, type }: IAppProps) {
+export function BaseArticleCard({
+  article,
+  type,
+  renderSpecificContent,
+}: BaseArticleCardProps) {
   const { bgColor } = useColors();
   const { handleClick } = useHandleClick();
   const { data: user } = useProfile();
@@ -50,7 +52,7 @@ export function ArticleCard({ article, type }: IAppProps) {
       <Box height="180px" position="relative" overflow="hidden">
         <Image
           src={process.env.NEXT_PUBLIC_IMAGE_URL + article.image}
-          alt={article?.title}
+          alt={article.title}
           layout="fill"
           objectFit="cover"
         />
@@ -68,6 +70,7 @@ export function ArticleCard({ article, type }: IAppProps) {
         <Text fontSize="sm" noOfLines={2} color="gray.600">
           {article.content}
         </Text>
+        {renderSpecificContent()}
         <Flex justify="space-between" align="center">
           <Flex align="center">
             <Clock size={14} />

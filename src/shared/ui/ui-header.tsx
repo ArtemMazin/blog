@@ -43,7 +43,7 @@ export function UIHeader() {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/create-article");
+    router.push("races/create-article");
   };
 
   return (

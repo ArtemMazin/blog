@@ -2,22 +2,20 @@
 
 import * as React from "react";
 import { Box, Heading, SimpleGrid, Skeleton } from "@chakra-ui/react";
-import { ArticleType } from "@/shared/api/generated";
-import { ArticleCard } from "./article-card";
 
-interface ArticleListProps {
-  articles: ArticleType[] | undefined;
+interface BaseArticleListProps {
   isLoading: boolean;
   error: Error | null;
-  type: "characters" | "races";
+  articles: any[] | undefined;
+  renderArticle: (article: any) => React.ReactNode;
 }
 
-export function ArticleList({
-  articles,
+export function BaseArticleList({
   isLoading,
   error,
-  type,
-}: ArticleListProps) {
+  articles,
+  renderArticle,
+}: BaseArticleListProps) {
   if (isLoading) {
     return (
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10}>
@@ -40,7 +38,7 @@ export function ArticleList({
       ) : (
         articles.map((article) => (
           <Box key={article._id} px={2}>
-            <ArticleCard article={article} type={type} />
+            {renderArticle(article)}
           </Box>
         ))
       )}

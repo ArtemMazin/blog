@@ -1,11 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { ArticleList } from "@/features/articles/ui/article-list";
 import { UIMain } from "@/shared/ui/ui-main";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import { useAllArticles } from "@/features/articles/hooks/useAllArticles";
 import { ArticleTabs } from "@/features/articles/ui/article-tabs";
+import { CharacterArticleList } from "@/features/articles/ui/article-list/character-list";
+import { RaceArticleList } from "@/features/articles/ui/article-list/race-article";
 
 export default function MyFavoritesPage() {
   const { data: profile } = useProfile();
@@ -29,17 +30,15 @@ export default function MyFavoritesPage() {
   return (
     <UIMain>
       <ArticleTabs>
-        <ArticleList
+        <CharacterArticleList
           articles={favoriteCharacterArticles}
           isLoading={isLoadingCharacters}
           error={characterError}
-          type="characters"
         />
-        <ArticleList
+        <RaceArticleList
           articles={favoriteRaceArticles}
           isLoading={isLoadingRaces}
           error={raceError}
-          type="races"
         />
       </ArticleTabs>
     </UIMain>

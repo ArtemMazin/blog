@@ -52,7 +52,7 @@ export interface UpdateRaceArticleDto {
   /** Содержание статьи */
   content: string;
   /** Отличительные признаки */
-  distinctiveFeatures: string[];
+  distinctiveFeatures: string;
   /** Планета происхождения */
   homeWorld: string;
   /** Изображение статьи */
@@ -60,7 +60,7 @@ export interface UpdateRaceArticleDto {
   /** Является ли статья премиум-контентом */
   isPremium: UpdateRaceArticleDtoIsPremium;
   /** Известные представители */
-  knownRepresentatives?: string[];
+  knownRepresentatives?: string;
   /** Язык */
   language: string;
   /** Название расы */
@@ -179,7 +179,7 @@ export interface UpdateCharacterArticleDto {
   /** Родной мир персонажа */
   homeWorld: string;
   /** Изображение статьи */
-  image: Blob;
+  image: FileList;
   /** Является ли статья премиум-контентом */
   isPremium: UpdateCharacterArticleDtoIsPremium;
   /** Раса персонажа */
@@ -606,7 +606,7 @@ export const characterArticleControllerUpdateCharacterArticle = <
   formData.append("title", updateCharacterArticleDto.title);
   formData.append("content", updateCharacterArticleDto.content);
   formData.append("isPremium", updateCharacterArticleDto.isPremium);
-  formData.append("image", updateCharacterArticleDto.image);
+  formData.append("image", updateCharacterArticleDto.image[0]);
   formData.append("characterName", updateCharacterArticleDto.characterName);
   if (updateCharacterArticleDto.birthDate !== undefined) {
     formData.append("birthDate", updateCharacterArticleDto.birthDate);
@@ -771,14 +771,17 @@ export const raceArticleControllerUpdateRaceArticle = <
   formData.append("type", updateRaceArticleDto.type);
   formData.append("class", updateRaceArticleDto.class);
   formData.append("skinColor", updateRaceArticleDto.skinColor);
-  updateRaceArticleDto.distinctiveFeatures.forEach((value) =>
-    formData.append("distinctiveFeatures", value),
-  );
-  formData.append("homeWorld", updateRaceArticleDto.homeWorld);
+
+  formData.append(
+    "distinctiveFeatures",
+    updateRaceArticleDto.distinctiveFeatures,
+  ),
+    formData.append("homeWorld", updateRaceArticleDto.homeWorld);
   formData.append("language", updateRaceArticleDto.language);
   if (updateRaceArticleDto.knownRepresentatives !== undefined) {
-    updateRaceArticleDto.knownRepresentatives.forEach((value) =>
-      formData.append("knownRepresentatives", value),
+    formData.append(
+      "knownRepresentatives",
+      updateRaceArticleDto.knownRepresentatives,
     );
   }
 
