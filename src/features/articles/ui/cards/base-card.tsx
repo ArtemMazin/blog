@@ -12,7 +12,7 @@ import {
 import Image from "next/image";
 import * as React from "react";
 import { useColors } from "@/shared/hooks/useColors";
-import { useHandleClick } from "../../hooks/useHandleClick";
+import { useHandlePremium } from "../../hooks/useHandlePremium";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import { ArticleType } from "@/shared/api/generated";
 
@@ -28,7 +28,7 @@ export function BaseArticleCard({
   renderSpecificContent,
 }: BaseArticleCardProps) {
   const { bgColor } = useColors();
-  const { handleClick } = useHandleClick();
+  const { handleClick } = useHandlePremium();
   const { data: user } = useProfile();
 
   return (

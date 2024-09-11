@@ -30,7 +30,6 @@ export default function EditArticlePage({
     defaultValues: {
       title: article?.title,
       content: article?.content,
-      image: undefined,
       characterName: article?.characterName || "",
       birthDate: article?.birthDate || "",
       deathDate: article?.deathDate || "",

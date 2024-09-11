@@ -3,7 +3,7 @@
 import * as React from "react";
 import { UIMain } from "@/shared/ui/ui-main";
 import { useColors } from "@/shared/hooks/useColors";
-import { Heading, Box } from "@chakra-ui/react";
+import { Heading, Box, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useRaceArticleCreate } from "@/features/articles/hooks/useRaceArticleCreate";
@@ -19,6 +19,7 @@ export type TRaceFormData = Omit<CreateRaceArticleDto, "image"> & {
 export default function CreateRaceArticlePage() {
   const router = useRouter();
   const { bgColor, textColor } = useColors();
+  const toast = useToast();
   const { mutate: createRaceArticle, isPending } = useRaceArticleCreate();
 
   const methods = useForm<TRaceFormData>({
@@ -40,7 +41,11 @@ export default function CreateRaceArticlePage() {
 
   const onSubmit = methods.handleSubmit((data: TRaceFormData) => {
     if (!data.image?.[0]) {
-      // Показать ошибку
+      toast({
+        title: "Ошибка",
+        description: "Выберите изображение",
+        status: "error",
+      });
       return;
     }
 

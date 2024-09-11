@@ -3,7 +3,7 @@ import { ArticleType } from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
-export const useHandleClick = () => {
+export const useHandlePremium = () => {
   const router = useRouter();
   const toast = useToast();
   const { data: user } = useProfile();

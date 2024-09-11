@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { ResponseCharacterArticleDto } from "@/shared/api/generated";
-import { CharacterArticleCard } from "../cards/character-card";
 import { BaseArticleSlider } from "./base-slider";
+import { CharacterArticleCard } from "../cards/character-card";
 
 interface CharacterArticleSliderProps {
   articles: ResponseCharacterArticleDto[] | undefined;

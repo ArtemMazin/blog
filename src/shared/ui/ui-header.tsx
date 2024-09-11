@@ -21,30 +21,17 @@ import { UILogo } from "./ui-logo";
 import { Profile } from "@/features/profile/profile";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import { Suspense, useContext } from "react";
-import { Menu, Search, PlusCircle, Plus } from "lucide-react";
+import { Search, Menu as MenuIcon } from "lucide-react";
 import { useColors } from "@/shared/hooks/useColors";
 import { UINavItems } from "./ui-nav-items";
-import { useRouter } from "next/navigation";
-import { UIButton } from "./ui-button";
+import { MenuCreateArticle } from "./ui-menu-create-article";
 
 export function UIHeader() {
   const { isAuthenticated } = useContext(AuthContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    bgColor,
-    textColor,
-    primaryColor,
-    secondaryColor,
-    borderColor,
-    bannerColor,
-  } = useColors();
+  const { bgColor, textColor, primaryColor, secondaryColor, borderColor } =
+    useColors();
   useProfile();
-
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push("races/create-article");
-  };
 
   return (
     <Box
@@ -77,9 +64,7 @@ export function UIHeader() {
           </Suspense>
           {isAuthenticated ? (
             <>
-              <UIButton onClick={handleClick}>
-                Добавить статью <Plus size={"20px"} />
-              </UIButton>
+              <MenuCreateArticle />
               <Profile />
             </>
           ) : (
@@ -90,7 +75,7 @@ export function UIHeader() {
         <IconButton
           display={{ base: "flex", md: "none" }}
           onClick={onOpen}
-          icon={<Menu />}
+          icon={<MenuIcon />}
           aria-label="Открыть меню"
           bg={primaryColor}
           color={bgColor}
@@ -118,14 +103,7 @@ export function UIHeader() {
               </Button>
               {isAuthenticated ? (
                 <>
-                  <Button
-                    leftIcon={<PlusCircle />}
-                    justifyContent="flex-start"
-                    variant="ghost"
-                    onClick={onClose}
-                  >
-                    Создать статью
-                  </Button>
+                  <MenuCreateArticle />
                   <Profile />
                 </>
               ) : (

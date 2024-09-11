@@ -3,7 +3,7 @@
 import * as React from "react";
 import { UIMain } from "@/shared/ui/ui-main";
 import { useColors } from "@/shared/hooks/useColors";
-import { Heading, Box } from "@chakra-ui/react";
+import { Heading, Box, useToast } from "@chakra-ui/react";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useCharacterArticleCreate } from "@/features/articles/hooks/useCharacterArticleCreate";
@@ -16,6 +16,7 @@ export type TCharacterFormData = Omit<CreateCharacterArticleDto, "image"> & {
 
 export default function CreateCharacterArticlePage() {
   const router = useRouter();
+  const toast = useToast();
   const { bgColor, textColor } = useColors();
   const { mutate: createCharacterArticle, isPending } =
     useCharacterArticleCreate();
@@ -26,7 +27,6 @@ export default function CreateCharacterArticlePage() {
       title: "",
       content: "",
       image: null,
-      isPremium: "false",
       characterName: "",
       birthDate: "",
       deathDate: "",
@@ -39,7 +39,11 @@ export default function CreateCharacterArticlePage() {
 
   const onSubmit = methods.handleSubmit((data: TCharacterFormData) => {
     if (!data.image?.[0]) {
-      // Показать ошибку
+      toast({
+        title: "Ошибка",
+        description: "Выберите изображение",
+        status: "error",
+      });
       return;
     }
 
