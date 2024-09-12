@@ -1,5 +1,8 @@
 import { useProfile } from "@/features/profile/hooks/useProfile";
-import { ArticleType } from "@/shared/api/generated";
+import {
+  ResponseCharacterArticleDto,
+  ResponseRaceArticleDto,
+} from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
@@ -8,7 +11,9 @@ export const useHandlePremium = () => {
   const toast = useToast();
   const { data: user } = useProfile();
 
-  const handleClick = (article: ArticleType) => {
+  const handleClick = (
+    article: ResponseCharacterArticleDto | ResponseRaceArticleDto,
+  ) => {
     if (article.isPremium && !user?.isPremium) {
       toast({
         title: "Ошибка",

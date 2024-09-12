@@ -11,11 +11,7 @@ export function CharacterArticleCard({ article }: CharacterArticleCardProps) {
     <BaseArticleCard
       article={article}
       type="characters"
-      renderSpecificContent={() => (
-        <Text fontSize="xs" color="gray.500">
-          Class: {article.birthDate}
-        </Text>
-      )}
+      renderSpecificContent={() => <></>}
     />
   );
 }

@@ -11,7 +11,6 @@ import {
   Badge,
   Wrap,
   WrapItem,
-  Flex,
 } from "@chakra-ui/react";
 import { useArticleByID } from "../../hooks/useArticleByID";
 import { useLikeRaceArticle } from "../../hooks/useLikeRaceArticle";
@@ -49,10 +48,7 @@ export default function RaceArticle({ id }: { id: string }) {
       onLikeClick={handleClick}
       content={""}
     >
-      <Flex>
-        <Box flex="1" pr={6}>
-          <Text>{article.content}</Text>
-        </Box>
+      <Box position="relative">
         <Box
           width="300px"
           h={"max-content"}
@@ -60,7 +56,9 @@ export default function RaceArticle({ id }: { id: string }) {
           p={6}
           boxShadow="md"
           color={textColor}
+          float="right"
           ml={6}
+          mb={6}
         >
           <Heading as="h3" size="md" mb={4} color={primaryColor}>
             Информация о расе
@@ -102,7 +100,8 @@ export default function RaceArticle({ id }: { id: string }) {
             </Wrap>
           </VStack>
         </Box>
-      </Flex>
+        <Text>{article.content}</Text>
+      </Box>
     </BaseArticle>
   );
 }

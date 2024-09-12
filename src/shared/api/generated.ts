@@ -10,7 +10,6 @@ const instance = axios.create({
   withCredentials: true,
 });
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
-export type ArticleType = ResponseCharacterArticleDto | ResponseRaceArticleDto;
 export type RaceArticleControllerSearchRaceArticlesParams = {
   query: string;
 };

@@ -54,6 +54,7 @@ export default function CreateCharacterArticlePage() {
     };
 
     createCharacterArticle(characterArticleData);
+    router.push("/");
   });
 
   return (

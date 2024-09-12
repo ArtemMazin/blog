@@ -11,11 +11,7 @@ export function RaceArticleCard({ article }: RaceArticleCardProps) {
     <BaseArticleCard
       article={article}
       type="races"
-      renderSpecificContent={() => (
-        <Text fontSize="xs" color="gray.500">
-          Subrace: {article.distinctiveFeatures}
-        </Text>
-      )}
+      renderSpecificContent={() => <></>}
     />
   );
 }

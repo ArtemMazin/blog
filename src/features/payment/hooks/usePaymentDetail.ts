@@ -1,6 +1,6 @@
 import {
-  IPaymentDetails,
-  paymentControllerGetPaymentDetails,
+  GetPaymentDto,
+  paymentControllerGetPayment,
 } from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,8 +10,8 @@ export const usePaymentDetails = () => {
   const toast = useToast();
 
   return useMutation({
-    mutationFn: (id: { id: string }) => paymentControllerGetPaymentDetails(id),
-    onSuccess: (res: { data: IPaymentDetails }) => {
+    mutationFn: (id: GetPaymentDto) => paymentControllerGetPayment(id),
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       sessionStorage.clear();
     },

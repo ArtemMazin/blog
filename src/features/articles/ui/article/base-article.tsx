@@ -9,6 +9,7 @@ import {
   HStack,
   IconButton,
   Spacer,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -20,6 +21,7 @@ import { Heart } from "lucide-react";
 import { UIButton } from "@/shared/ui/ui-button";
 import { ResponseUserDto } from "@/shared/api/generated";
 import { ModalDeletingArticle } from "../modal-deleting-article";
+import { ImageModal } from "@/shared/ui/ui-image-modal";
 
 interface BaseArticleProps {
   id: string;
@@ -46,9 +48,14 @@ export function BaseArticle({
   onLikeClick,
   children,
 }: BaseArticleProps) {
+  // Хуки и состояния
   const router = useRouter();
   const { data: user } = useProfile();
   const { bgColor, borderColor, textColor, dangerColor } = useColors();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Полный URL изображения
+  const fullImageUrl = `${process.env.NEXT_PUBLIC_IMAGE_URL}${image}`;
 
   return (
     <Box
@@ -62,27 +69,38 @@ export function BaseArticle({
       transition="all 0.3s"
     >
       <VStack spacing={0} align="stretch" h="100%">
-        <Box position="relative" h={{ base: "30vh", md: "40vh", lg: "50vh" }}>
+        {/* Блок с изображением */}
+        <Box
+          position="relative"
+          h={{ base: "30vh", md: "40vh", lg: "50vh" }}
+          onClick={onOpen}
+          cursor="pointer"
+        >
           <Image
-            src={process.env.NEXT_PUBLIC_IMAGE_URL + image}
+            src={fullImageUrl}
             alt={title}
             fill
             style={{ objectFit: "contain" }}
             sizes="100vw"
           />
         </Box>
+
+        {/* Основной контент статьи */}
         <VStack
           p={{ base: 4, md: 6, lg: 8 }}
           spacing={4}
           align="stretch"
           flex={1}
         >
+          {/* Заголовок статьи */}
           <Heading
             fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
             color={textColor}
           >
             {title}
           </Heading>
+
+          {/* Информация об авторе и дате публикации */}
           <HStack justifyContent="space-between" flexWrap="wrap">
             <Text fontSize="sm">
               Автор:{" "}
@@ -98,6 +116,8 @@ export function BaseArticle({
               Опубликовано: {new Date(createdAt).toLocaleDateString()}
             </Text>
           </HStack>
+
+          {/* Текст статьи */}
           <Text
             fontSize={{ base: "md", lg: "lg" }}
             lineHeight="tall"
@@ -106,8 +126,13 @@ export function BaseArticle({
           >
             {content}
           </Text>
+
+          {/* Дополнительный контент (если есть) */}
           {children}
+
           <Spacer />
+
+          {/* Нижняя панель с кнопками */}
           <HStack justifyContent="space-between" alignItems="center">
             <HStack>
               {user && author._id === user._id && (
@@ -149,6 +174,14 @@ export function BaseArticle({
           </HStack>
         </VStack>
       </VStack>
+
+      {/* Модальное окно с изображением */}
+      <ImageModal
+        isOpen={isOpen}
+        onClose={onClose}
+        imageSrc={fullImageUrl}
+        imageAlt={title}
+      />
     </Box>
   );
 }

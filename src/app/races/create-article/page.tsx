@@ -62,6 +62,7 @@ export default function CreateRaceArticlePage() {
     };
 
     createRaceArticle(raceArticleData);
+    router.push("/");
   });
 
   return (

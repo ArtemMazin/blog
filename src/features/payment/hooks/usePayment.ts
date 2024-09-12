@@ -1,6 +1,6 @@
 import {
-  IPaymentDetails,
   paymentControllerCreatePayment,
+  ResponsePaymentDto,
 } from "@/shared/api/generated";
 import { useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ export const usePayment = (reset?: () => void, onClose?: () => void) => {
   return useMutation({
     mutationFn: (amount: { amount: number }) =>
       paymentControllerCreatePayment(amount),
-    onSuccess: (res: { data: IPaymentDetails }) => {
+    onSuccess: (res: { data: ResponsePaymentDto }) => {
       router.push(res.data.confirmation.confirmation_url);
       sessionStorage.setItem("paymentId", res.data.id);
 

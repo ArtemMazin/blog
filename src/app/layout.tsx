@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Box, Container } from "@chakra-ui/react";
 import Navbar from "@/shared/ui/ui-navbar";
 import { UIHeader } from "@/shared/ui/ui-header";
 
-const inter = Inter({ subsets: ["latin"] });
+const font = Nunito({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Star Wars",
@@ -20,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={font.className}>
         <Providers>
           <Container maxW="8xl" className="min-h-screen" p={{ base: 2, md: 6 }}>
             <Box

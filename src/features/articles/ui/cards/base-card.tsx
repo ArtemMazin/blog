@@ -1,4 +1,4 @@
-import { Star, Clock, ChevronRight, Lock } from "lucide-react";
+import { Star, Clock, ChevronRight, Lock, BookOpen } from "lucide-react";
 import {
   Box,
   Heading,
@@ -14,10 +14,13 @@ import * as React from "react";
 import { useColors } from "@/shared/hooks/useColors";
 import { useHandlePremium } from "../../hooks/useHandlePremium";
 import { useProfile } from "@/features/profile/hooks/useProfile";
-import { ArticleType } from "@/shared/api/generated";
+import {
+  ResponseCharacterArticleDto,
+  ResponseRaceArticleDto,
+} from "@/shared/api/generated";
 
 interface BaseArticleCardProps {
-  article: ArticleType;
+  article: ResponseCharacterArticleDto | ResponseRaceArticleDto;
   type: "characters" | "races";
   renderSpecificContent: () => React.ReactNode;
 }
@@ -27,12 +30,18 @@ export function BaseArticleCard({
   type,
   renderSpecificContent,
 }: BaseArticleCardProps) {
-  const { bgColor } = useColors();
+  const { bgColor, textColor } = useColors();
   const { handleClick } = useHandlePremium();
   const { data: user } = useProfile();
 
   return (
-    <Box overflow="hidden" boxShadow="lg" position="relative" height="350px">
+    <Box
+      overflow="hidden"
+      boxShadow="lg"
+      position="relative"
+      height="350px"
+      color={textColor}
+    >
       {article.isPremium && (
         <Badge
           position="absolute"
@@ -67,16 +76,24 @@ export function BaseArticleCard({
         <Heading size="sm" noOfLines={2}>
           {article.title}
         </Heading>
-        <Text fontSize="sm" noOfLines={2} color="gray.600">
+        <Text fontSize="sm" noOfLines={2}>
           {article.content}
         </Text>
         {renderSpecificContent()}
         <Flex justify="space-between" align="center">
           <Flex align="center">
-            <Clock size={14} />
-            <Text fontSize="xs" ml={1}>
-              {new Date(article.createdAt).toLocaleDateString()}
-            </Text>
+            <Flex align="center" mr={3}>
+              <Clock size={14} />
+              <Text fontSize="xs" ml={1}>
+                {new Date(article.createdAt).toLocaleDateString()}
+              </Text>
+            </Flex>
+            <Flex align="center">
+              <BookOpen size={14} />
+              <Text fontSize="xs" ml={1}>
+                {article.readingTime} мин
+              </Text>
+            </Flex>
           </Flex>
           {article.isPremium && !user?.isPremium ? (
             <Button
