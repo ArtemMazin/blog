@@ -9,9 +9,9 @@ import { useArticleUpdate } from "@/features/articles/hooks/useArticleUpdate";
 import { useColors } from "@/shared/hooks/useColors";
 import { Box, Heading } from "@chakra-ui/react";
 import { useArticleByID } from "@/features/articles/hooks/useArticleByID";
-import { handleSubmitArticle } from "@/features/articles/hooks/handleArticleSubmit";
 import { ArticleForm } from "@/features/articles/ui/article-form/article-form";
 import { UpdateRaceArticleDto } from "@/shared/api/generated";
+import { handleRaceArticleSubmit } from "./handle-submit";
 
 export default function EditArticlePage({
   params,
@@ -49,7 +49,7 @@ export default function EditArticlePage({
   );
 
   const onSubmit = handleSubmit((data: UpdateRaceArticleDto) => {
-    handleSubmitArticle(data, "races", updateArticle, toast, router);
+    handleRaceArticleSubmit(data, updateArticle, toast, router);
   });
 
   return (

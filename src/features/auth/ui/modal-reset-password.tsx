@@ -17,6 +17,7 @@ import { usePasswordReset } from "../hooks/usePasswordReset";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 import { messages, REG_EXP_EMAIL } from "../constants";
+import { ResetPasswordDto } from "@/shared/api/generated";
 
 export const ModalResetPassword = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,7 +27,7 @@ export const ModalResetPassword = () => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<{ email: string }>({
+  } = useForm<ResetPasswordDto>({
     mode: "onBlur",
     defaultValues: {
       email: "",
@@ -34,7 +35,7 @@ export const ModalResetPassword = () => {
   });
 
   const { mutate: resetPassword } = usePasswordReset();
-  const onSubmit: SubmitHandler<{ email: string }> = ({ email }) => {
+  const onSubmit: SubmitHandler<ResetPasswordDto> = (email) => {
     resetPassword(email);
     onClose();
   };
