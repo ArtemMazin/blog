@@ -8,7 +8,7 @@ export const handleCharacterArticleSubmit = (
   toast: (options: UseToastOptions) => void,
   router: AppRouterInstance,
 ) => {
-  if (!data?.image?.[0]) {
+  if (!data?.image) {
     toast({
       title: "Ошибка",
       description: "Выберите изображение",

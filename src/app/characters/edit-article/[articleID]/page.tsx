@@ -36,7 +36,7 @@ export default function EditArticlePage({
       gender: "Другое",
       height: article?.height,
       homeWorld: article?.homeWorld || "",
-      race: article?.race || "",
+      race: article?.race.raceName || "",
     },
   });
 

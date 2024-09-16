@@ -63,7 +63,7 @@ export default function CharacterArticle({ id }: { id: string }) {
               label="Имя персонажа"
               value={article.characterName}
             />
-            <CharacterInfo label="Раса" value={article.race} />
+            <CharacterInfo label="Раса" value={article.race.raceName} />
             <CharacterInfo label="Пол" value={article.gender} />
             <CharacterInfo label="Родной мир" value={article.homeWorld} />
             {article.birthDate && (

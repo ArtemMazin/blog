@@ -53,12 +53,8 @@ export default function CreateRaceArticlePage() {
       ...data,
       image: data.image[0],
       isPremium: data.isPremium ? "true" : "false",
-      distinctiveFeatures: data.distinctiveFeatures
-        .split(",")
-        .map((item) => item.trim()),
-      knownRepresentatives: data.knownRepresentatives
-        ? data.knownRepresentatives.split(",").map((item) => item.trim())
-        : undefined,
+      distinctiveFeatures: data.distinctiveFeatures,
+      knownRepresentatives: data.knownRepresentatives,
     };
 
     createRaceArticle(raceArticleData);

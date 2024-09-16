@@ -343,6 +343,28 @@ paths:
           description: Доступ запрещен
       tags:
         - Статьи о персонажах
+  /character-articles/by-race/{raceId}:
+    get:
+      operationId: CharacterArticleController_getArticlesByRace
+      summary: Получить статьи о персонажах по расе
+      parameters:
+        - name: raceId
+          required: true
+          in: path
+          description: ID расы
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResponseCharacterArticleDto"
+      tags:
+        - Статьи о персонажах
   /character-articles/create:
     post:
       operationId: CharacterArticleController_createCharacterArticle
@@ -355,22 +377,8 @@ paths:
             schema:
               $ref: "#/components/schemas/CreateCharacterArticleDto"
       responses:
-        "200":
-          description: Операция успешно выполнена
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseUserDto"
         "201":
           description: ""
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseCharacterArticleDto"
-        "400":
-          description: Некорректные данные
-        "401":
-          description: Неверные учетные данные
       tags:
         - Статьи о персонажах
   /character-articles/update/{id}:
@@ -1029,182 +1037,6 @@ components:
           description: ID платежа
       required:
         - id
-    ResponseCharacterArticleDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          example: 60d5ecb54e7d5a001f5d4f2c
-        title:
-          type: string
-          example: Заголовок статьи
-        content:
-          type: string
-          example: Содержание статьи...
-        image:
-          type: string
-          example: path/to/image.jpg
-        author:
-          $ref: "#/components/schemas/ResponseUserDto"
-        isPremium:
-          type: boolean
-          example: false
-        readingTime:
-          type: number
-          example: 5
-        likesCount:
-          type: number
-          example: 0
-        createdAt:
-          format: date-time
-          type: string
-          example: "2023-06-15T10:00:00.000Z"
-        updatedAt:
-          format: date-time
-          type: string
-          example: "2023-06-15T10:00:00.000Z"
-        characterName:
-          type: string
-          description: Имя персонажа
-        birthDate:
-          type: string
-          description: Дата рождения персонажа
-        deathDate:
-          type: string
-          description: Дата смерти персонажа
-        race:
-          type: string
-          description: Раса персонажа
-        gender:
-          type: string
-          description: Пол персонажа
-        height:
-          type: string
-          description: Рост персонажа
-        homeWorld:
-          type: string
-          description: Родной мир персонажа
-      required:
-        - _id
-        - title
-        - content
-        - image
-        - author
-        - isPremium
-        - readingTime
-        - likesCount
-        - createdAt
-        - updatedAt
-        - characterName
-        - race
-        - gender
-        - homeWorld
-    CreateCharacterArticleDto:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Заголовок статьи
-        content:
-          type: string
-          description: Содержание статьи
-        isPremium:
-          type: string
-          description: Является ли статья премиум-контентом
-          enum:
-            - "true"
-            - "false"
-        image:
-          type: string
-          format: binary
-          description: Изображение статьи
-        characterName:
-          type: string
-          description: Имя персонажа
-        birthDate:
-          type: string
-          description: Дата рождения
-        deathDate:
-          type: string
-          description: Дата смерти
-        race:
-          type: string
-          description: Раса персонажа
-        gender:
-          type: string
-          description: Пол персонажа
-          enum:
-            - Мужской
-            - Женский
-            - Другое
-        height:
-          type: string
-          description: Рост персонажа
-        homeWorld:
-          type: string
-          description: Родной мир персонажа
-      required:
-        - title
-        - content
-        - isPremium
-        - image
-        - characterName
-        - race
-        - gender
-        - homeWorld
-    UpdateCharacterArticleDto:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Заголовок статьи
-        content:
-          type: string
-          description: Содержание статьи
-        isPremium:
-          type: string
-          description: Является ли статья премиум-контентом
-          enum:
-            - "true"
-            - "false"
-        image:
-          type: string
-          format: binary
-          description: Изображение статьи
-        characterName:
-          type: string
-          description: Имя персонажа
-        birthDate:
-          type: string
-          description: Дата рождения
-        deathDate:
-          type: string
-          description: Дата смерти
-        race:
-          type: string
-          description: Раса персонажа
-        gender:
-          type: string
-          description: Пол персонажа
-          enum:
-            - Мужской
-            - Женский
-            - Другое
-        height:
-          type: string
-          description: Рост персонажа
-        homeWorld:
-          type: string
-          description: Родной мир персонажа
-      required:
-        - title
-        - content
-        - isPremium
-        - image
-        - characterName
-        - race
-        - gender
-        - homeWorld
     ResponseRaceArticleDto:
       type: object
       properties:
@@ -1286,6 +1118,183 @@ components:
         - homeWorld
         - language
         - knownRepresentatives
+    ResponseCharacterArticleDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 60d5ecb54e7d5a001f5d4f2c
+        title:
+          type: string
+          example: Заголовок статьи
+        content:
+          type: string
+          example: Содержание статьи...
+        image:
+          type: string
+          example: path/to/image.jpg
+        author:
+          $ref: "#/components/schemas/ResponseUserDto"
+        isPremium:
+          type: boolean
+          example: false
+        readingTime:
+          type: number
+          example: 5
+        likesCount:
+          type: number
+          example: 0
+        createdAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
+        updatedAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
+        characterName:
+          type: string
+          description: Имя персонажа
+        birthDate:
+          type: string
+          description: Дата рождения персонажа
+        deathDate:
+          type: string
+          description: Дата смерти персонажа
+        race:
+          description: Раса персонажа
+          allOf:
+            - $ref: "#/components/schemas/ResponseRaceArticleDto"
+        gender:
+          type: string
+          description: Пол персонажа
+        height:
+          type: string
+          description: Рост персонажа
+        homeWorld:
+          type: string
+          description: Родной мир персонажа
+      required:
+        - _id
+        - title
+        - content
+        - image
+        - author
+        - isPremium
+        - readingTime
+        - likesCount
+        - createdAt
+        - updatedAt
+        - characterName
+        - race
+        - gender
+        - homeWorld
+    CreateCharacterArticleDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Заголовок статьи
+        content:
+          type: string
+          description: Содержание статьи
+        isPremium:
+          type: string
+          description: Является ли статья премиум-контентом
+          enum:
+            - "true"
+            - "false"
+        image:
+          type: string
+          format: binary
+          description: Изображение статьи
+        characterName:
+          type: string
+          description: Имя персонажа
+        birthDate:
+          type: string
+          description: Дата рождения
+        deathDate:
+          type: string
+          description: Дата смерти
+        race:
+          type: string
+          description: ID расы персонажа
+        gender:
+          type: string
+          description: Пол персонажа
+          enum:
+            - Мужской
+            - Женский
+            - Другое
+        height:
+          type: string
+          description: Рост персонажа
+        homeWorld:
+          type: string
+          description: Родной мир персонажа
+      required:
+        - title
+        - content
+        - isPremium
+        - image
+        - characterName
+        - race
+        - gender
+        - homeWorld
+    UpdateCharacterArticleDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Заголовок статьи
+        content:
+          type: string
+          description: Содержание статьи
+        isPremium:
+          type: string
+          description: Является ли статья премиум-контентом
+          enum:
+            - "true"
+            - "false"
+        image:
+          type: string
+          format: binary
+          description: Изображение статьи
+        characterName:
+          type: string
+          description: Имя персонажа
+        birthDate:
+          type: string
+          description: Дата рождения
+        deathDate:
+          type: string
+          description: Дата смерти
+        race:
+          type: string
+          description: ID расы персонажа
+        gender:
+          type: string
+          description: Пол персонажа
+          enum:
+            - Мужской
+            - Женский
+            - Другое
+        height:
+          type: string
+          description: Рост персонажа
+        homeWorld:
+          type: string
+          description: Родной мир персонажа
+      required:
+        - title
+        - content
+        - isPremium
+        - image
+        - characterName
+        - race
+        - gender
+        - homeWorld
     CreateRaceArticleDto:
       type: object
       properties:
@@ -1318,10 +1327,8 @@ components:
           type: string
           description: Цвет кожи
         distinctiveFeatures:
+          type: string
           description: Отличительные признаки
-          type: array
-          items:
-            type: string
         homeWorld:
           type: string
           description: Планета происхождения
@@ -1329,10 +1336,8 @@ components:
           type: string
           description: Язык
         knownRepresentatives:
+          type: string
           description: Известные представители
-          type: array
-          items:
-            type: string
       required:
         - title
         - content
@@ -1377,10 +1382,8 @@ components:
           type: string
           description: Цвет кожи
         distinctiveFeatures:
+          type: string
           description: Отличительные признаки
-          type: array
-          items:
-            type: string
         homeWorld:
           type: string
           description: Планета происхождения
@@ -1388,10 +1391,8 @@ components:
           type: string
           description: Язык
         knownRepresentatives:
+          type: string
           description: Известные представители
-          type: array
-          items:
-            type: string
       required:
         - title
         - content
