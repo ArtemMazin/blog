@@ -1,16 +1,22 @@
-# LifeHub
+# StarWars
 
-LifeHub - это современный новостной портал, разработанный для создания и публикации статей и новостей. Проект использует передовые веб-технологии для обеспечения быстрой и эффективной работы.
+StarWars - это интерактивная платформа для фанатов вселенной Звездных Войн, где пользователи могут создавать и читать статьи о расах и персонажах из этой легендарной саги. Проект разработан с использованием современных веб-технологий для обеспечения быстрой и эффективной работы.
 
-![LifeHub Screenshot](./public/src-1.png)
+![StarWars Screenshot](./public/screen-1.png)
+
+## Особенности
+
+- Создание и чтение статей о расах и персонажах из вселенной Звездных Войн
+- Система регистрации пользователей
+- Премиум-подписка для доступа к эксклюзивному контенту
+- Просмотр профилей авторов статей
 
 ## Технологии
 
-- [Next.js](https://nextjs.org/) - для оптимизированного рендеринга и маршрутизации
-- [TanStack Query (React Query)](https://tanstack.com/query/latest) - для эффективного управления состоянием и кэширования данных
+- [Next.js](https://nextjs.org/) - для оптимизированного рендеринга и маршрутизации на фронтенде
+- [Nest.js](https://nestjs.com/) - для создания эффективного и масштабируемого серверного приложения
+- [MongoDB](https://www.mongodb.com/) - для хранения данных
 - [TypeScript](https://www.typescriptlang.org/) - для улучшения типобезопасности и поддержки кода
-- [React Hook Form](https://react-hook-form.com/) - для управления формами
-- [Tailwind CSS](https://tailwindcss.com/) и [Chakra UI](https://chakra-ui.com/) - для создания адаптивного и эстетичного пользовательского интерфейса
 
 ## Установка и запуск
 
@@ -32,22 +38,26 @@ cd blog
 npm install
 ```
 
-4. Запустите проект в режиме разработки:
+4. Настройте переменные окружения:
+   NEXT_PUBLIC_API_URL
+   NEXT_PUBLIC_IMAGE_URL
+
+5. Запустите сервер:
 
 ```bash
 npm run dev
 ```
 
-5. Откройте [http://localhost:3000](http://localhost:3000) в вашем браузере, чтобы увидеть результат.
+6. Откройте http://localhost:3000 в вашем браузере, чтобы увидеть результат.
 
 ## Скриншоты
 
 <details>
 <summary>Нажмите, чтобы увидеть больше скриншотов</summary>
 
-![Screenshot 2](./public/src-2.png)
-![Screenshot 3](./public/src-3.png)
-![Screenshot 4](./public/src-4.png)
-![Screenshot 5](./public/src-5.png)
+![Screenshot 2](./public/screen-2.png)
+![Screenshot 3](./public/screen-3.png)
+![Screenshot 4](./public/screen-4.png)
+![Screenshot 5](./public/screen-5.png)
 
 </details>

@@ -1,8 +1,12 @@
+import React from "react";
 import { FormControl, FormLabel, Input, Select } from "@chakra-ui/react";
 import { useFormContext } from "react-hook-form";
+import { useAllArticles } from "../../hooks/useAllArticles";
 
 export const CharacterFields: React.FC = () => {
   const { register } = useFormContext();
+  const { data: raceArticles, isLoading: isLoadingRaces } =
+    useAllArticles("races");
 
   return (
     <>
@@ -36,7 +40,17 @@ export const CharacterFields: React.FC = () => {
       </FormControl>
       <FormControl>
         <FormLabel>Раса</FormLabel>
-        <Input {...register("race", { required: true })} />
+        <Select
+          {...register("race", { required: true })}
+          isDisabled={isLoadingRaces}
+        >
+          <option value="">Выберите расу</option>
+          {raceArticles?.map((race) => (
+            <option key={race._id} value={race._id}>
+              {race.title}
+            </option>
+          ))}
+        </Select>
       </FormControl>
     </>
   );
