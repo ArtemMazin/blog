@@ -1,3 +1,5 @@
+"use client";
+
 import { Star, Clock, ChevronRight, Lock, BookOpen } from "lucide-react";
 import {
   Box,
@@ -12,7 +14,7 @@ import {
 import Image from "next/image";
 import * as React from "react";
 import { useColors } from "@/shared/hooks/useColors";
-import { useHandlePremium } from "../../hooks/useHandlePremium";
+import { useHandlePremium } from "../hooks/useHandlePremium";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import {
   ResponseCharacterArticleDto,
@@ -22,14 +24,9 @@ import {
 interface BaseArticleCardProps {
   article: ResponseCharacterArticleDto | ResponseRaceArticleDto;
   type: "characters" | "races";
-  renderSpecificContent: () => React.ReactNode;
 }
 
-export function BaseArticleCard({
-  article,
-  type,
-  renderSpecificContent,
-}: BaseArticleCardProps) {
+export function BaseArticleCard({ article, type }: BaseArticleCardProps) {
   const { bgColor, textColor } = useColors();
   const { handleClick } = useHandlePremium();
   const { data: user } = useProfile();
@@ -79,7 +76,6 @@ export function BaseArticleCard({
         <Text fontSize="sm" noOfLines={2}>
           {article.content}
         </Text>
-        {renderSpecificContent()}
         <Flex justify="space-between" align="center">
           <Flex align="center">
             <Flex align="center" mr={3}>

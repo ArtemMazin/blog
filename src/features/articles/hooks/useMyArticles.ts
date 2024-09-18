@@ -29,6 +29,7 @@ function useMyArticles(
         return res.data;
       }
     },
+    staleTime: 60000, // данные считаются свежими в течение 1 минуты
   });
 }
 

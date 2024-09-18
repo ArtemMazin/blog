@@ -1,3 +1,5 @@
+"use client";
+
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import {
   ResponseCharacterArticleDto,

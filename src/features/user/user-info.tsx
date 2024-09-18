@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Flex,
   VStack,
@@ -17,19 +19,14 @@ import { Bookmark, Calendar, Mail } from "lucide-react";
 import { ResponseUserDto } from "@/shared/api/generated";
 import { useProfile } from "../profile/hooks/useProfile";
 
-export interface IUserInfoProps
-  extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
-  > {
+export interface IUserInfoProps {
   user: ResponseUserDto;
 }
 
 export function UserInfo({ user }: IUserInfoProps) {
   const { bgColor, bannerColor, borderColor, textColor, avatarBgColor } =
     useColors();
-
-  const authUser = useProfile();
+  const { data: authUser } = useProfile();
 
   return (
     <Box
@@ -85,7 +82,7 @@ export function UserInfo({ user }: IUserInfoProps) {
                 Избранные статьи: {user.favorite_articles.length}
               </Button>
             </WrapItem>
-            {authUser && user._id === authUser.data?._id && (
+            {authUser && user._id === authUser._id && (
               <WrapItem>
                 <ModalUpdatingProfile user={user} />
               </WrapItem>

@@ -5,7 +5,7 @@ import { useSearch } from "@/features/articles/hooks/useSearch";
 import { ArticleTabs } from "@/features/articles/ui/article-tabs";
 import { Heading, Box } from "@chakra-ui/react";
 import { CharacterArticleList } from "@/features/articles/ui/article-list/character-list";
-import { RaceArticleList } from "@/features/articles/ui/article-list/race-article";
+import { RaceArticleList } from "@/features/articles/ui/article-list/race-list";
 
 export function FindedList() {
   const {

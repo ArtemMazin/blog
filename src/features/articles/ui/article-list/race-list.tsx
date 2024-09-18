@@ -1,21 +1,21 @@
 "use client";
 
-import { ResponseCharacterArticleDto } from "@/shared/api/generated";
+import { ResponseRaceArticleDto } from "@/shared/api/generated";
 import { BaseArticleList } from "./base-list";
 import { Box, Spinner } from "@chakra-ui/react";
 import { BaseArticleCard } from "../base-card";
 
-interface CharacterArticleListProps {
-  articles: ResponseCharacterArticleDto[] | undefined;
+interface RaceArticleListProps {
+  articles: ResponseRaceArticleDto[] | undefined;
   isLoading?: boolean;
   error?: Error | null;
 }
 
-export function CharacterArticleList({
+export function RaceArticleList({
   articles,
   isLoading,
   error,
-}: CharacterArticleListProps) {
+}: RaceArticleListProps) {
   if (isLoading) {
     return (
       <Box textAlign="center">
@@ -36,7 +36,7 @@ export function CharacterArticleList({
     <BaseArticleList
       articles={articles}
       renderArticle={(article) => (
-        <BaseArticleCard article={article} type="characters" />
+        <BaseArticleCard article={article} type="races" />
       )}
     />
   );

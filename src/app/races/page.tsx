@@ -1,23 +1,18 @@
-"use client";
-
 import { UIMain } from "@/shared/ui/ui-main";
-import { useAllArticles } from "@/features/articles/hooks/useAllArticles";
-import { RaceArticleList } from "@/features/articles/ui/article-list/race-article";
+import { RaceArticleList } from "@/features/articles/ui/article-list/race-list";
+import { raceArticleControllerGetAllRaceArticles } from "@/shared/api/generated";
 
-export default function RacesPage() {
-  const {
-    data: raceArticles,
-    isLoading: isLoadingRaces,
-    error: raceError,
-  } = useAllArticles("races");
+async function getRaceArticles() {
+  const response = await raceArticleControllerGetAllRaceArticles();
+  return response.data;
+}
+
+export default async function RacesPage() {
+  const raceArticles = await getRaceArticles();
 
   return (
     <UIMain>
-      <RaceArticleList
-        articles={raceArticles}
-        isLoading={isLoadingRaces}
-        error={raceError}
-      />
+      <RaceArticleList articles={raceArticles} />
     </UIMain>
   );
 }
