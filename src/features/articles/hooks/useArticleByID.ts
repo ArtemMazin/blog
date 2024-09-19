@@ -9,14 +9,17 @@ import {
 function useArticleByID(
   type: "characters",
   id: string,
+  initialData?: ResponseCharacterArticleDto,
 ): UseQueryResult<ResponseCharacterArticleDto, Error>;
 function useArticleByID(
   type: "races",
   id: string,
+  initialData?: ResponseRaceArticleDto,
 ): UseQueryResult<ResponseRaceArticleDto, Error>;
 function useArticleByID(
   type: "characters" | "races",
   id: string,
+  initialData?: ResponseCharacterArticleDto | ResponseRaceArticleDto,
 ): UseQueryResult<ResponseCharacterArticleDto | ResponseRaceArticleDto, Error> {
   return useQuery({
     queryKey: ["article", id, type],
@@ -29,6 +32,7 @@ function useArticleByID(
         return res.data;
       }
     },
+    initialData: initialData,
   });
 }
 

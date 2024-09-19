@@ -5,7 +5,7 @@ import { ThemeButton } from "@/features/theme/ui/theme-button";
 import { SearchGroup } from "@/features/search/ui/search-group";
 import { AuthForm } from "@/features/auth/ui/auth-form";
 import { AuthContext } from "@/shared/contexts/authContext";
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
 import { UserMenu } from "./user-menu";
 
 export function DesktopMenu() {
@@ -14,7 +14,9 @@ export function DesktopMenu() {
   return (
     <Flex display={{ base: "none", md: "flex" }} alignItems="center" gap={4}>
       <ThemeButton />
-      <SearchGroup />
+      <Suspense>
+        <SearchGroup />
+      </Suspense>
       {isAuthenticated ? <UserMenu /> : <AuthForm />}
     </Flex>
   );
