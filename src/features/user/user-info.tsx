@@ -23,7 +23,7 @@ export interface IUserInfoProps {
   user: ResponseUserDto;
 }
 
-export function UserInfo({ user }: IUserInfoProps) {
+export const UserInfo = React.memo(function UserInfo({ user }: IUserInfoProps) {
   const { bgColor, bannerColor, borderColor, textColor, avatarBgColor } =
     useColors();
   const { data: authUser } = useProfile();
@@ -92,4 +92,4 @@ export function UserInfo({ user }: IUserInfoProps) {
       </Flex>
     </Box>
   );
-}
+});

@@ -7,6 +7,13 @@ import {
   characterArticleControllerGetTopCharacterArticles,
   raceArticleControllerGetTopRaceArticles,
 } from "@/shared/api/generated";
+import { getMetadata } from "./metadata";
+
+export const metadata = getMetadata(
+  "Главная - Star Wars Universe",
+  "Добро пожаловать в мир Звездных войн. Узнайте о персонажах, расах и многом другом из вселенной Star Wars.",
+  "/",
+);
 
 async function getTopArticles() {
   const [characterResponse, raceResponse] = await Promise.all([

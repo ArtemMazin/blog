@@ -1,8 +1,11 @@
-import { usersControllerGetUserById } from "@/shared/api/generated";
+import {
+  ResponseUserDto,
+  usersControllerGetUserById,
+} from "@/shared/api/generated";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
-export function useUser(id: string) {
+export function useUser(id: string, initialData?: ResponseUserDto) {
   return useQuery({
     queryKey: ["user", id],
     queryFn: () =>
@@ -13,6 +16,7 @@ export function useUser(id: string) {
         .catch((error) => {
           throw error;
         }),
+    initialData,
     retry: false,
   });
 }

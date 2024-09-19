@@ -1,5 +1,5 @@
-import { ProfileContent } from "@/features/profile/profile-content";
 import { UIMain } from "@/shared/ui/ui-main";
+import { ProfileContent } from "./profile-content";
 
 export default function ProfilePage() {
   return (

@@ -27,7 +27,6 @@ export const handleRaceArticleSubmit = (
     class: data.class || "",
     skinColor: data.skinColor || "",
     distinctiveFeatures: data.distinctiveFeatures,
-
     homeWorld: data.homeWorld || "",
     language: data.language || "",
     knownRepresentatives: data.knownRepresentatives,

@@ -36,7 +36,7 @@ export const useArticleUpdate = (id: string, type: ArticleType) => {
         title: "Статья изменена",
         status: "success",
       });
-      queryClient.invalidateQueries({ queryKey: ["article"] });
+      queryClient.invalidateQueries({ queryKey: ["article", id] });
       queryClient.invalidateQueries({ queryKey: ["articles"] });
     },
     onError: (error) => {

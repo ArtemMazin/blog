@@ -1,15 +1,12 @@
-"use client";
+import { UserPageContent } from "@/features/user/user-page-content";
+import { usersControllerGetUserById } from "@/shared/api/generated";
 
-import { UIMain } from "@/shared/ui/ui-main";
-import { useUser } from "@/features/user/hooks/useUser";
-import { UserInfo } from "@/features/user/user-info";
+export default async function UserPage({
+  params,
+}: {
+  params: { user: string };
+}) {
+  const userData = await usersControllerGetUserById(params.user);
 
-export default function UserPage({ params }: { params: { user: string } }) {
-  const { data: user } = useUser(params.user);
-
-  return (
-    <UIMain className="h-full w-full">
-      {user && <UserInfo user={user} />}
-    </UIMain>
-  );
+  return <UserPageContent initialUserData={userData.data} />;
 }

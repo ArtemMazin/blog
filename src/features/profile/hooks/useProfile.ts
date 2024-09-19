@@ -20,5 +20,6 @@ export function useProfile() {
           throw error;
         }),
     retry: false,
+    staleTime: 5 * 60 * 1000, // 5 минут
   });
 }

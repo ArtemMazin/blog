@@ -3,18 +3,20 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Box, Container } from "@chakra-ui/react";
+import { UIHeader } from "@/shared/ui/ui-header/ui-header";
 import Navbar from "@/shared/ui/ui-navbar";
-import { UIHeader } from "@/shared/ui/ui-header";
+import { getMetadata } from "./metadata";
 
 const font = Nunito({
   weight: ["400", "700"],
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Star Wars",
-  description: "Star Wars",
-};
+export const metadata: Metadata = getMetadata(
+  "Star Wars Universe",
+  "Исследуйте мир Звездных войн: персонажи, расы и многое другое",
+  "/",
+);
 
 export default function RootLayout({
   children,

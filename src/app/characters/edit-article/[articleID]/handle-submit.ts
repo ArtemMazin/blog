@@ -18,17 +18,8 @@ export const handleCharacterArticleSubmit = (
   }
 
   const characterArticleData: UpdateCharacterArticleDto = {
-    title: data.title,
-    content: data.content,
+    ...data,
     isPremium: data.isPremium ? "true" : "false",
-    image: data.image,
-    characterName: data.characterName || "",
-    birthDate: data.birthDate,
-    deathDate: data.deathDate,
-    race: data.race || "",
-    gender: data.gender || "Другое",
-    height: data.height,
-    homeWorld: data.homeWorld || "",
   };
 
   updateArticle(characterArticleData);
