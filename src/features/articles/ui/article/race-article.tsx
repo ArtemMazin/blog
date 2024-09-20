@@ -16,10 +16,17 @@ import { useArticleByID } from "../../hooks/useArticleByID";
 import { useLikeRaceArticle } from "../../hooks/useLikeRaceArticle";
 import { useToggleFavorites } from "../../hooks/useToggleFavorites";
 import { useColors } from "@/shared/hooks/useColors";
+import { ResponseRaceArticleDto } from "@/shared/api/generated";
 
-export default function RaceArticle({ id }: { id: string }) {
+export default function RaceArticle({
+  id,
+  initialData,
+}: {
+  id: string;
+  initialData: ResponseRaceArticleDto;
+}) {
   const { data: user } = useProfile();
-  const { data: article } = useArticleByID("races", id);
+  const { data: article } = useArticleByID("races", id, initialData);
   const { mutate: toFavorites } = useToggleFavorites();
   const { mutate: toggleRaceLike } = useLikeRaceArticle();
   const { bgColor, textColor, primaryColor } = useColors();
@@ -46,7 +53,6 @@ export default function RaceArticle({ id }: { id: string }) {
       createdAt={article.createdAt}
       isFavorite={isFavorite}
       onLikeClick={handleClick}
-      content={""}
     >
       <Box position="relative">
         <Box

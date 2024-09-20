@@ -24,14 +24,14 @@ export const ImageModal: React.FC<ImageModalProps> = ({
           justifyContent="center"
           alignItems="center"
           height="100vh"
+          position="relative"
         >
           <Image
             src={imageSrc}
             alt={imageAlt}
-            layout="fill"
-            objectFit="contain"
+            fill
             onClick={onClose}
-            style={{ cursor: "pointer" }}
+            className="cursor-pointer object-contain"
           />
         </ModalBody>
       </ModalContent>

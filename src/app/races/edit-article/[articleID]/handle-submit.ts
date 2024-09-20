@@ -18,18 +18,8 @@ export const handleRaceArticleSubmit = (
   }
 
   const raceArticleData: UpdateRaceArticleDto = {
-    title: data.title,
-    content: data.content,
+    ...data,
     isPremium: data.isPremium ? "true" : "false",
-    image: data.image,
-    raceName: data.raceName || "",
-    type: data.type || "",
-    class: data.class || "",
-    skinColor: data.skinColor || "",
-    distinctiveFeatures: data.distinctiveFeatures,
-    homeWorld: data.homeWorld || "",
-    language: data.language || "",
-    knownRepresentatives: data.knownRepresentatives,
   };
 
   updateArticle(raceArticleData);

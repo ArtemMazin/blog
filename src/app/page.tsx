@@ -16,15 +16,22 @@ export const metadata = getMetadata(
 );
 
 async function getTopArticles() {
-  const [characterResponse, raceResponse] = await Promise.all([
-    characterArticleControllerGetTopCharacterArticles(),
-    raceArticleControllerGetTopRaceArticles(),
-  ]);
+  try {
+    const [characterResponse, raceResponse] = await Promise.all([
+      characterArticleControllerGetTopCharacterArticles(),
+      raceArticleControllerGetTopRaceArticles(),
+    ]);
 
-  return {
-    topCharacterArticles: characterResponse.data,
-    topRaceArticles: raceResponse.data,
-  };
+    return {
+      topCharacterArticles: characterResponse.data,
+      topRaceArticles: raceResponse.data,
+    };
+  } catch (error) {
+    return {
+      topCharacterArticles: [],
+      topRaceArticles: [],
+    };
+  }
 }
 
 export default async function HomePage() {
@@ -43,13 +50,8 @@ export default async function HomePage() {
           </Text>
         </Box>
       </Center>
-
-      {topCharacterArticles && topCharacterArticles.length > 0 && (
-        <CharacterArticleSlider articles={topCharacterArticles} />
-      )}
-      {topRaceArticles && topRaceArticles.length > 0 && (
-        <RaceArticleSlider articles={topRaceArticles} />
-      )}
+      <CharacterArticleSlider articles={topCharacterArticles} />
+      <RaceArticleSlider articles={topRaceArticles} />
     </UIMain>
   );
 }

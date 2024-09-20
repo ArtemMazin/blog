@@ -39,6 +39,11 @@ export default function EditArticleContent({
       raceName: initialArticleData.raceName || "",
       skinColor: initialArticleData.skinColor || "",
       type: initialArticleData.type || "",
+      homeWorld: initialArticleData.homeWorld || "",
+      distinctiveFeatures:
+        initialArticleData.distinctiveFeatures.toString() || "",
+      knownRepresentatives:
+        initialArticleData.knownRepresentatives.toString() || "",
     },
   });
 

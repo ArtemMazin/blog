@@ -3,7 +3,7 @@
 import { ResponseCharacterArticleDto } from "@/shared/api/generated";
 import { BaseArticleList } from "./base-list";
 import { Box, Spinner } from "@chakra-ui/react";
-import { BaseArticleCard } from "../base-card";
+import { BaseArticleCard } from "../card/base-card";
 
 interface CharacterArticleListProps {
   articles: ResponseCharacterArticleDto[] | undefined;

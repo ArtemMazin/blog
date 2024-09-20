@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { ResponseRaceArticleDto } from "@/shared/api/generated";
 import { BaseArticleSlider } from "./base-slider";
-import { BaseArticleCard } from "../base-card";
+import { BaseArticleCard } from "../card/base-card";
 
 interface RaceArticleSliderProps {
   articles: ResponseRaceArticleDto[] | undefined;

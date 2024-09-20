@@ -48,7 +48,6 @@ export default function CharacterArticle({
       createdAt={article.createdAt}
       isFavorite={isFavorite}
       onLikeClick={handleClick}
-      content={""}
     >
       <Box position="relative">
         <Box

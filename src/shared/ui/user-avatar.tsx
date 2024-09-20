@@ -29,8 +29,9 @@ export function UserAvatar({ user }: UserAvatarProps) {
         <Image
           src={process.env.NEXT_PUBLIC_IMAGE_URL + user.avatar}
           alt="Фото профиля"
-          layout="fill"
-          objectFit="cover"
+          fill
+          className="object-contain"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       ) : (
         <Flex bg={avatarBgColor} h="full" align="center" justify="center">
