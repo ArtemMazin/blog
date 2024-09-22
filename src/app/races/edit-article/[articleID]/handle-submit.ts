@@ -20,6 +20,12 @@ export const handleRaceArticleSubmit = (
   const raceArticleData: UpdateRaceArticleDto = {
     ...data,
     isPremium: data.isPremium ? "true" : "false",
+    knownRepresentatives: Array.isArray(data.knownRepresentatives)
+      ? data.knownRepresentatives.join(",")
+      : "",
+    distinctiveFeatures: Array.isArray(data.distinctiveFeatures)
+      ? data.distinctiveFeatures.join(", ")
+      : data.distinctiveFeatures,
   };
 
   updateArticle(raceArticleData);

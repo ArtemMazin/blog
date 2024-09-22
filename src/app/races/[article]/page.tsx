@@ -1,10 +1,7 @@
 import { notFound } from "next/navigation";
 import { useInitialArticleByID } from "@/features/articles/hooks/useInitialArticleByID";
 import RaceArticle from "@/features/articles/ui/article/race-article";
-import {
-  raceArticleControllerGetOneRaceArticle,
-  raceArticleControllerGetAllRaceArticles,
-} from "@/shared/api/generated";
+import { raceArticleControllerGetAllRaceArticles } from "@/shared/api/generated";
 import { UIMain } from "@/shared/ui/ui-main";
 import * as React from "react";
 

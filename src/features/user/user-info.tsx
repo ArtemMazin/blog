@@ -51,7 +51,7 @@ export const UserInfo = React.memo(function UserInfo({ user }: IUserInfoProps) {
               src={process.env.NEXT_PUBLIC_IMAGE_URL + user.avatar}
               alt="Фото профиля"
               fill
-              className="object-contain"
+              className="object-cover"
             />
           ) : (
             <Flex bg={avatarBgColor} h="full" align="center" justify="center">

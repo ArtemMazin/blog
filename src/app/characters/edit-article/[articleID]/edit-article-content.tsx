@@ -38,7 +38,7 @@ export default function EditArticleContent({
       deathDate: initialArticleData.deathDate || "",
       height: initialArticleData.height,
       homeWorld: initialArticleData.homeWorld || "",
-      race: initialArticleData.race.raceName || "",
+      race: initialArticleData.race?.raceName || "",
     },
   });
 

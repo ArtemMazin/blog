@@ -40,10 +40,7 @@ export const CharacterFields: React.FC = () => {
       </FormControl>
       <FormControl>
         <FormLabel>Раса</FormLabel>
-        <Select
-          {...register("race", { required: true })}
-          isDisabled={isLoadingRaces}
-        >
+        <Select {...register("race")} isDisabled={isLoadingRaces}>
           <option value="">Выберите расу</option>
           {raceArticles?.map((race) => (
             <option key={race._id} value={race._id}>

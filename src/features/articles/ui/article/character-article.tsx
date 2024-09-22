@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 import { BaseArticle } from "./base-article";
-import { Text, VStack, Box, Heading, Badge, Flex } from "@chakra-ui/react";
+import { Text, VStack, Box, Heading, Badge, Link } from "@chakra-ui/react";
 import { useArticleByID } from "../../hooks/useArticleByID";
 import { useLikeCharacterArticle } from "../../hooks/useLikeCharacterArticle";
 import { useToggleFavorites } from "../../hooks/useToggleFavorites";
@@ -21,7 +21,7 @@ export default function CharacterArticle({
   const { data: article } = useArticleByID("characters", id, initialData);
   const { mutate: toFavorites } = useToggleFavorites();
   const { mutate: toggleCharacterLike } = useLikeCharacterArticle();
-  const { bgColor, textColor, primaryColor } = useColors();
+  const { bgColor, textColor, primaryColor, linkColor } = useColors();
 
   const isFavorite =
     user?.favorite_articles.includes(article?._id || "") || false;
@@ -52,7 +52,7 @@ export default function CharacterArticle({
       <Box position="relative">
         <Box
           width="300px"
-          h={"max-content"}
+          h="max-content"
           bg={bgColor}
           p={6}
           boxShadow="md"
@@ -69,7 +69,14 @@ export default function CharacterArticle({
               label="Имя персонажа"
               value={article.characterName}
             />
-            <CharacterInfo label="Раса" value={article.race.raceName} />
+            {article.race && (
+              <Link href={`/races/${article.race._id}`} color={linkColor}>
+                <CharacterInfo
+                  label="Раса"
+                  value={article.race.raceName || ""}
+                />
+              </Link>
+            )}
             <CharacterInfo label="Пол" value={article.gender} />
             <CharacterInfo label="Родной мир" value={article.homeWorld} />
             {article.birthDate && (

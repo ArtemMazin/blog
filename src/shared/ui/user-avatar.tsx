@@ -30,7 +30,7 @@ export function UserAvatar({ user }: UserAvatarProps) {
           src={process.env.NEXT_PUBLIC_IMAGE_URL + user.avatar}
           alt="Фото профиля"
           fill
-          className="object-contain"
+          className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       ) : (

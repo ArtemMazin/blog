@@ -35,10 +35,15 @@ export function useColors() {
     theme.colors.light.gray,
     theme.colors.dark.gray,
   );
+  const linkColor = useColorModeValue(
+    theme.colors.light.link,
+    theme.colors.dark.link,
+  );
   const primaryColor = theme.colors.common.primary;
 
   return {
     bgColor,
+    linkColor,
     bannerColor,
     borderColor,
     textColor,

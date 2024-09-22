@@ -46,7 +46,7 @@ export interface UpdateRaceArticleDto {
   class: string;
   /** Содержание статьи */
   content: string;
-  /** Отличительные признаки */
+  /** Отличительные признаки (разделенные запятыми) */
   distinctiveFeatures: string;
   /** Планета происхождения */
   homeWorld: string;
@@ -54,7 +54,7 @@ export interface UpdateRaceArticleDto {
   image: Blob;
   /** Является ли статья премиум-контентом */
   isPremium: UpdateRaceArticleDtoIsPremium;
-  /** Известные представители */
+  /** Известные представители (ID персонажей, разделенные запятыми) */
   knownRepresentatives?: string;
   /** Язык */
   language: string;
@@ -84,7 +84,7 @@ export interface CreateRaceArticleDto {
   class: string;
   /** Содержание статьи */
   content: string;
-  /** Отличительные признаки */
+  /** Отличительные признаки (разделенные запятыми) */
   distinctiveFeatures: string;
   /** Планета происхождения */
   homeWorld: string;
@@ -92,7 +92,7 @@ export interface CreateRaceArticleDto {
   image: Blob;
   /** Является ли статья премиум-контентом */
   isPremium: CreateRaceArticleDtoIsPremium;
-  /** Известные представители */
+  /** Известные представители (ID персонажей, разделенные запятыми) */
   knownRepresentatives?: string;
   /** Язык */
   language: string;
@@ -104,6 +104,42 @@ export interface CreateRaceArticleDto {
   title: string;
   /** Тип расы */
   type: string;
+}
+
+export interface KnownRepresentativeResponseDto {
+  /** ID персонажа */
+  _id: string;
+  /** Имя персонажа */
+  name: string;
+}
+
+export interface ResponseRaceArticleDto {
+  _id: string;
+  author: ResponseUserDto;
+  /** Класс расы */
+  class: string;
+  content: string;
+  createdAt: string;
+  /** Отличительные признаки */
+  distinctiveFeatures: string[];
+  /** Планета происхождения */
+  homeWorld: string;
+  image: string;
+  isPremium: boolean;
+  /** Известные представители */
+  knownRepresentatives: KnownRepresentativeResponseDto[];
+  /** Язык */
+  language: string;
+  likesCount: number;
+  /** Название расы */
+  raceName: string;
+  readingTime: number;
+  /** Цвет кожи */
+  skinColor: string;
+  title: string;
+  /** Тип расы */
+  type: string;
+  updatedAt: string;
 }
 
 /**
@@ -149,7 +185,7 @@ export interface UpdateCharacterArticleDto {
   /** Является ли статья премиум-контентом */
   isPremium: UpdateCharacterArticleDtoIsPremium;
   /** ID расы персонажа */
-  race: string;
+  race?: string;
   /** Заголовок статьи */
   title: string;
 }
@@ -197,38 +233,16 @@ export interface CreateCharacterArticleDto {
   /** Является ли статья премиум-контентом */
   isPremium: CreateCharacterArticleDtoIsPremium;
   /** ID расы персонажа */
-  race: string;
+  race?: string;
   /** Заголовок статьи */
   title: string;
 }
 
-export interface ResponseRaceArticleDto {
+export interface RaceInfo {
+  /** ID расы */
   _id: string;
-  author: ResponseUserDto;
-  /** Класс расы */
-  class: string;
-  content: string;
-  createdAt: string;
-  /** Отличительные признаки */
-  distinctiveFeatures: string[];
-  /** Планета происхождения */
-  homeWorld: string;
-  image: string;
-  isPremium: boolean;
-  /** Известные представители */
-  knownRepresentatives: string[];
-  /** Язык */
-  language: string;
-  likesCount: number;
   /** Название расы */
   raceName: string;
-  readingTime: number;
-  /** Цвет кожи */
-  skinColor: string;
-  title: string;
-  /** Тип расы */
-  type: string;
-  updatedAt: string;
 }
 
 export interface ResponseCharacterArticleDto {
@@ -251,8 +265,8 @@ export interface ResponseCharacterArticleDto {
   image: string;
   isPremium: boolean;
   likesCount: number;
-  /** Раса персонажа */
-  race: ResponseRaceArticleDto;
+  /** Информация о расе персонажа */
+  race?: RaceInfo;
   readingTime: number;
   title: string;
   updatedAt: string;
@@ -379,6 +393,17 @@ const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
+
+/**
+ * @summary Получить всех пользователей
+ */
+export const usersControllerGetAllUsers = <
+  TData = AxiosResponse<ResponseUserDto[]>,
+>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/users`, options);
+};
 
 /**
  * @summary Получить профиль текущего пользователя
@@ -594,7 +619,9 @@ export const characterArticleControllerCreateCharacterArticle = <
   if (createCharacterArticleDto.deathDate !== undefined) {
     formData.append("deathDate", createCharacterArticleDto.deathDate);
   }
-  formData.append("race", createCharacterArticleDto.race);
+  if (createCharacterArticleDto.race !== undefined) {
+    formData.append("race", createCharacterArticleDto.race);
+  }
   formData.append("gender", createCharacterArticleDto.gender);
   if (createCharacterArticleDto.height !== undefined) {
     formData.append("height", createCharacterArticleDto.height);
@@ -626,7 +653,9 @@ export const characterArticleControllerUpdateCharacterArticle = <
   if (updateCharacterArticleDto.deathDate !== undefined) {
     formData.append("deathDate", updateCharacterArticleDto.deathDate);
   }
-  formData.append("race", updateCharacterArticleDto.race);
+  if (updateCharacterArticleDto.race !== undefined) {
+    formData.append("race", updateCharacterArticleDto.race);
+  }
   formData.append("gender", updateCharacterArticleDto.gender);
   if (updateCharacterArticleDto.height !== undefined) {
     formData.append("height", updateCharacterArticleDto.height);
@@ -863,6 +892,7 @@ export const raceArticleControllerGetTopRaceArticles = <
   return instance.get(`/race-articles/top`, options);
 };
 
+export type UsersControllerGetAllUsersResult = AxiosResponse<ResponseUserDto[]>;
 export type UsersControllerGetProfileResult = AxiosResponse<ResponseUserDto>;
 export type UsersControllerGetUserByIdResult = AxiosResponse<ResponseUserDto>;
 export type UsersControllerToggleFavoriteArticleResult =

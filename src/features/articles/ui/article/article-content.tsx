@@ -1,5 +1,4 @@
-import { VStack, Heading, Text, Flex, Spacer } from "@chakra-ui/react";
-import Link from "next/link";
+import { VStack, Heading, Text, Flex, Spacer, Link } from "@chakra-ui/react";
 import { ResponseUserDto } from "@/shared/api/generated";
 import { useColors } from "@/shared/hooks/useColors";
 
@@ -16,7 +15,7 @@ export default function ArticleContent({
   createdAt,
   children,
 }: ArticleContentProps) {
-  const { textColor } = useColors();
+  const { textColor, linkColor } = useColors();
 
   return (
     <VStack p={{ base: 4, md: 6, lg: 8 }} spacing={4} align="stretch" flex={1}>
@@ -34,11 +33,7 @@ export default function ArticleContent({
       >
         <Text fontSize="sm">
           Автор:{" "}
-          <Link
-            href={`/users/${author._id}`}
-            style={{ fontWeight: "bold", textDecoration: "underline" }}
-            className="text-blue-500 hover:text-blue-600"
-          >
+          <Link href={`/users/${author._id}`} color={linkColor}>
             {author.name}
           </Link>
         </Text>

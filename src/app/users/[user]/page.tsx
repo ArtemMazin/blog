@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import { UserPageContent } from "@/features/user/user-page-content";
-import { usersControllerGetUserById } from "@/shared/api/generated";
+import {
+  usersControllerGetAllUsers,
+  usersControllerGetUserById,
+} from "@/shared/api/generated";
 
 async function getUser(id: string) {
   try {
@@ -9,6 +12,18 @@ async function getUser(id: string) {
   } catch (error) {
     console.error("Ошибка при получении данных пользователя:", error);
     return null;
+  }
+}
+
+export async function generateStaticParams() {
+  try {
+    const users = await usersControllerGetAllUsers();
+    return users.data.map((user) => ({
+      user: user._id.toString(),
+    }));
+  } catch (error) {
+    console.error("Ошибка при генерации статических параметров:", error);
+    return [];
   }
 }
 

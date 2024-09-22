@@ -11,6 +11,7 @@ import {
   Badge,
   Wrap,
   WrapItem,
+  Link,
 } from "@chakra-ui/react";
 import { useArticleByID } from "../../hooks/useArticleByID";
 import { useLikeRaceArticle } from "../../hooks/useLikeRaceArticle";
@@ -29,7 +30,7 @@ export default function RaceArticle({
   const { data: article } = useArticleByID("races", id, initialData);
   const { mutate: toFavorites } = useToggleFavorites();
   const { mutate: toggleRaceLike } = useLikeRaceArticle();
-  const { bgColor, textColor, primaryColor } = useColors();
+  const { bgColor, textColor, primaryColor, linkColor } = useColors();
 
   const isFavorite =
     user?.favorite_articles.includes(article?._id || "") || false;
@@ -57,7 +58,7 @@ export default function RaceArticle({
       <Box position="relative">
         <Box
           width="300px"
-          h={"max-content"}
+          h="max-content"
           bg={bgColor}
           p={6}
           boxShadow="md"
@@ -81,13 +82,9 @@ export default function RaceArticle({
                 Отличительные признаки
               </Badge>
             </Text>
-            <Wrap spacing={2}>
+            <Wrap spacing={2} fontSize="sm">
               {article.distinctiveFeatures.map((feature, index) => (
-                <WrapItem key={index}>
-                  <Badge colorScheme="green" fontSize="xs">
-                    {feature}
-                  </Badge>
-                </WrapItem>
+                <WrapItem key={index}>{feature}</WrapItem>
               ))}
             </Wrap>
             <Text fontSize="sm">
@@ -95,13 +92,15 @@ export default function RaceArticle({
                 Известные представители
               </Badge>
             </Text>
-            <Wrap spacing={2}>
-              {article.knownRepresentatives.map((representative, index) => (
-                <WrapItem key={index}>
-                  <Badge colorScheme="purple" fontSize="xs">
-                    {representative}
-                  </Badge>
-                </WrapItem>
+            <Wrap spacing={2} fontSize="sm">
+              {article.knownRepresentatives.map((representative) => (
+                <Link
+                  key={representative._id}
+                  href={`/characters/${representative._id}`}
+                  color={linkColor}
+                >
+                  {representative.name}
+                </Link>
               ))}
             </Wrap>
           </VStack>

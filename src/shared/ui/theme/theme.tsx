@@ -35,6 +35,7 @@ export const theme = extendTheme({
       secondary: "var(--light-secondary)",
       textSecondary: "var(--light-textsecondary)",
       gray: "var(--light-gray)",
+      link: "var(--light-link)",
     },
     dark: {
       background: "var(--dark-background)",
@@ -42,6 +43,7 @@ export const theme = extendTheme({
       secondary: "var(--dark-secondary)",
       textSecondary: "var(--dark-textsecondary)",
       gray: "var(--dark-gray)",
+      link: "var(--dark-link)",
     },
     common: {
       primary: "var(--primary)",

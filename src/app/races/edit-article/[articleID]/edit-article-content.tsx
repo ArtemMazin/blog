@@ -33,7 +33,7 @@ export default function EditArticleContent({
     defaultValues: {
       title: initialArticleData.title,
       content: initialArticleData.content,
-      image: undefined,
+      image: initialArticleData.image || undefined,
       class: initialArticleData.class || "",
       language: initialArticleData.language || "",
       raceName: initialArticleData.raceName || "",

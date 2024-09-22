@@ -17,7 +17,7 @@ export default function CardImage({ article, height }: CardImageProps) {
         src={process.env.NEXT_PUBLIC_IMAGE_URL + article.image}
         alt={article.title}
         fill
-        className="object-contain"
+        className="object-cover"
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       />
     </Box>
