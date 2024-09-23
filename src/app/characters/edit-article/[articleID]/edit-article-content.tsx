@@ -36,6 +36,7 @@ export default function EditArticleContent({
       characterName: initialArticleData.characterName || "",
       birthDate: initialArticleData.birthDate || "",
       deathDate: initialArticleData.deathDate || "",
+      image: initialArticleData.image || undefined,
       height: initialArticleData.height,
       homeWorld: initialArticleData.homeWorld || "",
       race: initialArticleData.race?.raceName || "",
