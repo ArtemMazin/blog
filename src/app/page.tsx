@@ -1,3 +1,5 @@
+export const revalidate = 300;
+
 import * as React from "react";
 import { UIMain } from "@/shared/ui/ui-main";
 import { Box, Center, Heading, Text } from "@chakra-ui/react";

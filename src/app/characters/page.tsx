@@ -1,3 +1,5 @@
+export const revalidate = 300;
+
 import { UIMain } from "@/shared/ui/ui-main";
 import { CharacterArticleList } from "@/features/articles/ui/article-list/character-list";
 import { characterArticleControllerGetAllCharacterArticles } from "@/shared/api/generated";

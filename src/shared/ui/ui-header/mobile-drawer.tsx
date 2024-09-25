@@ -17,7 +17,8 @@ import { MenuCreateArticle } from "../ui-menu-create-article";
 import { useColors } from "@/shared/hooks/useColors";
 import { ProfileMenu } from "./profile-menu";
 import { AuthContext } from "@/shared/contexts/authContext";
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
+import { SearchGroup } from "@/features/search/ui/search-group";
 
 type MobileDrawerProps = {
   isOpen: boolean;
@@ -39,14 +40,9 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         <DrawerBody>
           <VStack spacing={6} align="stretch" mt={6}>
             <ThemeButton />
-            <Button
-              leftIcon={<Search />}
-              justifyContent="flex-start"
-              variant="ghost"
-              onClick={onClose}
-            >
-              Поиск
-            </Button>
+            <Suspense>
+              <SearchGroup />
+            </Suspense>
             {isAuthenticated ? (
               <>
                 <MenuCreateArticle />

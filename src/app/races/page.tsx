@@ -1,3 +1,5 @@
+export const revalidate = 300;
+
 import { UIMain } from "@/shared/ui/ui-main";
 import { RaceArticleList } from "@/features/articles/ui/article-list/race-list";
 import { raceArticleControllerGetAllRaceArticles } from "@/shared/api/generated";
