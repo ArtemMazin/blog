@@ -9,37 +9,36 @@ import { useArticleUpdate } from "@/features/articles/hooks/useArticleUpdate";
 import { useColors } from "@/shared/hooks/useColors";
 import { Box, Heading } from "@chakra-ui/react";
 import { ArticleForm } from "@/features/articles/ui/article-form/article-form";
-import {
-  UpdateCharacterArticleDto,
-  ResponseCharacterArticleDto,
-} from "@/shared/api/generated";
+import { UpdateCharacterArticleDto } from "@/shared/api/generated";
 import { handleCharacterArticleSubmit } from "./handle-submit";
+import { useArticleByID } from "@/features/articles/hooks/useArticleByID";
 
 interface EditArticleContentProps {
-  initialArticleData: ResponseCharacterArticleDto;
   articleID: string;
 }
 
 export default function EditArticleContent({
-  initialArticleData,
   articleID,
 }: EditArticleContentProps) {
   const router = useRouter();
   const toast = useToast();
   const { bgColor, textColor } = useColors();
 
+  // Запрос на получение данных статьи
+  const { data: initialArticleData } = useArticleByID("characters", articleID);
+
   const methods = useForm<UpdateCharacterArticleDto>({
     mode: "onBlur",
     defaultValues: {
-      title: initialArticleData.title,
-      content: initialArticleData.content,
-      characterName: initialArticleData.characterName || "",
-      birthDate: initialArticleData.birthDate || "",
-      deathDate: initialArticleData.deathDate || "",
-      image: initialArticleData.image || undefined,
-      height: initialArticleData.height,
-      homeWorld: initialArticleData.homeWorld || "",
-      race: initialArticleData.race?.raceName || "",
+      title: initialArticleData?.title || "",
+      content: initialArticleData?.content || "",
+      characterName: initialArticleData?.characterName || "",
+      birthDate: initialArticleData?.birthDate || "",
+      deathDate: initialArticleData?.deathDate || "",
+      image: initialArticleData?.image || undefined,
+      height: initialArticleData?.height || "",
+      homeWorld: initialArticleData?.homeWorld || "",
+      race: initialArticleData?.race?.raceName || "",
     },
   });
 

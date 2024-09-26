@@ -8,17 +8,10 @@ import { useArticleByID } from "../../hooks/useArticleByID";
 import { useLikeCharacterArticle } from "../../hooks/useLikeCharacterArticle";
 import { useToggleFavorites } from "../../hooks/useToggleFavorites";
 import { useColors } from "@/shared/hooks/useColors";
-import { ResponseCharacterArticleDto } from "@/shared/api/generated";
 
-export default function CharacterArticle({
-  id,
-  initialData,
-}: {
-  id: string;
-  initialData: ResponseCharacterArticleDto;
-}) {
+export default function CharacterArticle({ id }: { id: string }) {
   const { data: user } = useProfile();
-  const { data: article } = useArticleByID("characters", id, initialData);
+  const { data: article } = useArticleByID("characters", id);
   const { mutate: toFavorites } = useToggleFavorites();
   const { mutate: toggleCharacterLike } = useLikeCharacterArticle();
   const { bgColor, textColor, primaryColor, linkColor } = useColors();

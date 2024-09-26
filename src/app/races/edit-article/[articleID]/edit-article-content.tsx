@@ -9,41 +9,40 @@ import { useArticleUpdate } from "@/features/articles/hooks/useArticleUpdate";
 import { useColors } from "@/shared/hooks/useColors";
 import { Box, Heading } from "@chakra-ui/react";
 import { ArticleForm } from "@/features/articles/ui/article-form/article-form";
-import {
-  UpdateRaceArticleDto,
-  ResponseRaceArticleDto,
-} from "@/shared/api/generated";
+import { UpdateRaceArticleDto } from "@/shared/api/generated";
 import { handleRaceArticleSubmit } from "./handle-submit";
+import { useArticleByID } from "@/features/articles/hooks/useArticleByID";
 
 interface EditArticleContentProps {
-  initialArticleData: ResponseRaceArticleDto;
   articleID: string;
 }
 
 export default function EditArticleContent({
-  initialArticleData,
   articleID,
 }: EditArticleContentProps) {
   const router = useRouter();
   const toast = useToast();
   const { bgColor, textColor } = useColors();
 
+  // Запрос на получение данных статьи
+  const { data: initialArticleData } = useArticleByID("races", articleID);
+
   const methods = useForm<UpdateRaceArticleDto>({
     mode: "onBlur",
     defaultValues: {
-      title: initialArticleData.title,
-      content: initialArticleData.content,
-      image: initialArticleData.image || undefined,
-      class: initialArticleData.class || "",
-      language: initialArticleData.language || "",
-      raceName: initialArticleData.raceName || "",
-      skinColor: initialArticleData.skinColor || "",
-      type: initialArticleData.type || "",
-      homeWorld: initialArticleData.homeWorld || "",
+      title: initialArticleData?.title || "",
+      content: initialArticleData?.content || "",
+      image: initialArticleData?.image || undefined,
+      class: initialArticleData?.class || "",
+      language: initialArticleData?.language || "",
+      raceName: initialArticleData?.raceName || "",
+      skinColor: initialArticleData?.skinColor || "",
+      type: initialArticleData?.type || "",
+      homeWorld: initialArticleData?.homeWorld || "",
       distinctiveFeatures:
-        initialArticleData.distinctiveFeatures.toString() || "",
+        initialArticleData?.distinctiveFeatures.toString() || "",
       knownRepresentatives:
-        initialArticleData.knownRepresentatives.toString() || "",
+        initialArticleData?.knownRepresentatives.toString() || "",
     },
   });
 
