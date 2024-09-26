@@ -1,28 +1,44 @@
+import React from "react";
 import {
   FormControl,
   FormLabel,
   Input,
-  Textarea,
   HStack,
   Icon,
   Text,
   Checkbox,
 } from "@chakra-ui/react";
 import { FileText, Image } from "lucide-react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
+import dynamic from "next/dynamic";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 import { messages } from "@/features/auth/constants";
 import { DropZone } from "@/shared/ui/drop-zone";
 import { useColors } from "@/shared/hooks/useColors";
 import { useProfile } from "@/features/profile/hooks/useProfile";
 
+// Динамический импорт React Quill (чтобы избежать ошибок SSR)
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css"; // Импорт стилей Quill
+
 export const CommonArticleFields: React.FC = () => {
   const colors = useColors();
   const {
     register,
+    control,
     formState: { errors },
   } = useFormContext();
   const user = useProfile();
+
+  const modules = {
+    toolbar: [
+      [{ header: [2, 3, false] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link"],
+      ["clean"],
+    ],
+  };
 
   return (
     <>
@@ -54,14 +70,21 @@ export const CommonArticleFields: React.FC = () => {
             <Text fontWeight="bold">Текст статьи</Text>
           </HStack>
         </FormLabel>
-        <Textarea
-          placeholder="Введите текст статьи"
-          {...register("content", {
-            required: messages.ERROR_FORM_REQUIRED,
-          })}
-          minHeight="200px"
-          borderColor={colors.borderColor}
-          _focus={{ borderColor: colors.primaryColor }}
+        <Controller
+          name="content"
+          control={control}
+          rules={{ required: messages.ERROR_FORM_REQUIRED }}
+          render={({ field }) => (
+            <ReactQuill
+              theme="snow"
+              modules={modules}
+              {...field}
+              style={{
+                height: "200px",
+                marginBottom: "50px",
+              }}
+            />
+          )}
         />
         <UIFormErrorMessage>
           {errors.content?.message?.toString() || ""}

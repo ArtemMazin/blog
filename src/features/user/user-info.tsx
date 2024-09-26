@@ -18,6 +18,7 @@ import Image from "next/image";
 import { Bookmark, Calendar, Mail } from "lucide-react";
 import { ResponseUserDto } from "@/shared/api/generated";
 import { useProfile } from "../profile/hooks/useProfile";
+import SafeHTML from "@/shared/ui/safeHTML";
 
 export interface IUserInfoProps {
   user: ResponseUserDto;
@@ -73,9 +74,11 @@ export const UserInfo = React.memo(function UserInfo({ user }: IUserInfoProps) {
               Зарегистрирован: {new Date(user.createdAt).toLocaleDateString()}
             </Text>
           </HStack>
-          <Text maxW="md" color={textColor}>
-            {user.about || "Информация о пользователе отсутствует"}
-          </Text>
+          <Box maxW="md" color={textColor}>
+            <SafeHTML
+              html={user.about || "Информация о пользователе отсутствует"}
+            />
+          </Box>
           <Wrap justify="center" spacing={4}>
             <WrapItem>
               <Button leftIcon={<Bookmark size={20} />} colorScheme="blue">

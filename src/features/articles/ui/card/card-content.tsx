@@ -1,9 +1,10 @@
-import { VStack, Heading, Text } from "@chakra-ui/react";
+import { VStack, Heading, Text, Box } from "@chakra-ui/react";
 import {
   ResponseCharacterArticleDto,
   ResponseRaceArticleDto,
 } from "@/shared/api/generated";
 import CardFooter from "./card-footer";
+import SafeHTML from "@/shared/ui/safeHTML";
 
 interface CardContentProps {
   article: ResponseCharacterArticleDto | ResponseRaceArticleDto;
@@ -29,9 +30,9 @@ export default function CardContent({
       <Heading size="sm" noOfLines={2}>
         {article.title}
       </Heading>
-      <Text fontSize="sm" noOfLines={2}>
-        {article.content}
-      </Text>
+      <Box fontSize="sm" noOfLines={2}>
+        <SafeHTML html={article.content} />
+      </Box>
       <CardFooter article={article} type={type} />
     </VStack>
   );

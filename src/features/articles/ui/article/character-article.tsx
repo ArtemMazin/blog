@@ -8,6 +8,7 @@ import { useArticleByID } from "../../hooks/useArticleByID";
 import { useLikeCharacterArticle } from "../../hooks/useLikeCharacterArticle";
 import { useToggleFavorites } from "../../hooks/useToggleFavorites";
 import { useColors } from "@/shared/hooks/useColors";
+import SafeHTML from "@/shared/ui/safeHTML";
 
 export default function CharacterArticle({ id }: { id: string }) {
   const { data: user } = useProfile();
@@ -83,7 +84,7 @@ export default function CharacterArticle({ id }: { id: string }) {
             )}
           </VStack>
         </Box>
-        <Text>{article.content}</Text>
+        <SafeHTML html={article.content} />
       </Box>
     </BaseArticle>
   );

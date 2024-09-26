@@ -17,6 +17,7 @@ import { useArticleByID } from "../../hooks/useArticleByID";
 import { useLikeRaceArticle } from "../../hooks/useLikeRaceArticle";
 import { useToggleFavorites } from "../../hooks/useToggleFavorites";
 import { useColors } from "@/shared/hooks/useColors";
+import SafeHTML from "@/shared/ui/safeHTML";
 
 export default function RaceArticle({ id }: { id: string }) {
   const { data: user } = useProfile();
@@ -98,7 +99,7 @@ export default function RaceArticle({ id }: { id: string }) {
             </Wrap>
           </VStack>
         </Box>
-        <Text>{article.content}</Text>
+        <SafeHTML html={article.content} />
       </Box>
     </BaseArticle>
   );
