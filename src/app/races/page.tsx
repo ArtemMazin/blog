@@ -1,20 +1,23 @@
-export const revalidate = 300;
+"use client";
 
 import { UIMain } from "@/shared/ui/ui-main";
 import { RaceArticleList } from "@/features/articles/ui/article-list/race-list";
-import { raceArticleControllerGetAllRaceArticles } from "@/shared/api/generated";
+import { useAllArticles } from "@/features/articles/hooks/useAllArticles";
 
-async function getRaceArticles() {
-  const response = await raceArticleControllerGetAllRaceArticles();
-  return response.data;
-}
-
-export default async function RacesPage() {
-  const raceArticles = await getRaceArticles();
+export default function RacesPage() {
+  const {
+    data: raceArticles,
+    isLoading: isLoadingRaces,
+    error: raceError,
+  } = useAllArticles("races");
 
   return (
     <UIMain>
-      <RaceArticleList articles={raceArticles} />
+      <RaceArticleList
+        articles={raceArticles}
+        isLoading={isLoadingRaces}
+        error={raceError}
+      />
     </UIMain>
   );
 }

@@ -1,3 +1,5 @@
+export const revalidate = 300;
+
 import { notFound } from "next/navigation";
 import EditArticleContent from "./edit-article-content";
 import { useInitialArticleByID } from "@/features/articles/hooks/useInitialArticleByID";
