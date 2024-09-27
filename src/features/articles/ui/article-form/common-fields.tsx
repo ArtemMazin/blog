@@ -10,16 +10,12 @@ import {
 } from "@chakra-ui/react";
 import { FileText, Image } from "lucide-react";
 import { useFormContext, Controller } from "react-hook-form";
-import dynamic from "next/dynamic";
 import { UIFormErrorMessage } from "@/shared/ui/ui-form-error-message";
 import { messages } from "@/features/auth/constants";
 import { DropZone } from "@/shared/ui/drop-zone";
 import { useColors } from "@/shared/hooks/useColors";
 import { useProfile } from "@/features/profile/hooks/useProfile";
-
-// Динамический импорт React Quill (чтобы избежать ошибок SSR)
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "react-quill/dist/quill.snow.css"; // Импорт стилей Quill
+import { SimpleEditor } from "@/shared/ui/text-editor";
 
 export const CommonArticleFields: React.FC = () => {
   const colors = useColors();
@@ -29,16 +25,6 @@ export const CommonArticleFields: React.FC = () => {
     formState: { errors },
   } = useFormContext();
   const user = useProfile();
-
-  const modules = {
-    toolbar: [
-      [{ header: [2, 3, false] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link"],
-      ["clean"],
-    ],
-  };
 
   return (
     <>
@@ -75,15 +61,7 @@ export const CommonArticleFields: React.FC = () => {
           control={control}
           rules={{ required: messages.ERROR_FORM_REQUIRED }}
           render={({ field }) => (
-            <ReactQuill
-              theme="snow"
-              modules={modules}
-              {...field}
-              style={{
-                height: "200px",
-                marginBottom: "50px",
-              }}
-            />
+            <SimpleEditor value={field.value} onChange={field.onChange} />
           )}
         />
         <UIFormErrorMessage>

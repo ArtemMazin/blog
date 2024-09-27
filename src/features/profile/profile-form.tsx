@@ -15,11 +15,7 @@ import { messages } from "@/features/auth/constants";
 import { DropZone } from "../../shared/ui/drop-zone";
 import { User, FileText, Image } from "lucide-react";
 import { useColors } from "@/shared/hooks/useColors";
-import dynamic from "next/dynamic";
-
-// Динамический импорт React Quill
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "react-quill/dist/quill.snow.css";
+import { SimpleEditor } from "@/shared/ui/text-editor";
 
 type TProfileFormProps = {
   submitHandler: () => void;
@@ -39,15 +35,6 @@ export const ProfileForm = ({
     control,
     formState: { errors, isValid },
   } = useFormContext();
-
-  const modules = {
-    toolbar: [
-      ["bold", "italic", "underline", "strike"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link"],
-      ["clean"],
-    ],
-  };
 
   return (
     <Box
@@ -88,15 +75,7 @@ export const ProfileForm = ({
             name="about"
             control={control}
             render={({ field }) => (
-              <ReactQuill
-                theme="snow"
-                modules={modules}
-                {...field}
-                style={{
-                  height: "150px",
-                  marginBottom: "50px",
-                }}
-              />
+              <SimpleEditor value={field.value} onChange={field.onChange} />
             )}
           />
           <UIFormErrorMessage>
