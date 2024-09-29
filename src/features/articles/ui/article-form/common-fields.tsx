@@ -15,7 +15,7 @@ import { messages } from "@/features/auth/constants";
 import { DropZone } from "@/shared/ui/drop-zone";
 import { useColors } from "@/shared/hooks/useColors";
 import { useProfile } from "@/features/profile/hooks/useProfile";
-import { SimpleEditor } from "@/shared/ui/text-editor";
+import QuillEditor from "@/shared/ui/quill-editor";
 
 export const CommonArticleFields: React.FC = () => {
   const colors = useColors();
@@ -61,7 +61,7 @@ export const CommonArticleFields: React.FC = () => {
           control={control}
           rules={{ required: messages.ERROR_FORM_REQUIRED }}
           render={({ field }) => (
-            <SimpleEditor value={field.value} onChange={field.onChange} />
+            <QuillEditor value={field.value} onChange={field.onChange} />
           )}
         />
         <UIFormErrorMessage>

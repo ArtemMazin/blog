@@ -15,7 +15,7 @@ import { messages } from "@/features/auth/constants";
 import { DropZone } from "../../shared/ui/drop-zone";
 import { User, FileText, Image } from "lucide-react";
 import { useColors } from "@/shared/hooks/useColors";
-import { SimpleEditor } from "@/shared/ui/text-editor";
+import QuillEditor from "@/shared/ui/quill-editor";
 
 type TProfileFormProps = {
   submitHandler: () => void;
@@ -75,7 +75,7 @@ export const ProfileForm = ({
             name="about"
             control={control}
             render={({ field }) => (
-              <SimpleEditor value={field.value} onChange={field.onChange} />
+              <QuillEditor value={field.value} onChange={field.onChange} />
             )}
           />
           <UIFormErrorMessage>

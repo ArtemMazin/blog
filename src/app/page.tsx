@@ -34,6 +34,8 @@ async function getTopArticles() {
   }
 }
 
+export const revalidate = 3600;
+
 export default async function HomePage() {
   const { topCharacterArticles, topRaceArticles } = await getTopArticles();
 
