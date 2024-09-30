@@ -10,6 +10,7 @@ export function UINavItems() {
     { name: "Главная", href: "/", icon: Home },
     { name: "Персонажи", href: "/characters", icon: Users },
     { name: "Расы", href: "/races", icon: Globe },
+    { name: "Коллекция", href: "/collection", icon: Users },
   ];
 
   return (

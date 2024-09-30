@@ -238,40 +238,6 @@ export interface CreateCharacterArticleDto {
   title: string;
 }
 
-export interface RaceInfo {
-  /** ID расы */
-  _id: string;
-  /** Название расы */
-  raceName: string;
-}
-
-export interface ResponseCharacterArticleDto {
-  _id: string;
-  author: ResponseUserDto;
-  /** Дата рождения персонажа */
-  birthDate?: string;
-  /** Имя персонажа */
-  characterName: string;
-  content: string;
-  createdAt: string;
-  /** Дата смерти персонажа */
-  deathDate?: string;
-  /** Пол персонажа */
-  gender: string;
-  /** Рост персонажа */
-  height?: string;
-  /** Родной мир персонажа */
-  homeWorld: string;
-  image: string;
-  isPremium: boolean;
-  likesCount: number;
-  /** Информация о расе персонажа */
-  race?: RaceInfo;
-  readingTime: number;
-  title: string;
-  updatedAt: string;
-}
-
 export interface GetPaymentDto {
   /** ID платежа */
   id: string;
@@ -313,6 +279,64 @@ export interface ResponsePaymentDto {
 export interface CreatePaymentDto {
   /** Сумма платежа */
   amount: number;
+}
+
+export interface RaceInfo {
+  /** ID расы */
+  _id: string;
+  /** Название расы */
+  raceName: string;
+}
+
+export interface ResponseCharacterArticleDto {
+  _id: string;
+  author: ResponseUserDto;
+  /** Дата рождения персонажа */
+  birthDate?: string;
+  /** Имя персонажа */
+  characterName: string;
+  content: string;
+  createdAt: string;
+  /** Дата смерти персонажа */
+  deathDate?: string;
+  /** Пол персонажа */
+  gender: string;
+  /** Рост персонажа */
+  height?: string;
+  /** Родной мир персонажа */
+  homeWorld: string;
+  image: string;
+  isPremium: boolean;
+  likesCount: number;
+  /** Информация о расе персонажа */
+  race?: RaceInfo;
+  readingTime: number;
+  title: string;
+  updatedAt: string;
+}
+
+export interface ResponseRollCharacterDto {
+  /** Полученный персонаж */
+  character: ResponseCharacterArticleDto;
+  /** Флаг, указывающий, является ли персонаж новым в коллекции */
+  isNew: boolean;
+  /** Оставшееся количество бросков на сегодня */
+  remainingRolls: number;
+}
+
+export interface ResponseUserCollectionDto {
+  /** ID коллекции пользователя */
+  _id: string;
+  /** Список id персонажей в коллекции */
+  characters: string[];
+  createdAt: string;
+  /** Дата последнего броска */
+  lastRollDate: string;
+  /** Количество бросков сегодня */
+  rollsToday: number;
+  updatedAt: string;
+  /** ID пользователя */
+  user: string;
 }
 
 export interface UpdatePasswordDto {
@@ -524,6 +548,40 @@ export const authControllerResetPasswordConfirm = <
   return instance.post(
     `/auth/reset-password-confirm`,
     updatePasswordDto,
+    options,
+  );
+};
+
+/**
+ * @summary Получить коллекцию текущего пользователя
+ */
+export const userCollectionControllerGetUserCollection = <
+  TData = AxiosResponse<ResponseUserCollectionDto>,
+>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.get(`/user-collection`, options);
+};
+
+/**
+ * @summary Получить случайного персонажа
+ */
+export const userCollectionControllerRollCharacter = <
+  TData = AxiosResponse<ResponseRollCharacterDto>,
+>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.post(`/user-collection/roll`, undefined, options);
+};
+
+export const userCollectionControllerResetDailyRolls = <
+  TData = AxiosResponse<void>,
+>(
+  options?: AxiosRequestConfig,
+): Promise<TData> => {
+  return instance.post(
+    `/user-collection/reset-daily-rolls`,
+    undefined,
     options,
   );
 };
@@ -907,6 +965,11 @@ export type AuthControllerResetPasswordResult =
   AxiosResponse<AuthControllerResetPassword200>;
 export type AuthControllerResetPasswordConfirmResult =
   AxiosResponse<ResponseUserDto>;
+export type UserCollectionControllerGetUserCollectionResult =
+  AxiosResponse<ResponseUserCollectionDto>;
+export type UserCollectionControllerRollCharacterResult =
+  AxiosResponse<ResponseRollCharacterDto>;
+export type UserCollectionControllerResetDailyRollsResult = AxiosResponse<void>;
 export type PaymentControllerCreatePaymentResult =
   AxiosResponse<ResponsePaymentDto>;
 export type PaymentControllerGetPaymentResult =

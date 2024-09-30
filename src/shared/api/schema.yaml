@@ -254,6 +254,59 @@ paths:
           description: Неверные учетные данные
       tags:
         - Аутентификация
+  /user-collection:
+    get:
+      operationId: UserCollectionController_getUserCollection
+      summary: Получить коллекцию текущего пользователя
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseUserCollectionDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Коллекция пользователя
+      security:
+        - bearer: []
+  /user-collection/roll:
+    post:
+      operationId: UserCollectionController_rollCharacter
+      summary: Получить случайного персонажа
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseRollCharacterDto"
+        "400":
+          description: Некорректный запрос или данные
+        "401":
+          description: Пользователь не авторизован
+        "403":
+          description: Доступ запрещен
+      tags:
+        - Коллекция пользователя
+      security:
+        - bearer: []
+  /user-collection/reset-daily-rolls:
+    post:
+      operationId: UserCollectionController_resetDailyRolls
+      parameters: []
+      responses:
+        "201":
+          description: ""
+      tags:
+        - Коллекция пользователя
   /payment:
     post:
       operationId: PaymentController_createPayment
@@ -952,6 +1005,149 @@ components:
       required:
         - resetToken
         - newPassword
+    ResponseUserCollectionDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID коллекции пользователя
+          example: 60d5ecb74f421b2d1c8829fb
+        user:
+          type: string
+          description: ID пользователя
+          example: 60d5ecb74f421b2d1c8829fc
+        characters:
+          description: Список id персонажей в коллекции
+          type: array
+          items:
+            type: string
+        lastRollDate:
+          format: date-time
+          type: string
+          description: Дата последнего броска
+          example: "2023-06-15T10:00:00.000Z"
+        rollsToday:
+          type: number
+          description: Количество бросков сегодня
+          example: 3
+        createdAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
+        updatedAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
+      required:
+        - _id
+        - user
+        - characters
+        - lastRollDate
+        - rollsToday
+        - createdAt
+        - updatedAt
+    RaceInfo:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID расы
+        raceName:
+          type: string
+          description: Название расы
+      required:
+        - _id
+        - raceName
+    ResponseCharacterArticleDto:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 60d5ecb54e7d5a001f5d4f2c
+        title:
+          type: string
+          example: Заголовок статьи
+        content:
+          type: string
+          example: Содержание статьи...
+        image:
+          type: string
+          example: path/to/image.jpg
+        author:
+          $ref: "#/components/schemas/ResponseUserDto"
+        isPremium:
+          type: boolean
+          example: false
+        readingTime:
+          type: number
+          example: 5
+        likesCount:
+          type: number
+          example: 0
+        createdAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
+        updatedAt:
+          format: date-time
+          type: string
+          example: "2023-06-15T10:00:00.000Z"
+        characterName:
+          type: string
+          description: Имя персонажа
+        birthDate:
+          type: string
+          description: Дата рождения персонажа
+        deathDate:
+          type: string
+          description: Дата смерти персонажа
+        race:
+          description: Информация о расе персонажа
+          default: null
+          allOf:
+            - $ref: "#/components/schemas/RaceInfo"
+        gender:
+          type: string
+          description: Пол персонажа
+        height:
+          type: string
+          description: Рост персонажа
+        homeWorld:
+          type: string
+          description: Родной мир персонажа
+      required:
+        - _id
+        - title
+        - content
+        - image
+        - author
+        - isPremium
+        - readingTime
+        - likesCount
+        - createdAt
+        - updatedAt
+        - characterName
+        - gender
+        - homeWorld
+    ResponseRollCharacterDto:
+      type: object
+      properties:
+        character:
+          description: Полученный персонаж
+          allOf:
+            - $ref: "#/components/schemas/ResponseCharacterArticleDto"
+        isNew:
+          type: boolean
+          description: Флаг, указывающий, является ли персонаж новым в коллекции
+          example: true
+        remainingRolls:
+          type: number
+          description: Оставшееся количество бросков на сегодня
+          example: 4
+      required:
+        - character
+        - isNew
+        - remainingRolls
     CreatePaymentDto:
       type: object
       properties:
@@ -1059,89 +1255,6 @@ components:
           description: ID платежа
       required:
         - id
-    RaceInfo:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: ID расы
-        raceName:
-          type: string
-          description: Название расы
-      required:
-        - _id
-        - raceName
-    ResponseCharacterArticleDto:
-      type: object
-      properties:
-        _id:
-          type: string
-          example: 60d5ecb54e7d5a001f5d4f2c
-        title:
-          type: string
-          example: Заголовок статьи
-        content:
-          type: string
-          example: Содержание статьи...
-        image:
-          type: string
-          example: path/to/image.jpg
-        author:
-          $ref: "#/components/schemas/ResponseUserDto"
-        isPremium:
-          type: boolean
-          example: false
-        readingTime:
-          type: number
-          example: 5
-        likesCount:
-          type: number
-          example: 0
-        createdAt:
-          format: date-time
-          type: string
-          example: "2023-06-15T10:00:00.000Z"
-        updatedAt:
-          format: date-time
-          type: string
-          example: "2023-06-15T10:00:00.000Z"
-        characterName:
-          type: string
-          description: Имя персонажа
-        birthDate:
-          type: string
-          description: Дата рождения персонажа
-        deathDate:
-          type: string
-          description: Дата смерти персонажа
-        race:
-          description: Информация о расе персонажа
-          default: null
-          allOf:
-            - $ref: "#/components/schemas/RaceInfo"
-        gender:
-          type: string
-          description: Пол персонажа
-        height:
-          type: string
-          description: Рост персонажа
-        homeWorld:
-          type: string
-          description: Родной мир персонажа
-      required:
-        - _id
-        - title
-        - content
-        - image
-        - author
-        - isPremium
-        - readingTime
-        - likesCount
-        - createdAt
-        - updatedAt
-        - characterName
-        - gender
-        - homeWorld
     CreateCharacterArticleDto:
       type: object
       properties:
