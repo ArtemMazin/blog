@@ -38,6 +38,9 @@ export function ProfileMenu() {
           <Link href="/my-articles">
             <MenuItem>Мои статьи</MenuItem>
           </Link>
+          <Link href="/collection">
+            <MenuItem>Коллекция</MenuItem>
+          </Link>
           {!user?.isPremium && (
             <MenuItem>
               <Payment />
