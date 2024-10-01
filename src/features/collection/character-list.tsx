@@ -1,5 +1,6 @@
 import { ResponseCharacterArticleDto } from "@/shared/api/generated";
-import { Box, SimpleGrid, Image, Flex } from "@chakra-ui/react";
+import { Box, SimpleGrid, Flex, Text } from "@chakra-ui/react";
+import Image from "next/image";
 
 interface CharacterListProps {
   characters: string[];
@@ -15,11 +16,11 @@ export function CharacterList({
   }
 
   return (
-    <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={4}>
+    <SimpleGrid columns={{ base: 2, sm: 3, md: 4, lg: 5 }} spacing={4}>
       {allCharacters.map((character) => {
         const isActive = characters.includes(character._id);
         return (
-          <Flex key={character._id} justifyContent="center" alignItems="center">
+          <Flex key={character._id} direction="column" alignItems="center">
             <Box
               position="relative"
               borderRadius="full"
@@ -32,19 +33,26 @@ export function CharacterList({
                   : "gray.300"
               }
               overflow="hidden"
-              boxSize={{ base: "100px", md: "120px", lg: "150px" }}
+              boxSize={{ base: "80px", sm: "100px", md: "120px", lg: "150px" }}
               opacity={isActive ? 1 : 0.5}
-              transition="opacity 0.2s"
-              _hover={{ opacity: 0.8 }}
+              transition="all 0.2s"
+              _hover={{ opacity: 0.8, transform: "scale(1.05)" }}
             >
               <Image
                 src={process.env.NEXT_PUBLIC_IMAGE_URL + character.image}
                 alt={character.characterName}
                 objectFit="cover"
-                width="100%"
-                height="100%"
+                fill
               />
             </Box>
+            <Text
+              mt={2}
+              fontSize={{ base: "xs", md: "sm" }}
+              textAlign="center"
+              fontWeight={isActive ? "bold" : "normal"}
+            >
+              {character.characterName}
+            </Text>
           </Flex>
         );
       })}

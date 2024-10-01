@@ -1,4 +1,4 @@
-import { Home, Users, Globe } from "lucide-react";
+import { Home, Users, Globe, Album } from "lucide-react";
 import * as React from "react";
 import { useColors } from "../hooks/useColors";
 import { VStack, Link, Button } from "@chakra-ui/react";
@@ -10,7 +10,7 @@ export function UINavItems() {
     { name: "Главная", href: "/", icon: Home },
     { name: "Персонажи", href: "/characters", icon: Users },
     { name: "Расы", href: "/races", icon: Globe },
-    { name: "Коллекция", href: "/collection", icon: Users },
+    { name: "Коллекция", href: "/collection", icon: Album },
   ];
 
   return (

@@ -316,8 +316,8 @@ export interface ResponseCharacterArticleDto {
 }
 
 export interface ResponseRollCharacterDto {
-  /** Полученный персонаж */
-  character: ResponseCharacterArticleDto;
+  /** id полученного персонаж */
+  character: string;
   /** Флаг, указывающий, является ли персонаж новым в коллекции */
   isNew: boolean;
   /** Оставшееся количество бросков на сегодня */
